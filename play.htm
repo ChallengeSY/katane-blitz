@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta name="keywords" content="Katane, KTaNE, Keep Talking, Nobody Explodes" />
+	<meta name="author" content="Paul Ruediger" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<title>Play - Katane Blitz</title>
+	<link type="text/css" href="../nevergalaxy/css/csysoft.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
+	<link type="text/css" href="scripts/katane.css" rel="stylesheet" />
+	<script src="scripts/core.js"></script>
+	<script src="scripts/library.js"></script>
+	<script src="scripts/vanilla.js"></script>
+	<script>
+	moduleFile = getParam("module");
+	</script>
+</head>
+<body onload="startGame()">
+
+<p id="banner"><a href="index.htm"><img src="banner.png" alt="Katane Blitz" /></a></p>
+
+<fieldset id="fPanel" style="border-color: blue;">
+<legend>Message</legend>
+<div id="fTxt">
+Welcome to Katane Blitz! Best of luck completing your objective!
+</div>
+</fieldset>
+
+<table style="margin-left: auto; margin-right: auto;" id="scoreboard">
+<tr>
+<th>Score</th>
+<td style="min-width: 70px;" class="numeric" id="score">0</td>
+<td style="width: 300px;" id="scoreMtr"></td>
+</tr>
+<tr>
+<th>Life</th>
+<td class="numeric" id="life">3 / 3</td>
+<td id="lifeMtr"></td>
+</tr>
+<tr>
+<th>Timer</th>
+<td class="numeric" id="bombTime">5'00''</td>
+<td id="timerMtr"></td>
+</table>
+
+<div id="bomb">
+<!-- Automatically creates/destroys modules as a game progresses -->
+</div>
+
+<div id="help"> 
+<h2>Instructions</h2>
+<p>The rules of Katane Blitz are somewhat simple. The player is dealt a series of randomly generated modules, and the objective is to solve each one, without incurring strikes (causing a life reduction). A game ends when the life or timer pools epmty out.</p>
+
+<p>Endless Mode will generate an unlimited number of modules. Time extensions are granted with each module solved, <i>but</i> the amount of time granted with each solve decreases as more modules are scored.</p>
+
+<p>Mission games are won if the required score goal can be reached.</p>
+</div>
+
+</body>
+</html>

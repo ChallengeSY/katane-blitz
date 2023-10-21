@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta name="keywords" content="Katane, KTaNE, Keep Talking, Nobody Explodes" />
+	<meta name="author" content="Paul Ruediger" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<title>Cheat Sheets - Katane Blitz</title>
+	<link type="text/css" href="../../nevergalaxy/css/csysoft.css" rel="stylesheet" />
+	<link type="text/css" href="../scripts/katane.css" rel="stylesheet" />
+</head>
+<body>
+
+<p id="banner"><a href="../index.php"><img src="../banner.png" alt="Katane Blitz" /></a></p>
+
+<h2>The Button</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/The Button.html">The Button</a> is probably the simplest solvable vanilla module. Yet, we still found a few quick facts.</p>
+<ul>
+<li>The Yellow button clause is <i>completely</i> redundant. It does not add any new rules that other clauses do <i>not</i> cover.</li>
+<li>The "CAR clause" (lit indicator + white button) is only <i>almost</i> redundant. Its unique effects kick in if the "FReaK clause" (lit indicator + &ge;3 batteries) is also in effect.</li>
+<li>The Button is the only vanilla module that makes use of indicators.</li>
+</ul>
+
+<h2>Complicated Wires</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Complicated Wires.html">Complicated Wires</a> may seem intimating, but it loses part of its complications (pardon the pun) once these bullets are noted.</p>
+<ul>
+<li>Complicated Wires uses a single ruleset throughout the bomb. Once what can (and can't be cut) are known on one module, all subsequent instances can become easier.</li>
+<li>Complicated Wires is the only vanilla module that is dependent on the ports present on a bomb.</li>
+<li>White means nothing on a complicated wire that is also blue or red. It is useful only when a wire is neither blue nor red.</li>
+<li>White featureless wires, White star wires, and Red star wires can <i>always</i> be safely cut, no matter what edgework is on the bomb.</li>
+<li>Inversely, White LED wires, Blue star wires, and RedBlue star LED wires can <i>never</i> be cut.</li>
+</ul>
+
+<h2>Keypad</h2>
+
+<p>We have found a few quickies for <a href="https://ktane.timwi.de/HTML/Keypad.html">Keypad</a>.</p>
+<ul>
+<li>The &copy; and &#1004; symbols are <i>always</i> safely tappable first, because they are consistently the highest priority symbols throughout the module.</li>
+<li>Building on the previous bullet, &#1004; and Ӭ symbols can <i>always</i> be safely tapped in the order shown.</li>
+<li>Likewise, &starf; and &Omega; symbols should <i>always</i> be tapped last, because they are consistently the lowest priority symbols throughout the module.</li>
+</ul>
+
+<h2>Maze</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Maze.html">Maze</a> doesn't bring much to the table, but we have found this quickie.</p>
+<ul>
+<li>None of the 9 possible layouts has a circle share positions with another.</li>
+</ul>
+
+<h2>Memory</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Memory.html">Memory</a> is well up there in complexity. Yet, we have found a few shortcuts.</p>
+<ul>
+<li>While all 4 stage's labels do need to be remembered, <i>only</i> the first 2 stage's positions need to be remembered.</li>
+<li>Positions are important for stages 2 and 4. Labels are important for stages 3 and 5.</li>
+</ul>
+
+<h2>Who's On First</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Who's on First.html">Who's on First</a> has a decent amount of complexity. Nonetheless, these facts can be used to optimize this module.</p>
+<ul>
+<li>Clickable buttons can use phrases from 1 of 2 distinct answer pools.</li>
+<li>While Blank and Nothing exist as top labels, there is absolutely no mention of a <q>Null</q> label (although Null and No are somewhat similiar in pronounciation). This could be used to the team's advantage.</li>
+<li>Red and Read top labels use the very same (middle right) read position. Same goes for words See and Cee (bottom right); but not single letter C (top right).</li>
+<li>All answers past the original phrase are useless because it will always be in the list of 6 answer buttons.</li>
+<li>Because the 6 buttons all have to tap into the very same 1 of 2 different answer pools, this means the last 5 answers in a given list will <i>never</i> be used. Even if the original phrase is in the final five.</li>
+</ul>
+
+<h2>Wires</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Wires.html">Wires</a> isn't exactly a complex module, but it still exposes a few fun facts.</p>
+<ul>
+<li>When cutting 3 wires; the Last Wire White clause is redundant. <b>If</b> there is a red wire, the last wire will always be the correct wire; <b>except</b> if there are also exactly 2 blue wires. The last blue is the correct wire instead.</li>
+<li>When cutting 5 wires; the third and last wires are <i>never</i> the correct wire to cut. The fourth wire can be the correct wire <b>only</b> if the last digit is odd.</li>
+<li>Likewise, when cutting 6 wires; the first, second, and fifth wires are <i>never</i> the correct wire to cut. The third wire can be the correct wire <b>only</b> if the last digit is odd.</li>
+</ul>
+
+<h2>Wire Sequence</h2>
+
+<p><a href="https://ktane.timwi.de/HTML/Wire Sequence.html">Wire Sequence</a> is well up there in complexity, since it requires keeping counts of each of three colors. We found a few quickies nonetheless.</p>
+<ul>
+<li>The first Black and seventh Red wires are <i>always</i> cuttable.</li>
+<li>It's technically possible, though very unlikely, to run into a Wire Sequence with no valid wires.</li>
+<li>Contrary to what the manual may suggest, there could be 9 or 10 wires on a single Wire Sequence.</li>
+</ul>
+
+</body>
+</html>

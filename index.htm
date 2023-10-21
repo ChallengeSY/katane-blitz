@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta name="keywords" content="Katane, KTaNE, Keep Talking, Nobody Explodes" />
+	<meta name="author" content="Paul Ruediger" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<title>Katane Blitz</title>
+	<link type="text/css" href="../nevergalaxy/css/csysoft.css" rel="stylesheet" />
+	<link type="text/css" href="scripts/katane.css" rel="stylesheet" />
+	<script>
+		function openMenu(submenu) {
+			var subMenuArray = ['endless', 'mission', 'cheat'];
+			
+			for (i = 0; i < subMenuArray.length; i++) {
+				if (submenu == subMenuArray[i]) {
+					document.getElementById(subMenuArray[i]).style.display = "";
+				} else {
+					document.getElementById(subMenuArray[i]).style.display = "none";
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+
+<p id="banner"><img src="banner.png" alt="Katane Blitz" /></p>
+<p>Welcome to <span class="bold">Katane Blitz</span>, a fast-paced bomb defusal project where your knowledge will be put to the test! No downloads required; just play!</p>
+
+<!-- Main menu -->
+<p class="center"><button class="interact" onclick="openMenu('endless')">Endless Mode</button>
+<button class="interact" onclick="openMenu('mission')">Mission Mode</button>
+<button class="interact" onclick="openMenu('cheat')">Cheat Sheets</button></p>
+
+<!-- Endless Mode menu -->
+<div class="center" style="display: none;" id="endless">
+The main experience of Katane Blitz. Randomly generated modules! Time extensions are granted with each module, but become less effective as modules are solved.<br />
+<a class="interact" href="play.htm?module=endless">Play Endless Challenge!</a>
+<a class="interact" href="play.htm?module=endlessHardcore" title="1 life for the entire game">Play Endless Hardcore!!!</a><br />
+</div>
+
+<!-- Mission Mode menu -->
+<div class="center" style="display: none;" id="mission">
+Practice 1 or more modules until the required disarms are scored, or a bomb explodes.<br />
+<a class="interact" title="Goal: 20" href="play.htm?module=bigButton">Big Button</a>
+<a class="interact" title="Goal: 16" href="play.htm?module=venn">Complicated Wires</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=keypad">Keypad</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=maze">Maze</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=memory">Memory</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=morse">Morse Code</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=password">Password</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=simon">Simon Says</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=whosOnFirst">Who's on First</a>
+<a class="interact" title="Goal: 20" href="play.htm?module=wires">Wires</a>
+<a class="interact" title="Goal: 9" href="play.htm?module=wireSequence">Wire Sequence</a>
+<a class="interact" title="Goal: 37" href="play.htm?module=mixedPractice">Mixed Practice</a><br /><br />
+
+These single bombs are huge, but are tuned relatively generously. Solved modules are also hidden.<br />
+<a class="interact" title="Goal: 23 / Limit 30 min and 7 lives" href="play.htm?module=kiloBomb">Kilo-Bomb</a>
+<a class="interact" title="Goal: 51 / Limit 60 min and 10 lives" href="play.htm?module=megaBomb">Mega-Bomb</a>
+<a class="interact" title="Goal: 99 / Limit 1 hr 30 min and 15 lives" href="play.htm?module=gigaBomb">Giga-Bomb</a>
+</div>
+
+<!-- Cheat Sheets menu -->
+<div class="center" style="display: none;" id="cheat">
+You can use <a href="https://ktane.timwi.de/">Timwi's website</a> to seek out manuals. Most vanilla assets are supported, though adapted to fit the simpler web format.<br /><br />
+
+We have found a few resources that can be used to improve the effiency of solving modules.<br />
+<a class="interact" href="cheats/quickFacts.htm">Quick Facts</a>
+</div>
+
+<hr />
+
+<p class="footer">
+Katane Blitz &copy; 2023 Paul Ruediger<br />
+<a class="interact" href="../spaceYard.htm">Return to Space Yard</a>
+</p>
+</div>
+
+</body>
+</html>

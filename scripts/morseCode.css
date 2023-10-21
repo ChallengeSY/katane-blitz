@@ -1,0 +1,743 @@
+@keyframes freq505 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	15% {background: #880;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+
+	35% {background: #880;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+}
+
+@keyframes freq515 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	
+	15% {background: #880;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+	31.25% {background: #FF0;}
+	33.75% {background: #FF0;}
+	35% {background: #880;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	40% {background: #880;}
+	
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	67.5% {background: #880;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+}
+
+@keyframes freq522 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	15% {background: #880;}
+	16.25% {background: #FF0;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+
+	30% {background: #880;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	35% {background: #880;}
+	
+	40% {background: #880;}
+	41.25% {background: #FF0;}
+	43.75% {background: #FF0;}
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	67.5% {background: #880;}
+	68.75% {background: #FF0;}
+	71.25% {background: #FF0;}
+	72.5% {background: #880;}
+}
+
+@keyframes freq532 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+	
+	35% {background: #880;}
+	36.25% {background: #FF0;}
+	38.75% {background: #FF0;}
+	40% {background: #880;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65.25% {background: #FF0;}
+	67.5% {background: #880;}
+}
+
+@keyframes freq535 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	67.5% {background: #880;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+	71.25% {background: #FF0;}
+	72.5% {background: #880;}
+}
+
+@keyframes freq542 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+}
+
+@keyframes freq545 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+	
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	67.5% {background: #880;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+	
+	75% {background: #880;}
+	76.25% {background: #FF0;}
+	77.5% {background: #880;}
+}
+
+@keyframes freq552 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	35% {background: #880;}
+	
+	40% {background: #880;}
+	41.25% {background: #FF0;}
+	43.75% {background: #FF0;}
+	45% {background: #880;}
+
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+	71.25% {background: #FF0;}
+	73.75% {background: #FF0;}
+	75% {background: #880;}
+	76.25% {background: #FF0;}
+	78.75% {background: #FF0;}
+	80% {background: #880;}
+}
+
+@keyframes freq555 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+
+	35% {background: #880;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	40% {background: #880;}
+
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+	71.25% {background: #FF0;}
+	72.5% {background: #880;}
+	73.75% {background: #FF0;}
+	76.25% {background: #FF0;}
+	77.5% {background: #880;}
+}
+
+@keyframes freq565 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	21.25% {background: #FF0;}
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.75% {background: #FF0;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	
+	70% {background: #880;}
+	71.25% {background: #FF0;}
+	72.5% {background: #880;}
+	73.75% {background: #FF0;}
+	75% {background: #880;}
+	76.25% {background: #FF0;}
+	77.5% {background: #880;}
+}
+
+@keyframes freq572 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	35% {background: #880;}
+
+	40% {background: #880;}
+	41.15% {background: #FF0;}
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+}
+
+@keyframes freq575 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+	21.25% {background: #FF0;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	35% {background: #880;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+
+	57.5% {background: #880;}
+	58.75% {background: #FF0;}
+	61.25% {background: #FF0;}
+	62.5% {background: #880;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+}
+
+@keyframes freq582 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+
+	30% {background: #880;}
+	31.15% {background: #FF0;}
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+
+	42.5% {background: #880;}
+	43.75% {background: #FF0;}
+	46.25% {background: #FF0;}
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+}
+
+@keyframes freq592 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	
+	12.5% {background: #880;}
+	13.75% {background: #FF0;}
+	16.25% {background: #FF0;}
+	17.5% {background: #880;}
+
+	22.5% {background: #880;}
+	23.75% {background: #FF0;}
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	40% {background: #880;}
+
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	57.5% {background: #880;}
+}
+
+@keyframes freq595 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	2.5% {background: #880;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	28.75% {background: #FF0;}
+	30% {background: #880;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+	33.75% {background: #FF0;}
+	36.25% {background: #FF0;}
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	40% {background: #880;}
+
+	45% {background: #880;}
+	46.25% {background: #FF0;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+
+	55% {background: #880;}
+	56.25% {background: #FF0;}
+	58.75% {background: #FF0;}
+	60% {background: #880;}
+	61.25% {background: #FF0;}
+	63.75% {background: #FF0;}
+	65% {background: #880;}
+	66.25% {background: #FF0;}
+	68.75% {background: #FF0;}
+	70% {background: #880;}
+
+	75% {background: #880;}
+	76.25% {background: #FF0;}
+	77.5% {background: #880;}
+	78.75% {background: #FF0;}
+	81.25% {background: #FF0;}
+	82.5% {background: #880;}
+	83.75% {background: #FF0;}
+	85% {background: #880;}
+}
+
+@keyframes freq600 {
+	0% {background: #880;}
+	1.25% {background: #FF0;}
+	3.75% {background: #FF0;}
+	5% {background: #880;}
+	6.25% {background: #FF0;}
+	7.5% {background: #880;}
+	8.75% {background: #FF0;}
+	10% {background: #880;}
+	11.25% {background: #FF0;}
+	12.5% {background: #880;}
+	
+	17.5% {background: #880;}
+	18.75% {background: #FF0;}
+	20% {background: #880;}
+
+	25% {background: #880;}
+	26.25% {background: #FF0;}
+	27.5% {background: #880;}
+	28.85% {background: #FF0;}
+	31.25% {background: #FF0;}
+	32.5% {background: #880;}
+	
+	37.5% {background: #880;}
+	38.75% {background: #FF0;}
+	41.25% {background: #FF0;}
+	42.5% {background: #880;}
+
+	47.5% {background: #880;}
+	48.75% {background: #FF0;}
+	50% {background: #880;}
+	51.25% {background: #FF0;}
+	52.5% {background: #880;}
+	53.75% {background: #FF0;}
+	55% {background: #880;}
+}
+
+button.morseDelta {background: #C84; color: #000; width: 25px; height: 25px; border-radius: 13px; margin-left: 5px; margin-right: 5px;}
+div.morseLight {background: #880; border: 3px ridge white; width: 60px; height: 100%; max-height: 16px; margin-right: 15px; float: left;}
