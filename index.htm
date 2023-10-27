@@ -6,11 +6,10 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	
 	<title>Katane Blitz</title>
-	<link type="text/css" href="scripts/standalone.css" rel="stylesheet" />
 	<link type="text/css" href="scripts/katane.css" rel="stylesheet" />
 	<script>
 		function openMenu(submenu) {
-			var subMenuArray = ['endless', 'mission', 'cheat'];
+			var subMenuArray = ['arcade', 'mission', 'cheat'];
 			
 			for (i = 0; i < subMenuArray.length; i++) {
 				if (submenu == subMenuArray[i]) {
@@ -28,19 +27,22 @@
 <p>Welcome to <span class="bold">Katane Blitz</span>, a fast-paced bomb defusal project where your knowledge will be put to the test! No downloads required; just play!</p>
 
 <!-- Main menu -->
-<p class="center"><button class="interact" onclick="openMenu('endless')">Endless Mode</button>
+<p class="center"><button class="interact" onclick="openMenu('arcade')">Arcade Mode</button>
 <button class="interact" onclick="openMenu('mission')">Mission Mode</button>
 <button class="interact" onclick="openMenu('cheat')">Cheat Sheets</button></p>
 
-<!-- Endless Mode menu -->
-<div class="center" style="display: none;" id="endless">
+<!-- Arcade Mode menu -->
+<div class="center" style="display: none;" id="arcade">
+<h3>Chapter Arcade</h3>
 The main experience of Katane Blitz. Randomly generated modules! Time extensions are granted with each module, but become less effective as modules are solved.<br />
-<a class="interact" href="play.htm?module=endless">Play Endless Challenge!</a>
-<a class="interact" href="play.htm?module=endlessHardcore" title="1 life for the entire game">Play Endless Hardcore!!!</a><br />
+<a class="interact" href="play.htm?module=endless">Play Endless Challenge!</a><br /><br />
+Endless Hardcore is for players/teams who think they have mastered the art of defusing. One misstep will end these games!<br />
+<a class="interact" href="play.htm?module=endlessHardcore">Play Endless Hardcore!!!</a>
 </div>
 
 <!-- Mission Mode menu -->
 <div class="center" style="display: none;" id="mission">
+<h3>Chapter Practice</h3>
 Practice 1 or more modules until the required disarms are scored, or a bomb explodes.<br />
 <a class="interact" title="Goal: 20" href="play.htm?module=bigButton">Big Button</a>
 <a class="interact" title="Goal: 16" href="play.htm?module=venn">Complicated Wires</a>
@@ -53,8 +55,16 @@ Practice 1 or more modules until the required disarms are scored, or a bomb expl
 <a class="interact" title="Goal: 9" href="play.htm?module=whosOnFirst">Who's on First</a>
 <a class="interact" title="Goal: 20" href="play.htm?module=wires">Wires</a>
 <a class="interact" title="Goal: 9" href="play.htm?module=wireSequence">Wire Sequence</a>
-<a class="interact" title="Goal: 37" href="play.htm?module=mixedPractice">Mixed Practice</a><br /><br />
+<a class="interact" title="Goal: 37" href="play.htm?module=mixedPractice">Mixed Practice</a>
 
+<h3>Chapter Needy</h3>
+Needy modules pose a constant threat, but will auto-disarm once all other modules are solved. These games have goals of 15 solvable + 6 needy modules.<br />
+<a class="interact" href="play.htm?module=ventGas">Venting Gas</a>
+<a class="interact" href="play.htm?module=capacitor">Threatening Capacitor</a>
+<a class="interact" href="play.htm?module=knob">Knobbing Away</a>
+<a class="interact" href="play.htm?module=mixedNeedy">Mixed Needys</a>
+
+<h3>Chapter Large</h3>
 These single bombs are huge, but are tuned relatively generously. Solved modules are also hidden.<br />
 <a class="interact" title="Goal: 23 / Limit 30 min and 7 lives" href="play.htm?module=kiloBomb">Kilo-Bomb</a>
 <a class="interact" title="Goal: 51 / Limit 60 min and 10 lives" href="play.htm?module=megaBomb">Mega-Bomb</a>

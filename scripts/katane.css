@@ -2,6 +2,53 @@
 
 /* General styles */
 
+body{font-family: sans-serif; color: #ffffff; background-color: #404040;}
+h2,h3,h4,.center {text-align: center;}
+#banner {text-align: center; margin-top: 30px; margin-bottom: 30px;}
+#banner img {border: 1px outset #fff;}
+
+body.redAlarm {background-color: #400000; animation: backAlarm 3000ms infinite;}
+body.deadPlr {background-color: #100808;}
+
+.text{background:#004040;color:#FFFFFF;}
+.text:disabled, input.text:read-only, textarea.text:read-only {background:#200040;color:#E0E0E0;}
+.texterr{background:#800000;color:#FFFFFF;}
+.numeric{text-align:right;}
+
+table {border: 3px ridge rgb(64,64,128); empty-cells: hide;}
+td, th {border: 1px solid rgb(96,96,192);}
+tr.alt td {border: 1px solid rgb(32,32,64);}
+
+a{text-decoration: underline dashed;}
+a:link{color:#00FFFF;}
+a:visited{color:#FF00FF;}
+a:hover{text-decoration: underline solid;}
+a:active{color:#FFFF00;}
+
+.interact {text-decoration:none; white-space: nowrap; border: 2px outset #0ff; padding: 1px; background:#FFFFFF; margin-left: 10px; margin-right: 10px; font-style: normal;}
+.interact:hover {text-decoration:none; cursor: pointer;}
+.interact:link {color:#000080;}
+.interact:visited {color:#800080;}
+.interact:active {border: 2px inset #0ff;}
+.interact:disabled {background:#A0A0A0; color:#0000FF; font: inherit; display: inline; border: 2px outset #00f; padding: 0px;}
+
+@media (max-width: 1024px), (max-height: 800px) {
+	.bigScreen {display: none;}
+}
+
+@media (min-width: 1025px) and (min-height: 801px) {
+	.smScreen{display: none}
+}
+
+.footer{text-align:center; font-style: italic; font-size: 85%; clear: both;}
+
+@keyframes backAlarm {
+	0% {background: #400000;}
+	70% {background: #400000;}
+	85% {background: #C00000;}
+	100% {background: #400000;}
+}
+
 @keyframes flashDiv {
 	0% {background: rgb(255,0,0);}
 	50% {background: rgb(255,255,255);}
@@ -16,7 +63,7 @@ div.warning {background: rgb(255,0,0);}
 div.danger {background: rgb(255,0,0); animation: flashDiv 1000ms infinite;}
 div.nightmare {background: rgb(255,0,0); animation: flashDiv 500ms infinite;}
 
-#bomb {display: grid; grid-template-columns: auto auto auto auto;}
+#bomb {display: grid; grid-template-columns: 25% 25% 25% 25%;}
 #numBatts {color: yellow; font-weight: bold;}
 
 #banner img {padding: 5px; background: black;}
@@ -24,7 +71,7 @@ div.nightmare {background: rgb(255,0,0); animation: flashDiv 500ms infinite;}
 legend, #scoreboard {font-family: 'Rajdhani', sans-serif; font-size: 110%; text-transform: uppercase;}
 .fragment {font-family: 'Rajdhani', sans-serif; font-size: 110%;}
 
-/* Non-dedicated module styles */
+/* Non-dedicated solvable module styles */
 
 .bigButton {width: 122px; height: 122px; font-size: 16pt; border: 3px solid #ddd; border-radius: 64px; vertical-align: top;}
 .bigButton:active {border: 3px solid #666;}
@@ -89,7 +136,6 @@ button.passSubmit {background: #CA8; color: #000; font-size: 200%; margin-top: 1
 }
 
 .vennFrame {display: grid; text-align: center;}
-
 .vennSlot {height: 30px;}
 
 .vennWire {width: 20px; min-height: 120px; border-radius: 5px; margin-left: auto; margin-right: auto; padding-top: 80px;}
@@ -110,6 +156,26 @@ div.whoButton {text-align: center;}
 .wireSeqFrame {display: grid; grid-template-columns: 30px auto 30px 10%;}
 .wireSeqSlot {text-align: center;}
 .wireSeqSlot button {background: #C84; color: #000; width: 100%; height: 100%;}
-.wireSeqSlot button:disabled {background: #444; color: #000; width: 100%; height: 100%;}
+.wireSeqSlot button:disabled {background: #444;}
 .seqWire {height: 20px; border-radius: 5px; margin-bottom: 20px; text-align: center;}
 .seqAux {visibility: hidden; height: 40px;}
+
+/* Needy module styles */
+.ventGasDisp, .ventTimer, .knobTimer, .knobTop, .knobLight, .capacitorFrame div {border: 1px solid white; background: black; font-size: 200%;}
+.capacitorFrame button {background: #C84; color: #000; min-width: 100px; height: 100%; vertical-align: middle;}
+.capacitorFrame button:disabled, .ventButton button:disabled, .knobButton:disabled {background: #444;}
+
+.knobFrame {display: grid; grid-template-columns: auto auto auto auto auto auto auto;}
+.knobTop {grid-column: 1 / span 7;}
+.knobLabel {margin-left: auto; margin-right: auto; font-size: 50%; text-align: center; width: 140px; height: 140px;}
+.knobButton {background: #C84; color: #000; width: 122px; height: 122px; font-size: 48pt; border: 3px solid #ddd; border-radius: 64px;}
+.knobButton:active {border: 3px solid #666;}
+.knobAnswer {display: none;}
+.knobTimer {grid-column: 4 / span 1; grid-row: 2 / span 2;}
+
+.ventGasFrame {display: grid; grid-template-columns: auto auto auto;}
+.ventGasDisp {padding: 5%;}
+.needyTimer {font-family: monospace; color: #F00; text-align: center;}
+.needyTimer meter {visibility: hidden;}
+.ventGasDisp {grid-column: 1 / span 3; grid-row: 1 / span 5; color: #0F0; text-transform: uppercase;}
+.ventButton button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 111%;}

@@ -608,6 +608,147 @@ function createBombModule(moduleObj, moduleClass) {
 			moduleObj.className = "wireSeqFrame";
 			break;
 		
+		// Needy modules
+		
+		case "capacitor":
+			dispDiv = document.createElement("div");
+			dispDiv.className = "ventGasDisp";
+			dispDiv.id = moduleObj.id+"nV";
+
+			createButton = document.createElement("button");
+			createButton.id = moduleObj.id+"nD";
+			createButton.innerHTML = "Discharge!";
+			createButton.onmousedown = function() { dischargeCapacitor(moduleObj, true); }
+			createButton.onmouseup = function() { dischargeCapacitor(moduleObj, false); }
+			createButton.ontouchstart = createButton.onmousedown;
+			createButton.ontouchend = createButton.onmouseup;
+			createButton.onmouseout = createButton.onmouseup;
+			createButton.disabled = true;
+			dispDiv.appendChild(createButton);
+
+			timerMeter = document.createElement("meter");
+			timerMeter.id = moduleObj.id+"nH";
+			timerMeter.className = "needyModule";
+			timerMeter.style.marginLeft = "20px";
+			timerMeter.style.marginRight = "20px";
+			timerMeter.max = 45;
+			timerMeter.low = 25;
+			timerMeter.high = 40;
+			timerMeter.optimal = 20;
+			timerMeter.min = 0;
+			dispDiv.appendChild(timerMeter);
+
+			timerDisp = document.createElement("span");
+			timerDisp.className = "needyTimer";
+			timerDisp.id = moduleObj.id+"nT";
+			timerDisp.innerHTML = "&nbsp;";
+			dispDiv.appendChild(timerDisp);
+		
+			moduleObj.appendChild(dispDiv);
+			moduleObj.className = "capacitorFrame";
+			break;
+			
+		case "knob":
+			topWrapper = document.createElement("div");
+			topWrapper.className = "knobTop";
+			knobLabel = document.createElement("div");
+			knobLabel.id = moduleObj.id+"nK";
+			knobLabel.className = "knobLabel";
+			knobLabel.innerHTML = "Up ";
+
+			knowAnswerKey = document.createElement("span");
+			knowAnswerKey.className = "knobAnswer";
+			knowAnswerKey.id = moduleObj.id+"nA";
+			knobLabel.appendChild(knowAnswerKey);
+
+			knobLabel.innerHTML += "<br />";
+			
+			knobButton = document.createElement("button");
+			knobButton.id = moduleObj.id+"nB";
+			knobButton.className = "knobButton";
+			knobButton.innerHTML = "&Uarr;";
+			knobButton.disabled = true;
+			knobButton.onclick = function() { rotateKnob(this); }
+			knobLabel.appendChild(knobButton);
+			
+			topWrapper.appendChild(knobLabel);
+			moduleObj.appendChild(topWrapper);
+
+			timerDiv = document.createElement("div");
+			timerDiv.className = "knobTimer needyTimer";
+			
+			timerMeter = document.createElement("meter");
+			timerMeter.id = moduleObj.id+"nH";
+			timerMeter.className = "needyModule";
+			timerMeter.max = 40;
+			timerMeter.min = -40;
+			timerDiv.appendChild(timerMeter);
+			
+			timerDiv.innerHTML += "<br />";
+
+			timerDisp = document.createElement("span");
+			timerDisp.id = moduleObj.id+"nT";
+			timerDisp.innerHTML = "&nbsp;";
+			timerDiv.appendChild(timerDisp);
+			moduleObj.appendChild(timerDiv);
+			
+			for (var l = 1; l <= 12; l++) {
+				lightDiv = document.createElement("div");
+				lightDiv.className = "knobLight";
+				lightDiv.id = moduleObj.id+"nL"+l;
+				moduleObj.appendChild(lightDiv);
+			}
+		
+			moduleObj.className = "knobFrame";
+			break;
+		
+		case "ventGas":
+			dispDiv = document.createElement("div");
+			dispDiv.className = "ventGasDisp";
+			dispDiv.id = moduleObj.id+"nV";
+			moduleObj.appendChild(dispDiv);
+			
+			buttonDiv = document.createElement("div");
+			buttonDiv.className = "ventButton";
+			createButton = document.createElement("button");
+			createButton.id = moduleObj.id+"nY";
+			createButton.innerHTML = "Y";
+			createButton.onclick = function() {answerVentGas(moduleObj, true);}
+			createButton.disabled = true;
+			buttonDiv.appendChild(createButton);
+			moduleObj.appendChild(buttonDiv);
+
+			timerDiv = document.createElement("div");
+			timerDiv.className = "ventTimer needyTimer";
+			
+			timerMeter = document.createElement("meter");
+			timerMeter.id = moduleObj.id+"nH";
+			timerMeter.className = "needyModule";
+			timerMeter.max = 40;
+			timerMeter.min = -35;
+			timerDiv.appendChild(timerMeter);
+			
+			timerDiv.innerHTML += "<br />";
+
+			timerDisp = document.createElement("span");
+			timerDisp.id = moduleObj.id+"nT";
+			timerDisp.innerHTML = "&nbsp;";
+			timerDiv.appendChild(timerDisp);
+			moduleObj.appendChild(timerDiv);
+			
+			buttonDiv = document.createElement("div");
+			buttonDiv.className = "ventButton";
+			createButton = document.createElement("button");
+			createButton.id = moduleObj.id+"nN";
+			createButton.innerHTML = "N";
+			createButton.onclick = function() {answerVentGas(moduleObj, false);}
+			createButton.disabled = true;
+			buttonDiv.appendChild(createButton);
+			moduleObj.appendChild(buttonDiv);
+		
+			moduleObj.className = "ventGasFrame";
+			break;
+		
 		default: 
 			newButton = document.createElement("button");
 			newButton.className = "interact";

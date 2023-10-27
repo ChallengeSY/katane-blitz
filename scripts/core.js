@@ -3,6 +3,7 @@ var lifeMax = 5;
 var score = 0;
 var nextBomb = 0;
 var bombCountdown = -1;
+var needyCountdown = -Infinity;
 var graceTime = 0;
 var timeLimit = 180;
 var timeMax = 180;
@@ -12,6 +13,10 @@ var moduleFile = null;
 var firstLoad = false;
 var gameActive = false;
 var hideSolves = false;
+var needyScore = 0;
+var singleSolvableFile = false;
+var singleNeedyFile = false;
+var bombQueued = false;
 
 const solveColor = "rgb(0, 255, 0)";
 const strikeColor = "rgb(255, 0, 0)";
@@ -20,11 +25,14 @@ const stageColor = "rgb(0, 204, 0)";
 const defaultIndicators = ["SND", "CLR", "CAR", "IND", "FRQ", "SIG", "NSA", "MSA", "TRN", "BOB", "FRK"];
 const defaultPorts = ["DVI-D", "Parallel", "PS/2", "RJ-45", "Serial", "Stereo"];
 const defaultModules = ["bigButton", "keypad", "maze", "memory", "morse", "password", "simon", "venn", "whosOnFirst", "wires", "wireSequence"];
+const defaultNeedys = ["ventGas", "capacitor", "knob"];
+
+const needyCycleDur = 0.2;
 
 function startGame() {
 	var moduleValid = false;
-	var initialModules = 1;
-	
+	var initialModules = 1, initialNeedy = 0;
+
 	if (score > 0) {
 		console.clear();
 	}
@@ -37,19 +45,21 @@ function startGame() {
 		moduleValid = true;
 		goal = Infinity;
 		timeMax = 300;
-		initialModules = 3;
+		initialModules = irandom(3,5);
+		initialNeedy = Math.max(irandom(-2,1),0);
 		lifeMax = 3;
 	} else if (moduleFile == "endlessHardcore") {
 		moduleValid = true;
 		goal = Infinity;
 		timeMax = 300;
-		initialModules = 3;
+		initialModules = irandom(3,5);
+		initialNeedy = Math.max(irandom(-2,1),0);
 		lifeMax = 1;
 	} else if (moduleFile == "endlessButtons") {
 		moduleValid = true;
 		goal = Infinity;
 		timeMax = 120;
-		initialModules = 5;
+		initialModules = irandom(5,7);
 		handicap = 50;
 		maxPerBomb = 15;
 		lifeMax = 3;
@@ -88,11 +98,20 @@ function startGame() {
 		initialModules = goal;
 	} else if (moduleFile == "venn") {
 		moduleValid = true;
+		singleSolvableFile = true;
 		goal = 16;
 	} else if (moduleFile == "bigButton" || moduleFile == "wires" || moduleFile == "debug") {
 		moduleValid = true;
+		singleSolvableFile = true;
 		goal = 20;
+	} else if (moduleFile == "capacitor" || moduleFile == "knob" || moduleFile == "ventGas" || moduleFile == "mixedNeedy") {
+		moduleValid = true;
+		singleNeedyFile = (moduleFile != "mixedNeedy");
+		goal = 15;
+		initialModules = 3;
+		initialNeedy = 1;
 	} else {
+		singleSolvableFile = true;
 		moduleValid = (moduleFile == "keypad" || moduleFile == "password" || moduleFile == "maze" || moduleFile == "memory" ||
 			moduleFile == "morse" || moduleFile == "password" || moduleFile == "simon" || moduleFile == "whosOnFirst" || moduleFile == "wireSequence");
 	}
@@ -100,7 +119,7 @@ function startGame() {
 	if (moduleValid) {
 		life = lifeMax;
 		timeLimit = timeMax;
-		makeBomb(initialModules);
+		makeBomb(initialModules, initialNeedy);
 	} else {
 		applyFeedback(false, "To play this game, a valid module must be loaded.");
 	}
@@ -135,7 +154,7 @@ function solveModule(obj, cond, postSolve) {
 			
 			if (score >= goal) {
 				gameWon();
-			} else {
+			} else if (!bombQueued) {
 				if (score >= nextBomb) {
 					if (isFinite(goal)) {
 						if (moduleFile == "mixedPractice") {
@@ -152,14 +171,32 @@ function solveModule(obj, cond, postSolve) {
 									break;
 							}
 							
-							disarmBomb(nextSize);
+							disarmBomb(nextSize,0);
+						} else if (moduleFile == "capacitor" || moduleFile == "knob" || moduleFile == "ventGas" || moduleFile == "mixedNeedy") {
+							var nextSize, nextNeedy;
+							switch (score) {
+								case 2:
+									nextSize = 7;
+									nextNeedy = 2;
+									break;
+								default:
+									nextSize = 11;
+									nextNeedy = 3;
+									break;
+							}
+							
+							disarmBomb(nextSize,nextNeedy);
 						} else if (score >= 9) {
-							disarmBomb(Math.min(goal - score,maxPerBomb));
+							disarmBomb(Math.min(goal - score,maxPerBomb),0);
 						} else {
-							disarmBomb(Math.pow((Math.sqrt(score)+1),2) - score);
+							disarmBomb(Math.pow((Math.sqrt(score)+1),2) - score,0);
 						}
+					} else if (score % 25 <= 22) {
+						disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),Math.max(irandom(-7,2),0));
 					} else {
-						disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25));
+						var genModules = 25 - score % 25;
+						
+						disarmBomb(3,3-genModules);
 					}
 				} else {
 					applyFeedback(true, "...");
@@ -214,23 +251,26 @@ function startBombCountdown(auxAlso) {
 
 function gameWon() {
 	clearInterval(bombCountdown);
-	applyFeedback(true, "Congratulations! All bombs have been disarmed.&emsp;"+continueButton(0));
+	activateAllNeedys(false);
+	applyFeedback(true, "Congratulations! All bombs have been disarmed.&emsp;"+continueButton(0,0));
 	playSound(gameWonSnd);
 	gameActive = false;
+	document.body.className = "";
 }
 
-function disarmBomb(nextTarget) {
+function disarmBomb(nextTarget, nextNeedys) {
 	clearInterval(bombCountdown);
-	if (score % 25 == 0 && !isFinite(goal)) {
+	activateAllNeedys(false);
+	if (score % 25 == 0 || (score - needyScore) % 25 == 0 && !isFinite(goal)) {
 		if (moduleFile == "endlessHardcore") {
-			applyFeedback(true, score+" modules disarmed.&emsp;"+continueButton(nextTarget));
+			applyFeedback(true, score+" modules disarmed.&emsp;"+continueButton(nextTarget,nextNeedys));
 		} else {
-			applyFeedback(true, score+" modules disarmed! Extra life acquired.&emsp;"+continueButton(nextTarget));
+			applyFeedback(true, score+" modules disarmed! Extra life acquired.&emsp;"+continueButton(nextTarget,nextNeedys));
 			life++;
 			lifeMax = Math.max(lifeMax,life);
 		}
 	} else {
-		applyFeedback(true, "Bomb disarm successful.&emsp;"+continueButton(nextTarget));
+		applyFeedback(true, "Bomb disarm successful.&emsp;"+continueButton(nextTarget,nextNeedys));
 	}
 	playSound(gameWonSnd);
 	gameActive = false;
@@ -238,9 +278,11 @@ function disarmBomb(nextTarget) {
 
 function explodeBomb() {
 	clearInterval(bombCountdown);
-	applyFeedback(false, "Game over! The bomb has exploded!&emsp;"+continueButton(0));
+	activateAllNeedys(false);
+	applyFeedback(false, "Game over! The bomb has exploded!&emsp;"+continueButton(0,0));
 	playSound(explodeSnd);
 	gameActive = false;
+	document.body.className = "deadPlr";
 }
 
 function timeDecay() {
@@ -248,13 +290,121 @@ function timeDecay() {
 		graceTime--;
 	} else {
 		timeLimit--;
+		updateUI();
+	
+		if (!isFinite(needyCountdown) && (timeLimit + 90 <= timeMax || score > 0 || life < lifeMax)) {
+			activateAllNeedys(true);
+		}
 	}
-	updateUI();
 	
 	if (timeLimit <= 0) {
 		explodeBomb();
 	} else if (timeLimit <= 10) {
 		playSound(beepSnd);
+	}
+}
+
+function activateAllNeedys(newState) {
+	if (newState) {
+		var masterCollection = document.getElementsByTagName("meter");
+		needyCollection = new Array(); //Reset array
+		
+		for (var n in masterCollection) {
+			if (masterCollection[n].className && masterCollection[n].className.search("needyModule") >= 0) {
+				needyCollection.push(masterCollection[n]);
+				
+				activateNeedyModule(masterCollection[n], true);
+			}
+		}
+		
+		needyCountdown = setInterval(cycleNeedyHeats, needyCycleDur * 1000);
+	} else {
+		bombQueued = true;
+		
+		try {
+			for (var n in needyCollection) {
+				activateNeedyModule(needyCollection[n], false);
+			}
+		} catch(err) {
+			// Dummy catch
+		}
+
+		clearInterval(needyCountdown);
+		needyCountdown = -Infinity;
+	}
+}
+
+function activateNeedyModule(timerObj, newState) {
+	var baseId = timerObj.id.substring(0,timerObj.id.length-2);
+	var baseObj = document.getElementById(baseId);
+	
+	var meterObj = document.getElementById(baseId+"nH");
+	var timerObj = document.getElementById(baseId+"nT");
+	
+	if (baseObj.className.search("capacitorFrame") >= 0) {
+		activateCapacitor(baseObj, newState);
+	} else if (baseObj.className.search("knobFrame") >= 0) {
+		activateKnob(baseObj, newState);
+	} else if (baseObj.className.search("ventGasFrame") >= 0) {
+		activateVentGas(baseObj, newState, false);
+	}
+	
+	if (newState) {
+		meterObj.value = 0;
+		timerObj.innerHTML = meterObj.max;
+	} else if (baseObj.className.search("capacitorFrame") >= 0 && baseObj.style.borderColor == strikeColor) {
+		/*
+		 * If a Capacitor module strikes (overloads), then it 
+		 * permanently deactivates. It can no longer award a point.
+		 */
+		meterObj.value = meterObj.max;
+		if (score >= nextBomb) {
+			needyScore--;
+		}
+	} else if (score >= nextBomb && !isFinite(goal)) {
+		// Score this module in Endless games
+		solveModule(baseObj, true, true);
+	}
+}
+
+function cycleNeedyHeats() {
+	for (var n in needyCollection) {
+		var needyHeat = parseFloat(needyCollection[n].value);
+		var maxHeat = parseFloat(needyCollection[n].max);
+		
+		var baseId = needyCollection[n].id.substring(0,needyCollection[n].id.length-2);
+		var baseObj = document.getElementById(baseId);
+		var timerObj = document.getElementById(baseId+"nT");
+		var dischargeObj = document.getElementById(baseId+"nD");
+		
+		if (dischargeObj && dischargeObj.innerHTML == "Discharging") {
+			needyHeat = Math.max(needyHeat - 1,0);
+			needyCollection[n].value = needyHeat;
+			timerObj.innerHTML = Math.ceil(maxHeat - needyHeat);
+			
+		} else if (needyHeat > -999 && needyHeat < 0) {
+			needyHeat += needyCycleDur;
+			needyCollection[n].value = needyHeat;
+			
+			if (needyHeat >= 0) {
+				activateNeedyModule(needyCollection[n], true);
+			}
+			
+		} else if (needyHeat < maxHeat) {
+			needyHeat += needyCycleDur;
+			needyCollection[n].value = needyHeat;
+			timerObj.innerHTML = Math.ceil(maxHeat - needyHeat);
+			
+			if (needyHeat >= maxHeat) {
+				if (!validateKnob(baseObj)) {
+					solveModule(baseObj, false, true);
+					console.warn("Needy module has overloaded!");
+				}
+				activateNeedyModule(needyCollection[n], false);
+			} else if (needyHeat + 5 >= maxHeat && needyHeat % 1 < needyCycleDur/2) {
+				playSound(beepSnd);
+			}
+		}
 	}
 }
 
@@ -264,9 +414,9 @@ function applyFeedback(good, panelTxt) {
 	document.getElementById("fTxt").innerHTML = panelTxt;
 }
 
-function continueButton(canStillPlay) {
+function continueButton(canStillPlay, needyCount) {
 	if (canStillPlay > 0) {
-		return "<a class=\"interact\" href=\"javascript:makeBomb("+canStillPlay+");\">Next bomb</a>";
+		return "<a class=\"interact\" href=\"javascript:makeBomb("+canStillPlay+","+needyCount+");\">Next bomb</a>";
 	}
 	return "<a class=\"interact\" href=\"javascript:startGame();\">Restart game</a>";
 }
@@ -283,17 +433,18 @@ function cloneArray(orgArray) {
 
 /* ----------------------------------------------------------- */
 
-function makeBomb(count) {
+function makeBomb(totCount, needyCount) {
 	var useModuleRules = moduleFile;
 	var randomAdd = irandom(0,defaultModules.length-1);
 	graceTime = 3;
 	if (score > 0) {
 		console.clear();
 	}
+	bombQueued = false;
 	
 	// Generate a collection of modules for the next bomb
 	if (isFinite(goal)) {
-		switch (count) {
+		switch (totCount) {
 			case 1:
 				timeMax = 180;
 				break;
@@ -313,8 +464,8 @@ function makeBomb(count) {
 		life = lifeMax;
 	}
 	
-	nextBomb = score + count;
-	updateUI();
+	nextBomb = score + totCount - needyCount;
+	needyScore = needyCount;
 
 	bombNode = document.getElementById("bomb");
 	moduleCollection = document.getElementsByTagName("fieldset");
@@ -326,14 +477,21 @@ function makeBomb(count) {
 	
 	createEdgework();
 
-	for (k = 0; k < count; k++) {
-		if (moduleFile == "mixedPractice" && count == 11) {
+	for (k = 0; k < totCount; k++) {
+		if (moduleFile == "mixedPractice" && totCount == 11) {
 			useModuleRules = defaultModules[(k + randomAdd) % defaultModules.length];
-		} else if (moduleFile == "mixedPractice" || moduleFile == "kiloBomb" || moduleFile == "megaBomb" || moduleFile == "gigaBomb" || moduleFile == "teraBomb" ||
-			moduleFile == "endless" || moduleFile == "endlessHardcore") {
-			useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
 		} else if (moduleFile == "endlessButtons") {
 			useModuleRules = "bigButton";
+		} else {
+			if (k < needyCount) {
+				if (singleNeedyFile) {
+					useModuleRules = moduleFile;
+				} else {
+					useModuleRules = defaultNeedys[irandom(0,defaultNeedys.length-1)];
+				}
+			} else if (!singleSolvableFile) {
+				useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
+			}
 		}
 		
 		newId = score + k + 1;
@@ -351,6 +509,7 @@ function makeBomb(count) {
 	}
 
 	gameActive = true;
+	updateUI();
 	startBombCountdown(true);
 	
 	if (firstLoad) {
@@ -582,6 +741,14 @@ function updateUI() {
 		meterClass = "warning";
 	} else if (timeLimit <= 180 || timeLimit*2 < timeMax) {
 		meterClass = "caution";
+	}
+	
+	if (gameActive) {
+		if (timeLimit > 60) {
+			document.body.className = "";
+		} else {
+			document.body.className = "redAlarm";
+		}
 	}
 
 	document.getElementById("timerMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
