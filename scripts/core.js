@@ -70,28 +70,28 @@ function startGame() {
 		goal = 37;
 	} else if (moduleFile == "kiloBomb") {
 		moduleValid = true;
-		timeMax = 1800;
+		timeMax = 1500;
 		lifeMax = 7;
 		goal = 23;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "megaBomb") {
 		moduleValid = true;
-		timeMax = 3600;
+		timeMax = 2700;
 		lifeMax = 10;
 		goal = 51;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "gigaBomb") {
 		moduleValid = true;
-		timeMax = 5400;
+		timeMax = 4260;
 		lifeMax = 15;
 		goal = 99;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "teraBomb") {
 		moduleValid = true;
-		timeMax = 9900;
+		timeMax = 5940;
 		lifeMax = 25;
 		goal = 199;
 		hideSolves = true;
@@ -110,6 +110,7 @@ function startGame() {
 		goal = 15;
 		initialModules = 3;
 		initialNeedy = 1;
+		lifeMax = 3;
 	} else {
 		singleSolvableFile = true;
 		moduleValid = (moduleFile == "keypad" || moduleFile == "password" || moduleFile == "maze" || moduleFile == "memory" ||
