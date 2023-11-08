@@ -32,14 +32,6 @@ a:active{color:#FFFF00;}
 .interact:active {border: 2px inset #0ff;}
 .interact:disabled {background:#A0A0A0; color:#0000FF; font: inherit; display: inline; border: 2px outset #00f; padding: 0px;}
 
-@media (max-width: 1024px), (max-height: 800px) {
-	.bigScreen {display: none;}
-}
-
-@media (min-width: 1025px) and (min-height: 801px) {
-	.smScreen{display: none}
-}
-
 .footer{text-align:center; font-style: italic; font-size: 85%; clear: both;}
 
 @keyframes backAlarm {
@@ -80,12 +72,26 @@ legend, #scoreboard {font-family: 'Rajdhani', sans-serif; font-size: 110%; text-
 .keypadFrame {display: grid; grid-template-columns: auto auto;}
 .keypad {width: 64px; height: 64px; text-align: center; border-radius: 0px; font-size: 225%;}
 
-.mazeFrame {display: grid; width: 280px; height: 280px; padding: 0px; margin: auto; grid-template-columns: auto auto auto auto auto auto auto auto;}
-.mazeButtonX {padding-left: 35px; padding-right: 35px; height: 35px; grid-column: 1 / span 8;}
-.mazeButtonX button, .mazeButtonY button {background: #C84; color: #000; width: 100%; height: 100%}
-.mazeButtonY {width: 35px; grid-row: 2 / span 6;}
+@media (max-width: 1024px), (max-height: 800px) {
+	.bigScreen {display: none;}
 
-.mazeSlot, .mazeSlotHilite {width: 33px; height: 28px; padding-top: 5px; text-align: center; border: 1px solid #011;}
+	.mazeFrame {display: grid; width: 200px; height: 200px; padding: 0px; margin: auto; grid-template-columns: auto auto auto auto auto auto auto auto;}
+	.mazeButtonX {padding-left: 25px; padding-right: 25px; height: 25px; grid-column: 1 / span 8;}
+	.mazeButtonY {width: 25px; grid-row: 2 / span 6;}
+	.mazeSlot, .mazeSlotHilite {width: 24px; height: 21px; padding-top: 3px; text-align: center; border: 0.5px solid #011; font-size: 75%;}
+}
+
+@media (min-width: 1025px) and (min-height: 801px) {
+	.smScreen{display: none}
+	
+	.mazeFrame {display: grid; width: 280px; height: 280px; padding: 0px; margin: auto; grid-template-columns: auto auto auto auto auto auto auto auto;}
+	.mazeButtonX {padding-left: 35px; padding-right: 35px; height: 35px; grid-column: 1 / span 8;}
+	.mazeButtonY {width: 35px; grid-row: 2 / span 6;}
+	.mazeSlot, .mazeSlotHilite {width: 33px; height: 28px; padding-top: 5px; text-align: center; border: 1px solid #011;}
+}
+
+
+.mazeButtonX button, .mazeButtonY button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 75%;}
 .mazeSlot {background: #122;}
 .mazeSlotHilite {background: #162;}
 
@@ -167,10 +173,10 @@ div.whoButton {text-align: center;}
 
 .knobFrame {display: grid; grid-template-columns: auto auto auto auto auto auto auto;}
 .knobTop {grid-column: 1 / span 7;}
-.knobLabel {margin-left: auto; margin-right: auto; font-size: 50%; text-align: center; width: 140px; height: 140px;}
+.knobLabel {margin-left: auto; margin-right: auto; font-size: 50%; text-align: center; width: 158px; height: 158px;}
 .knobButton {background: #C84; color: #000; width: 122px; height: 122px; font-size: 48pt; border: 3px solid #ddd; border-radius: 64px;}
 .knobButton:active {border: 3px solid #666;}
-.knobAnswer {display: none;}
+.knobAnswer {visibility: hidden;}
 .knobTimer {grid-column: 4 / span 1; grid-row: 2 / span 2;}
 
 .ventGasFrame {display: grid; grid-template-columns: auto auto auto;}

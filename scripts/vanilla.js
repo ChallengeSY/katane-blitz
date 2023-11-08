@@ -1,4 +1,5 @@
 var simonFlasher = -1;
+var previousButtonClick = null;
 
 const buttonLabels = ["Abort", "Detonate", "Hold", "Press"];
 const defaultColors = ["rgb(0, 0, 0)", "rgb(0, 0, 255)", "rgb(255, 0, 0)",
@@ -51,7 +52,7 @@ function activateLight(readId) {
 	document.getElementById(readId).style.backgroundColor = defaultColors[irandom(1,4)];
 }
 
-function validateButtonPress(readObj) {
+function validateButtonPress(event, readObj) {
 	buttonObj = document.getElementById(readObj.id+"b");
 	lightObj = document.getElementById(readObj.id+"l");
 	clearTimeout(buttonLight);
@@ -68,28 +69,31 @@ function validateButtonPress(readObj) {
 	}
 	timeLeft = document.getElementById("bombTime").innerHTML;
 	lightObj.style.backgroundColor = defaultColors[0];
-	
-	console.log("Big Button was released at "+timeLeft+" remaining. Light indicator required a "+reqTime);
-	
-	if (buttonObj.innerHTML == buttonLabels[0] && buttonObj.style.backgroundColor == defaultColors[1]) {
-		// Blue Abort button
-		solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
-	} else if (buttonObj.innerHTML == buttonLabels[1] && getBatteries() > 1) {
-		// Detonate button with 2 or more batteries
-		solveModule(readObj, isNaN(reqTime), false);
-	} else if (buttonObj.style.backgroundColor == defaultColors[3] && hasLitIndicator("CAR",true)) {
-		// White button and lit CAR indicator
-		solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
-	} else if ((getBatteries() > 2 && hasLitIndicator("FRK",true)) ||
-		(buttonObj.innerHTML == buttonLabels[2] && buttonObj.style.backgroundColor == defaultColors[2])) {
-		// lit FRK indicator and 3+ batteries; OR Red Hold button
-		solveModule(readObj, isNaN(reqTime), false);
-	} else {
-		// All conditions exhausted
-		solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+		
+	if (previousButtonClick == null || event.type == previousButtonClick || isFinite(reqTime)) {
+		console.log("Big Button was released at "+timeLeft+" remaining. Light indicator required a "+reqTime);
+		
+		if (buttonObj.innerHTML == buttonLabels[0] && buttonObj.style.backgroundColor == defaultColors[1]) {
+			// Blue Abort button
+			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+		} else if (buttonObj.innerHTML == buttonLabels[1] && getBatteries() > 1) {
+			// Detonate button with 2 or more batteries
+			solveModule(readObj, isNaN(reqTime), false);
+		} else if (buttonObj.style.backgroundColor == defaultColors[3] && hasLitIndicator("CAR",true)) {
+			// White button and lit CAR indicator
+			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+		} else if ((getBatteries() > 2 && hasLitIndicator("FRK",true)) ||
+			(buttonObj.innerHTML == buttonLabels[2] && buttonObj.style.backgroundColor == defaultColors[2])) {
+			// lit FRK indicator and 3+ batteries; OR Red Hold button
+			solveModule(readObj, isNaN(reqTime), false);
+		} else {
+			// All conditions exhausted
+			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+		}
+		
+		playSound(buttonSnds[1]);
+		previousButtonClick = event.type;
 	}
-	
-	playSound(buttonSnds[1]);
 }
 
 // Keypad functions
@@ -1681,13 +1685,14 @@ function queueWireSeqStage(readObj, forward) {
 	} else if (forward) {
 		var answerKey = document.getElementById(baseId+"A").innerHTML;
 		var canAdvance = true;
+		var needCut = new Array();
 
 		for (var v = (curStage-1)*3; v <= curStage*3; v++) {
 			var wireObj = document.getElementById(baseId+"W"+v);
 			
 			if (wireObj && wireObj.innerHTML == "" && answerKey.charAt(v-1) == "C") {
 				canAdvance = false;
-				break;
+				needCut[needCut.length] = v;
 			}
 		}
 		
@@ -1706,6 +1711,10 @@ function queueWireSeqStage(readObj, forward) {
 		} else {
 			console.warn("Wire Sequence striked! One or more required wires in stage "+curStage+" were missed!");
 			solveModule(readObj, false, false);
+			
+			if (!gameActive) {
+				console.warn("Seq Wire(s) "+needCut.toString()+" need to be cut!");
+			}
 		}
 	}
 	
@@ -1998,7 +2007,12 @@ function validateVentGas(readObj, affirm) {
 		} else {
 			console.log("Needy module has successfully vented gas.")
 			activateVentGas(readObj, false, false);
-			displayObj.innerHTML = "Venting complete.";
+			if (Math.random() < 0.9) {
+				displayObj.innerHTML = "Venting complete.";
+			} else {
+				displayObj.innerHTML = "Mmmm good stuff!";
+				playSound(fartSnd);
+			}
 		}
 	} else {
 		if (displayObj.innerHTML.startsWith("Detonate")) {

@@ -11,7 +11,7 @@ function createBombModule(moduleObj, moduleClass) {
 				newButton.style.color = defaultColors[3];
 			}
 			newButton.onmousedown = function() { prepLight(moduleObj.id+"l"); }
-			newButton.onmouseup = function() { validateButtonPress(moduleObj); }
+			newButton.onmouseup = function() { validateButtonPress(event, moduleObj); }
 			newButton.ontouchstart = newButton.onmousedown;
 			newButton.ontouchend = newButton.onmouseup;
 			moduleObj.appendChild(newButton);
@@ -159,6 +159,8 @@ function createBombModule(moduleObj, moduleClass) {
 			newLight.style.animation = "freq"+targFreq+" 20000ms 2s infinite";
 			moduleObj.appendChild(newLight);
 			
+			moduleObj.appendChild(makeBr());
+			
 			newButton = document.createElement("button");
 			newButton.className = "morseDelta";
 			newButton.onclick = function() {changeMorseFreq(moduleObj, false)};
@@ -187,6 +189,7 @@ function createBombModule(moduleObj, moduleClass) {
 			
 			newButton = document.createElement("button");
 			newButton.className = "interact";
+			newButton.style.marginRight = "0px";
 			newButton.onclick = function() {validateMorseCode(moduleObj, 3000 + targFreq)};
 			newButton.innerHTML = "Transmit!";
 			moduleObj.appendChild(newButton);
@@ -656,12 +659,7 @@ function createBombModule(moduleObj, moduleClass) {
 			knobLabel.className = "knobLabel";
 			knobLabel.innerHTML = "Up ";
 
-			knowAnswerKey = document.createElement("span");
-			knowAnswerKey.className = "knobAnswer";
-			knowAnswerKey.id = moduleObj.id+"nA";
-			knobLabel.appendChild(knowAnswerKey);
-
-			knobLabel.innerHTML += "<br />";
+			knobLabel.appendChild(makeBr());
 			
 			knobButton = document.createElement("button");
 			knobButton.id = moduleObj.id+"nB";
@@ -670,6 +668,14 @@ function createBombModule(moduleObj, moduleClass) {
 			knobButton.disabled = true;
 			knobButton.onclick = function() { rotateKnob(this); }
 			knobLabel.appendChild(knobButton);
+
+			knobLabel.appendChild(makeBr());
+
+			knowAnswerKey = document.createElement("span");
+			knowAnswerKey.className = "knobAnswer";
+			knowAnswerKey.id = moduleObj.id+"nA";
+			knowAnswerKey.innerHTML = "&nbsp;"
+			knobLabel.appendChild(knowAnswerKey);
 			
 			topWrapper.appendChild(knobLabel);
 			moduleObj.appendChild(topWrapper);
@@ -684,7 +690,7 @@ function createBombModule(moduleObj, moduleClass) {
 			timerMeter.min = -40;
 			timerDiv.appendChild(timerMeter);
 			
-			timerDiv.innerHTML += "<br />";
+			timerDiv.appendChild(makeBr());
 
 			timerDisp = document.createElement("span");
 			timerDisp.id = moduleObj.id+"nT";

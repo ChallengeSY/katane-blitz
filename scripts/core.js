@@ -16,6 +16,7 @@ var hideSolves = false;
 var needyScore = 0;
 var singleSolvableFile = false;
 var singleNeedyFile = false;
+var endlessNeedys = true;
 var bombQueued = false;
 
 const solveColor = "rgb(0, 255, 0)";
@@ -41,28 +42,30 @@ function startGame() {
 	handicap = 0;
 	timeMax = 180;
 
-	if (moduleFile == "endless") {
-		moduleValid = true;
+	if (moduleFile.startsWith("endless")) {
 		goal = Infinity;
 		timeMax = 300;
+		handicap = 0;
 		initialModules = irandom(3,5);
-		initialNeedy = Math.max(irandom(-2,1),0);
-		lifeMax = 3;
-	} else if (moduleFile == "endlessHardcore") {
-		moduleValid = true;
-		goal = Infinity;
-		timeMax = 300;
-		initialModules = irandom(3,5);
-		initialNeedy = Math.max(irandom(-2,1),0);
-		lifeMax = 1;
-	} else if (moduleFile == "endlessButtons") {
-		moduleValid = true;
-		goal = Infinity;
-		timeMax = 120;
-		initialModules = irandom(5,7);
-		handicap = 50;
-		maxPerBomb = 15;
-		lifeMax = 3;
+		if (moduleFile == "endlessHardcore") {
+			initialNeedy = 0;
+			lifeMax = 1;
+		} else if (moduleFile == "endless") {
+			initialNeedy = Math.max(irandom(-2,1),0);
+			lifeMax = 3;
+		} else {
+			endlessNeedys = false;
+			lifeMax = 3;
+		}
+		
+		if (moduleFile == "endlessButtons") {
+			handicap = 50;
+			initialModules = irandom(5,7);
+		} else if (moduleFile == "endlessStable") {
+			timeMax = 180;
+		}
+		moduleValid = (moduleFile == "endless" || moduleFile == "endlessStable" || moduleFile == "endlessHardcore" ||
+			moduleFile == "endlessButtons");
 	} else if (moduleFile == "mixedPractice") {
 		moduleValid = true;
 		timeMax = 300;
@@ -71,28 +74,28 @@ function startGame() {
 	} else if (moduleFile == "kiloBomb") {
 		moduleValid = true;
 		timeMax = 1500;
-		lifeMax = 7;
+		lifeMax = 5;
 		goal = 23;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "megaBomb") {
 		moduleValid = true;
 		timeMax = 2700;
-		lifeMax = 10;
+		lifeMax = 8;
 		goal = 51;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "gigaBomb") {
 		moduleValid = true;
 		timeMax = 4260;
-		lifeMax = 15;
+		lifeMax = 11;
 		goal = 99;
 		hideSolves = true;
 		initialModules = goal;
 	} else if (moduleFile == "teraBomb") {
 		moduleValid = true;
 		timeMax = 5940;
-		lifeMax = 25;
+		lifeMax = 15;
 		goal = 199;
 		hideSolves = true;
 		initialModules = goal;
@@ -193,11 +196,19 @@ function solveModule(obj, cond, postSolve) {
 							disarmBomb(Math.pow((Math.sqrt(score)+1),2) - score,0);
 						}
 					} else if (score % 25 <= 22) {
-						disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),Math.max(irandom(-7,2),0));
+						if (endlessNeedys) {
+							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),Math.max(irandom(-7,2),0));
+						} else {
+							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),0);
+						}
 					} else {
 						var genModules = 25 - score % 25;
 						
-						disarmBomb(3,3-genModules);
+						if (endlessNeedys) {
+							disarmBomb(3,3-genModules);
+						} else {
+							disarmBomb(genModules,0);
+						}
 					}
 				} else {
 					applyFeedback(true, "...");
@@ -615,6 +626,12 @@ function createEdgework() {
 	bombNode.appendChild(edgework);
 }
 
+function makeBr() {
+	var lineBreak = document.createElement("br");
+	
+	return lineBreak;
+}
+
 /* ----------------------------------------------------------- */
 
 function getSerial() {
@@ -781,6 +798,7 @@ function loadSoundEffects() {
 	// Module effects
 	buttonSnds = [new sound("snd/buttonPressed.wav"), new sound("snd/buttonReleased.wav")];
 	simonSnds = [new sound("snd/selectB.wav"), new sound("snd/selectY.wav"), new sound("snd/selectR.wav"), new sound("snd/selectG.wav")];
+	fartSnd = new sound("snd/reverb_fart.wav");
 }
 
 //sound object
@@ -793,7 +811,7 @@ function sound(src) {
 	
 	document.body.appendChild(this.sound);
 	this.play = function(){
-		this.sound.fastSeek(0);
+		this.sound.currentTime = 0;
 		this.sound.play();
 	}
 	this.stop = function(){
