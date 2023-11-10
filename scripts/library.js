@@ -190,6 +190,7 @@ function createBombModule(moduleObj, moduleClass) {
 			newButton = document.createElement("button");
 			newButton.className = "interact";
 			newButton.style.marginRight = "0px";
+			newButton.style.marginBottom = "20px";
 			newButton.onclick = function() {validateMorseCode(moduleObj, 3000 + targFreq)};
 			newButton.innerHTML = "Transmit!";
 			moduleObj.appendChild(newButton);
