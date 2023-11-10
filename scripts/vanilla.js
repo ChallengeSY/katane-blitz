@@ -1500,7 +1500,7 @@ function complicatedWire() {
 }
 
 function cutVennWire(readObj, wireObj) {
-	if (life > 0 && wireObj.innerHTML == "") {
+	if (life > 0 && timeLimit > 0 && wireObj.innerHTML == "") {
 		wireObj.innerHTML = "&#9986;";
 		
 		wireCut = parseInt(wireObj.id.slice(-1));
@@ -1542,7 +1542,7 @@ function cutVennWire(readObj, wireObj) {
 // Wires functions
 
 function cutWire(readObj, wireObj) {
-	if (life > 0 && wireObj.innerHTML == "") {
+	if (life > 0 && timeLimit > 0 && wireObj.innerHTML == "") {
 		wireObj.innerHTML = "&#9986;";
 		
 		wireCut = parseInt(wireObj.id.slice(-1));
