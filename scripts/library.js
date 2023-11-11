@@ -11,7 +11,7 @@ function createBombModule(moduleObj, moduleClass) {
 				newButton.style.color = defaultColors[3];
 			}
 			newButton.onmousedown = function() { prepLight(moduleObj.id+"l"); }
-			newButton.onmouseup = function() { validateButtonPress(event, moduleObj); }
+			newButton.onmouseup = function(event) { validateButtonPress(event, moduleObj); }
 			newButton.ontouchstart = newButton.onmousedown;
 			newButton.ontouchend = newButton.onmouseup;
 			moduleObj.appendChild(newButton);
