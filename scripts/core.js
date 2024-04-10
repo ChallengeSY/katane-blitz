@@ -14,6 +14,7 @@ var firstLoad = false;
 var gameActive = false;
 var hideSolves = false;
 var needyScore = 0;
+var eggCooldown = 0;
 var singleSolvableFile = false;
 var singleNeedyFile = false;
 var endlessNeedys = true;
@@ -41,6 +42,7 @@ function startGame() {
 	goal = 9;
 	handicap = 0;
 	timeMax = 180;
+	eggCooldown = 5;
 
 	if (moduleFile.startsWith("endless")) {
 		goal = Infinity;
@@ -66,6 +68,18 @@ function startGame() {
 		}
 		moduleValid = (moduleFile == "endless" || moduleFile == "endlessStable" || moduleFile == "endlessHardcore" ||
 			moduleFile == "endlessButtons");
+	} else if (moduleFile.startsWith("short")) {
+		goal = Infinity;
+		handicap = Infinity;
+		initialModules = irandom(3,5);
+		lifeMax = 3;
+		if (moduleFile.search("Inf") >= 0) {
+			timeMax = Infinity;
+		} else {
+			timeMax = parseInt(moduleFile.substring(5));
+		}
+		moduleValid = (!isNaN(timeMax) && timeMax > 0);
+		timeMax *= 60;
 	} else if (moduleFile == "mixedPractice") {
 		moduleValid = true;
 		timeMax = 300;
@@ -139,7 +153,7 @@ function solveModule(obj, cond, postSolve) {
 			}
 			
 			score++;
-			if (!isFinite(goal)) {
+			if (!isFinite(goal) && isFinite(handicap)) {
 				if (score + handicap <= 25) {
 					timeLimit += 30;
 				} else if (score + handicap <= 50) {
@@ -214,6 +228,7 @@ function solveModule(obj, cond, postSolve) {
 					applyFeedback(true, "...");
 					document.getElementById("fPanel").style.visibility = "hidden";
 				}
+				eggCooldown--;
 			}
 		} else {
 			if (obj.style.borderColor != solveColor) {
@@ -469,7 +484,11 @@ function makeBomb(totCount, needyCount) {
 			case 7:
 				// Fall thru
 			case 11:
-				timeMax = 420;
+				if (score < 26) {
+					timeMax = 420;
+				} else {
+					timeMax = 300;
+				}
 				break;
 		}
 		timeLimit = timeMax;
@@ -502,7 +521,9 @@ function makeBomb(totCount, needyCount) {
 					useModuleRules = defaultNeedys[irandom(0,defaultNeedys.length-1)];
 				}
 			} else if (!singleSolvableFile) {
-				useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
+				do {
+					useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
+				} while (useModuleRules == "bigButton" && !isFinite(timeMax))
 			}
 		}
 		
@@ -521,8 +542,6 @@ function makeBomb(totCount, needyCount) {
 	}
 
 	gameActive = true;
-	updateUI();
-	startBombCountdown(true);
 	
 	if (firstLoad) {
 		applyFeedback(true, "...");
@@ -531,6 +550,9 @@ function makeBomb(totCount, needyCount) {
 		loadSoundEffects();
 		firstLoad = true;
 	}
+
+	updateUI();
+	startBombCountdown(true);
 }
 
 function createEdgework() {
@@ -676,6 +698,10 @@ function getBombPorts(part) {
 /* ----------------------------------------------------------- */
 
 function renderTime(amt, dispFrac) {
+	if (!isFinite(amt)) {
+		return "-'--''"
+	}
+	
 	minutes = Math.floor(amt / 60);
 	seconds = (Math.floor(amt) % 60);
 	fraction = Math.round(amt * 1000) % 1000;
@@ -751,7 +777,9 @@ function updateUI() {
 	curveLeft = Math.min(meterSize,3);
 	curveRight = Math.min(Math.max(meterSize-297,0),3);
 	meterClass = "okay";
-	if (timeLimit <= 10 && score < goal) {
+	if (!isFinite(timeLimit)) {
+		meterSize = 0;
+	} else if (timeLimit <= 10 && score < goal) {
 		meterClass = "nightmare";
 	} else if (timeLimit <= 60 && score < goal) {
 		meterClass = "danger";

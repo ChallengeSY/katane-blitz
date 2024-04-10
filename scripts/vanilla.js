@@ -1955,6 +1955,7 @@ function validateKnob(readObj) {
 		reqDegrees = Infinity;
 	}
 	
+	eggCooldown--;
 	return (readDegrees == reqDegrees);
 }
 
@@ -2004,24 +2005,30 @@ function validateVentGas(readObj, affirm) {
 			console.warn("Needy module was ordered to detonate!")
 			solveModule(readObj, false, true);
 			activateVentGas(readObj, false, false);
-		} else {
+		} else if (displayObj.innerHTML.startsWith("Vent")) {
 			console.log("Needy module has successfully vented gas.")
 			activateVentGas(readObj, false, false);
-			if (Math.random() < 0.9) {
+			if (Math.random() < 0.9 || eggCooldown > 0) {
 				displayObj.innerHTML = "Venting complete.";
+				eggCooldown--;
 			} else {
 				displayObj.innerHTML = "Mmmm good stuff!";
 				playSound(fartSnd);
+				eggCooldown = 5;
 			}
+		} else {
+			activateVentGas(readObj, false, false);
 		}
 	} else {
 		if (displayObj.innerHTML.startsWith("Detonate")) {
 			console.log("Needy module has successfully avoided detonation.")
 			activateVentGas(readObj, false, false);
-		} else {
+		} else if (displayObj.innerHTML.startsWith("Vent")) {
 			console.log("Needy module still needs to vent gas.")
 			displayObj.innerHTML = "Venting prevents explosions.";
 			setTimeout(function() {activateVentGas(readObj, true, true)}, 5000);
+		} else {
+			activateVentGas(readObj, false, false);
 		}
 	}
 }

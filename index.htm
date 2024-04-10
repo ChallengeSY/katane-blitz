@@ -19,9 +19,15 @@
 				}
 			}
 		}
+		
+		function updateShortTimer() {
+			var misnLen = document.getElementById("shortLen").value;
+			
+			document.getElementById("playShort").href = "play.htm?module=short" + misnLen + "m";
+		}
 	</script>
 </head>
-<body>
+<body onload="updateShortTimer();">
 
 <p id="banner"><img src="banner.png" alt="Katane Blitz" /></p>
 <p>Welcome to <span class="bold">Katane Blitz</span>, a fast-paced bomb defusal project where your knowledge will be put to the test! No downloads required; just play!</p>
@@ -40,6 +46,11 @@ Needy modules too stressful? Endless Stable has got your back... at the expense 
 <a class="interact" href="play.htm?module=endlessStable">Play Endless Stable!</a><br /><br />
 Endless Hardcore is for players/teams who think they have mastered the art of defusing. One misstep will end these games!<br />
 <a class="interact" href="play.htm?module=endlessHardcore">Play Endless Hardcore!!!</a>
+
+<h3>Short Chapter</h3>
+This chapter allows playing missions of a relatively fixed length. Fair warning; the timer will still count down faster if you incur a strike.<br />
+<input id="shortLen" type="number" class="text numeric" min="1" value="15" size="6" onchange="updateShortTimer()" onblur="updateShortTimer()" /> minutes
+<a id="playShort" class="interact" href="play.htm?module=short5m">Play mission!</a>
 </div>
 
 <!-- Mission Mode menu -->
@@ -64,7 +75,7 @@ Needy modules pose a constant threat, but will auto-disarm once all other module
 <a class="interact" href="play.htm?module=ventGas">Venting Gas</a>
 <a class="interact" href="play.htm?module=capacitor">Threatening Capacitor</a>
 <a class="interact" href="play.htm?module=knob">Knobbing Away</a>
-<a class="interact" href="play.htm?module=mixedNeedy">Mixed Needys</a>
+<a class="interact" href="play.htm?module=mixedNeedy">Mixed Needies</a>
 
 <h3>Large Chapter</h3>
 These single bombs are huge. In return, solved modules are also hidden.<br />
@@ -84,8 +95,7 @@ We have found a few resources that can be used to improve the effiency of solvin
 <hr />
 
 <p class="footer">
-Katane Blitz &copy; 2023 Paul Ruediger<br />
-<a class="interact" href="../spaceYard.htm">Return to Space Yard</a>
+Katane Blitz &copy; 2023-2024 Paul Ruediger
 </p>
 </div>
 
