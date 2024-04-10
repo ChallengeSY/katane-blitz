@@ -42,7 +42,7 @@ function startGame() {
 	goal = 9;
 	handicap = 0;
 	timeMax = 180;
-	eggCooldown = 5;
+	eggCooldown = 7;
 
 	if (moduleFile.startsWith("endless")) {
 		goal = Infinity;
