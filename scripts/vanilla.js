@@ -165,7 +165,6 @@ function makeAllMazes() {
 }
 
 function buildMaze(readId, layout) {
-	// WIP
 	generateMazePoints(readId);
 	
 	switch (layout) {
@@ -1178,7 +1177,7 @@ function pressSimonButton(readObj, buttonObj) {
 	}
 }
 
-// Who's On First functions WIP
+// Who's On First functions
 
 function makeAllWhosOnFirsts() {
 	whoCollection = document.getElementsByClassName("whoFrame");
@@ -1534,7 +1533,6 @@ function cutVennWire(readObj, wireObj) {
 			solveModule(readObj, false, true); // Can still strike post-solve
 		}
 	}
-	// TODO
 	
 	playSound(buttonSnds[0]);
 }
@@ -1966,22 +1964,24 @@ function activateVentGas(readObj, newState, alwaysVent) {
 	meterObj = document.getElementById(baseId+"H");
 	timerObj = document.getElementById(baseId+"T");
 	
-	if (newState) {
-		if (alwaysVent || Math.random() < 0.85) {
-			displayObj.innerHTML = "Vent gas?"
+	if (gameActive) {
+		if (newState) {
+			if (alwaysVent || Math.random() < 0.85) {
+				displayObj.innerHTML = "Vent gas?"
+			} else {
+				displayObj.innerHTML = "Detonate?"
+			}
+			if (!alwaysVent) {
+				playSound(beepSnd);
+			}
 		} else {
-			displayObj.innerHTML = "Detonate?"
+			displayObj.innerHTML = "&nbsp;";
+			meterObj.value = irandom(Math.round(10/needyCycleDur),Math.round(40/needyCycleDur)) * -needyCycleDur;
+			timerObj.innerHTML = "&nbsp;";
 		}
-		if (!alwaysVent) {
-			playSound(beepSnd);
-		}
-	} else {
-		displayObj.innerHTML = "&nbsp;";
-		meterObj.value = irandom(Math.round(10/needyCycleDur),Math.round(40/needyCycleDur)) * -needyCycleDur;
-		timerObj.innerHTML = "&nbsp;";
+		
+		setNeedyButtons(readObj, newState);
 	}
-	
-	setNeedyButtons(readObj, newState);
 }
 
 function answerVentGas(readObj, affirm) {
