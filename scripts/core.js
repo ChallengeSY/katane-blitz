@@ -93,16 +93,11 @@ function startGame() {
 		timeMax = 300;
 		initialModules = 3;
 		goal = 37;
-	} else if (moduleFile == "mixedPack1") {
+	} else if (moduleFile == "mixedPack1" || moduleFile == "mixedPack2") {
 		moduleValid = true;
 		timeMax = 300;
 		initialModules = 3;
 		goal = 21;
-	} else if (moduleFile == "mixedPack2") {
-		moduleValid = true;
-		timeMax = 300;
-		initialModules = 4;
-		goal = 23;
 	} else if (moduleFile == "masteryExam") {
 		moduleValid = true;
 		initialModules = 7;
@@ -139,6 +134,10 @@ function startGame() {
 		moduleValid = true;
 		singleSolvableFile = true;
 		goal = 4;
+	} else if (moduleFile == "coloKeys") {
+		moduleValid = true;
+		singleSolvableFile = true;
+		goal = 7;
 	} else if (moduleFile == "venn" || moduleFile == "wires" || moduleFile == "modulo" || moduleFile == "switches"|| moduleFile == "alphabet") {
 		moduleValid = true;
 		singleSolvableFile = true;
@@ -159,7 +158,7 @@ function startGame() {
 		moduleValid = (moduleFile == "keypad" || moduleFile == "password" || moduleFile == "maze" || moduleFile == "memory" ||
 			moduleFile == "morse" || moduleFile == "password" || moduleFile == "simon" || moduleFile == "whosOnFirst" || moduleFile == "wireSequence" ||
 			moduleFile == "9ball" || moduleFile == "cruelModulo" ||
-			moduleFile == "coloKeys" || moduleFile == "coprime" || moduleFile == "numButtons");
+			moduleFile == "coprime" || moduleFile == "numButtons");
 	}
 	
 	if (moduleValid) {
@@ -224,21 +223,10 @@ function solveModule(obj, cond, postSolve, weight) {
 							}
 							
 							disarmBomb(nextSize,0);
-						} else if (moduleFile == "mixedPack1") {
+						} else if (moduleFile == "mixedPack1" || moduleFile == "mixedPack2") {
 							switch (score) {
 								case 3:
 									nextSize = 7;
-									break;
-								default:
-									nextSize = 11;
-									break;
-							}
-							
-							disarmBomb(nextSize,0);
-						} else if (moduleFile == "mixedPack2") {
-							switch (score) {
-								case 4:
-									nextSize = 8;
 									break;
 								default:
 									nextSize = 11;
@@ -629,18 +617,14 @@ function makeBomb(totCount, needyCount) {
 				timeLimit += 60;
 			}
 		} else if (moduleFile == "mixedPack2") {
-			if (totCount % 4 == 0) {
-				useModuleRules = addonModules[4+(k+randomAdd) % 4];
-			} else {
-				hardModules[1] = Math.floor(totCount/4);
-				
-				do
-					useModuleRules = addonModules[irandom(4,7)];
-				while (useModuleRules == "coloKeys" && hardModules[0] >= hardModules[1]);
-				
-				if (useModuleRules == "coloKeys") {
-					hardModules[0]++;
-				}
+			hardModules[1] = Math.floor(totCount/4);
+			
+			do
+				useModuleRules = addonModules[irandom(4,7)];
+			while (useModuleRules == "coloKeys" && hardModules[0] >= hardModules[1]);
+			
+			if (useModuleRules == "coloKeys") {
+				hardModules[0]++;
 			}
 		} else if (moduleFile == "masteryExam") {
 			hardModules[2] = Math.floor(totCount/8);
@@ -695,7 +679,9 @@ function makeBomb(totCount, needyCount) {
 					useModuleRules = grandModules[irandom(0,grandModules.length-1)];
 					
 					if (moduleFile.startsWith("endless") || moduleFile.startsWith("short")) {
-						if (useModuleRules == "adjLetters" || useModuleRules == "coloKeys") {
+						if (useModuleRules == "coloKeys") {
+							difficulty = 0.87;
+						} else if (useModuleRules == "adjLetters") {
 							difficulty = 1;
 						}
 					}
