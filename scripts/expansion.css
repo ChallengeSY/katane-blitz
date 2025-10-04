@@ -1,0 +1,69 @@
+/* Pack 1 styles */
+.nineBallFrame {display: grid; grid-template-columns: auto auto auto auto auto auto; width: 180px; margin-left: auto; margin-right: auto;}
+.nineBall {position: relative; width: 0px; height: 0px; border: 30px solid #122; border-radius: 45px; margin-top: -4px; margin-bottom: -4px; cursor: pointer;}
+.nbLabel {position: absolute; width: 12px; height: 12px; padding: 0px; background: white; color: black; border: 5px solid white; border-radius: 10px; text-align: center; left: 50%; top: 50%; transform: translate(-50%, -50%);}
+.nbBreak {display: none;}
+
+.obj0, .obj4, .obj8 {grid-column: 3 / span 2;}
+.obj1, .obj6 {grid-column: 2 / span 2;}
+.obj2, .obj7 {grid-column: 4 / span 2;}
+.obj3 {grid-column: 1 / span 2;}
+.obj5 {grid-column: 5 / span 2;}
+
+@media (max-width: 1280px), (max-height: 800px) {
+	.adjLetFrame {font-size: 150%; width: 200px;}
+	
+	.moduloFrame :not(legend) {font-size: 120%;}
+	.moduloFrame button {min-height: 30px;}
+	
+	.flipSwitch label {width: 30px; height: 50px;}
+	.flipSwitch .slideSwitch {width: 20px; height: 20px;}
+	input:checked + .slideSwitch {transform: translateY(-20px);}
+
+	.coprimeButton button {width: 100%; height: 40px; font-size: 75%; cursor: pointer;}
+}
+
+@media (min-width: 1281px) and (min-height: 801px) {
+	.adjLetFrame {font-size: 200%; width: 250px;}
+
+	.moduloFrame :not(legend, button) {font-size: 200%;}
+	.moduloFrame button {min-height: 50px;}
+	
+	.flipSwitch label {width: 50px; height: 90px;}
+	.flipSwitch .slideSwitch {width: 40px; height: 40px;}
+	input:checked + .slideSwitch {transform: translateY(-40px);}
+
+	.coprimeButton button {width: 100%; height: 55px; font-size: 150%; cursor: pointer;}
+}
+
+.adjLetFrame {text-align: center; display: grid; grid-template-columns: auto auto auto auto; margin-left: auto; margin-right: auto;}
+.adjLetSubmit {grid-column: 1 / span 4; padding-bottom: 10px;}
+.adjLetSubmit button {background: #8F8; color: #000; width: 100%; cursor: pointer;}
+.adjacentLetter {background: #BBB; border: 5px outset #999; text-align: center; cursor: pointer;}
+.adjLetPressed {background: #777; color: 000; border-style: inset;}
+
+.moduloFrame {text-align: center; display: grid; grid-template-columns: auto auto auto auto auto;}
+.moduloDivisor {background: #000; color: #0F0; border: 5px solid #122; cursor: default;}
+.moduloDividend {background: #000; color: #F44; border: 5px solid #122; grid-column: 2 / span 3; cursor: default;}
+.moduloExponent {background: #000; color: #FF0; border: 5px solid #122; cursor: default;}
+.moduloFrame button {width: 90%; font-size: inherit; border: 5px ridge #244; cursor: pointer;}
+.moduloButton button {background: #000; color: #FFF;}
+.moduloSubmit button {background: #0F0; color: #000;}
+.moduloInput {background: #000; color: #0F0; border: 5px solid #122; grid-column: 2 / span 3; cursor: default;}
+.moduloClear button {background: #F44; color: #000;}
+
+.switchesFrame {text-align: center; display: grid; grid-template-columns: auto auto auto auto auto; margin-left: auto; margin-right: auto;}
+.flipSwitch input {visibility: hidden;}
+.flipSwitch .slideSwitch {position: absolute; left: 5px; bottom: 5px; background: #FFF;}
+.flipSwitch label {position: relative; display: inline-block; background: #122; cursor: pointer;}
+
+/* Pack 2 styles */
+.colKeyFrame {display: grid; grid-template-columns: auto auto;}
+.colKeyDisp {background: #000; font-size: 150%; padding: 5px; text-align: center; text-transform: uppercase; border: 5px solid gray; grid-column: 1 / span 2;}
+.colKeyButton {width: 64px; height: 64px; text-align: center; text-transform: uppercase; border-radius: 0px; font-size: 200%; cursor: pointer;}
+
+.coprimeFrame {display: grid; grid-template-columns: 50% 50%;}
+.coprimeDisp {background: #000; font-size: 200%; padding: 5px; text-align: center; border: 5px solid gray; grid-row: 1 / span 3;}
+
+.numButFrame {display: grid; grid-template-columns: auto 48px 48px auto; height: 192px;}
+.numButton {width: 48px; height: 48px; text-align: center; border-radius: 0px; font-size: 150%; cursor: pointer;}

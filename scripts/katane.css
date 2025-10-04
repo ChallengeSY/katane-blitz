@@ -1,9 +1,13 @@
 @import "morseCode.css";
+@import "expansion.css";
+
+@import url("https://fonts.googleapis.com/css?family=Tektur");
 
 /* General styles */
 
 body{font-family: sans-serif; color: #ffffff; background-color: #404040;}
-h2,h3,h4,.center {text-align: center;}
+h2,h3,h4{font-family: "Tektur", sans-serif; text-align: center;}
+.center {text-align: center;}
 #banner {text-align: center; margin-top: 30px; margin-bottom: 30px;}
 #banner img {border: 1px outset #fff;}
 
@@ -56,7 +60,7 @@ div.danger {background: rgb(255,0,0); animation: flashDiv 1000ms infinite;}
 div.nightmare {background: rgb(255,0,0); animation: flashDiv 500ms infinite;}
 
 #bomb {display: grid; grid-template-columns: 25% 25% 25% 25%;}
-#numBatts {color: yellow; font-weight: bold;}
+#numBattAA, #numBattD {color: yellow; font-weight: bold;}
 
 #banner img {padding: 5px; background: black;}
 #serialNum {font-family: monospace; font-size: 165%;}
@@ -65,12 +69,12 @@ legend, #scoreboard {font-family: 'Rajdhani', sans-serif; font-size: 110%; text-
 
 /* Non-dedicated solvable module styles */
 
-.bigButton {width: 122px; height: 122px; font-size: 16pt; border: 3px solid #ddd; border-radius: 64px; vertical-align: top;}
+.bigButton {width: 122px; height: 122px; font-size: 16pt; border: 3px solid #ddd; border-radius: 64px; vertical-align: top; cursor: pointer;}
 .bigButton:active {border: 3px solid #666;}
 .buttonLight {margin-left: 16px; width: 26px; height: 122px; border: 3px solid #ccc; display: inline-block; box-sizing: border-box;}
 
 .keypadFrame {display: grid; grid-template-columns: auto auto;}
-.keypad {width: 64px; height: 64px; text-align: center; border-radius: 0px; font-size: 225%;}
+.keypad {width: 64px; height: 64px; text-align: center; border-radius: 0px; font-size: 225%; cursor: pointer;}
 
 @media (max-width: 1024px), (max-height: 800px) {
 	.bigScreen {display: none;}
@@ -91,7 +95,7 @@ legend, #scoreboard {font-family: 'Rajdhani', sans-serif; font-size: 110%; text-
 }
 
 
-.mazeButtonX button, .mazeButtonY button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 75%;}
+.mazeButtonX button, .mazeButtonY button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 75%; cursor: pointer;}
 .mazeSlot {background: #122;}
 .mazeSlotHilite {background: #162;}
 
@@ -106,16 +110,16 @@ legend, #scoreboard {font-family: 'Rajdhani', sans-serif; font-size: 110%; text-
 .memFrame {display: grid; grid-template-columns: auto auto auto auto 10%;}
 .memDisp {background: #040; font-size: 300%; padding: 5px; text-align: center; border: 10px solid black; grid-row: 1 / span 3; grid-column: 1 / span 4;}
 div.memButton {grid-row: 4 / span 2; text-align: center;}
-.memButton button {background: #C84; color: #000; width: 50px; height: 55px; font-size: 150%;}
-.memStage, .whoStage, .wireSeqStage {background: #000; border: 1px solid #CCC;}
+.memButton button {background: #C84; color: #000; width: 50px; height: 55px; font-size: 150%; cursor: pointer;}
+.memStage, .whoStage, .wireSeqStage, .coprimeStage {background: #000; border: 1px solid #CCC;}
 
-button.passDelta {background: #C84; color: #000; width: 31px; height: 31px; border-radius: 16px;}
-.passDisp {background: #0C0; color: #000; width: 32px; height: 64px; font-family: monospace; font-size: 300%; text-align: center; width: 100%; max-width: 80%; border: 5px solid #1E1; margin-left: auto; margin-right: auto; padding-top: 13%;}
-button.passSubmit {background: #CA8; color: #000; font-size: 200%; margin-top: 16px;}
+button.passDelta {background: #C84; color: #000; width: 31px; height: 31px; border-radius: 16px; cursor: pointer;}
+.passDisp {background: #0C0; color: #000; width: 32px; height: 64px; font-family: monospace; font-size: 300%; text-align: center; width: 100%; max-width: 80%; border: 5px solid #1E1; margin-left: auto; margin-right: auto; padding-top: 13%; cursor: default;}
+button.passSubmit {background: #CA8; color: #000; font-size: 200%; margin-top: 16px; cursor: pointer;}
 .memCollection, .passBank, .simonAux {display: none;}
 
 .simon {display: grid; grid-template-columns: auto auto; transform: rotate(45deg); width: 144px; height: 144px; margin: auto;}
-.simon button {width: 64px; height: 64px; border-radius: 0px;}
+.simon button {width: 64px; height: 64px; border-radius: 0px; cursor: pointer;}
 
 @keyframes flashB {
 	0% {background: rgb(0, 0, 192);}
@@ -144,7 +148,7 @@ button.passSubmit {background: #CA8; color: #000; font-size: 200%; margin-top: 1
 .vennFrame {display: grid; text-align: center;}
 .vennSlot {height: 30px;}
 
-.vennWire {width: 20px; min-height: 120px; border-radius: 5px; margin-left: auto; margin-right: auto; padding-top: 80px;}
+.vennWire {width: 20px; min-height: 120px; border-radius: 5px; margin-left: auto; margin-right: auto; padding-top: 80px; cursor: crosshair;}
 .vennB {background: blue;}
 .vennBR {background: repeating-linear-gradient(to bottom, blue, blue 20px, red 20px, red 40px);}
 .vennBW {background: repeating-linear-gradient(to bottom, blue, blue 20px, white 20px, white 40px);}
@@ -153,28 +157,28 @@ button.passSubmit {background: #CA8; color: #000; font-size: 200%; margin-top: 1
 .vennW {background: white; color: black;}
 
 .whoFrame {display: grid; grid-template-columns: auto auto 10%;}
-.whoDisp {background: #088; font-size: 200%; text-transform: uppercase; padding: 5px; text-align: center; border: 10px solid black; grid-column: 1 / span 3;}
+.whoDisp {background: #088; font-size: 200%; text-transform: uppercase; padding: 5px; text-align: center; border: 10px solid black; grid-column: 1 / span 3; cursor: default;}
 div.whoButton {text-align: center;}
-.whoButton button {background: #C84; color: #000; width: 90%; height: 100%; font-size: 113%; text-transform: uppercase;}
+.whoButton button {background: #C84; color: #000; width: 90%; height: 100%; font-size: 113%; text-transform: uppercase; cursor: pointer;}
 
-.wire {width: 100%; height: 20px; border-radius: 5px; margin-top: 10px; margin-bottom: 10px; text-align: center;}
+.wire {width: 100%; height: 20px; border-radius: 5px; margin-top: 10px; margin-bottom: 10px; text-align: center; cursor: crosshair;}
 
 .wireSeqFrame {display: grid; grid-template-columns: 30px auto 30px 10%;}
-.wireSeqSlot {text-align: center;}
-.wireSeqSlot button {background: #C84; color: #000; width: 100%; height: 100%;}
+.wireSeqSlot {text-align: center; cursor: default;}
+.wireSeqSlot button {background: #C84; color: #000; width: 100%; height: 100%; cursor: pointer;}
 .wireSeqSlot button:disabled {background: #444;}
-.seqWire {height: 20px; border-radius: 5px; margin-bottom: 20px; text-align: center;}
+.seqWire {height: 20px; border-radius: 5px; margin-bottom: 20px; text-align: center; cursor: crosshair;}
 .seqAux {visibility: hidden; height: 40px;}
 
 /* Needy module styles */
-.ventGasDisp, .ventTimer, .knobTimer, .knobTop, .knobLight, .capacitorFrame div {border: 1px solid white; background: black; font-size: 200%;}
-.capacitorFrame button {background: #C84; color: #000; min-width: 100px; height: 100%; vertical-align: middle;}
+.ventGasDisp, .ventTimer, .knobTimer, .knobTop, .knobLight, .capacitorFrame div {border: 1px solid white; background: black; font-size: 200%; cursor: default;}
+.capacitorFrame button {background: #C84; color: #000; min-width: 100px; height: 100%; vertical-align: middle; cursor: pointer;}
 .capacitorFrame button:disabled, .ventButton button:disabled, .knobButton:disabled {background: #444;}
 
 .knobFrame {display: grid; grid-template-columns: auto auto auto auto auto auto auto;}
 .knobTop {grid-column: 1 / span 7;}
 .knobLabel {margin-left: auto; margin-right: auto; font-size: 50%; text-align: center; width: 158px; height: 158px;}
-.knobButton {background: #C84; color: #000; width: 122px; height: 122px; font-size: 48pt; border: 3px solid #ddd; border-radius: 64px;}
+.knobButton {background: #C84; color: #000; width: 122px; height: 122px; font-size: 48pt; border: 3px solid #ddd; border-radius: 64px; cursor: pointer;}
 .knobButton:active {border: 3px solid #666;}
 .knobAnswer {visibility: hidden;}
 .knobTimer {grid-column: 4 / span 1; grid-row: 2 / span 2;}
@@ -184,4 +188,4 @@ div.whoButton {text-align: center;}
 .needyTimer {font-family: monospace; color: #F00; text-align: center;}
 .needyTimer meter {visibility: hidden;}
 .ventGasDisp {grid-column: 1 / span 3; grid-row: 1 / span 5; color: #0F0; text-transform: uppercase;}
-.ventButton button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 111%;}
+.ventButton button {background: #C84; color: #000; width: 100%; height: 100%; font-size: 111%; cursor: pointer;}

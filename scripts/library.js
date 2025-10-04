@@ -52,7 +52,7 @@ function createBombModule(moduleObj, moduleClass) {
 				}
 				
 				newKeypad.innerHTML = drawChar[k];
-				newKeypad.onclick = function() { validateKeypad(moduleObj, this); }
+				newKeypad.onclick = function() { pressKeypad(moduleObj, this); }
 				moduleObj.appendChild(newKeypad);
 			}
 			
@@ -153,10 +153,11 @@ function createBombModule(moduleObj, moduleClass) {
 		
 		case "morse":
 			var targFreq = validMorseFreqs[irandom(0,validMorseFreqs.length-1)];
+			var animationTotal = Math.max((20000 - Math.floor(score/25)*1000),16000);
 		
 			newLight = document.createElement("div");
 			newLight.className = "morseLight";
-			newLight.style.animation = "freq"+targFreq+" 20000ms 2s infinite";
+			newLight.style.animation = "freq"+targFreq+" "+animationTotal+"ms 2s infinite";
 			moduleObj.appendChild(newLight);
 			
 			moduleObj.appendChild(makeBr());
@@ -755,17 +756,322 @@ function createBombModule(moduleObj, moduleClass) {
 		
 			moduleObj.className = "ventGasFrame";
 			break;
+			
+		// Pack 1 modules
+		case "9ball":
+			frameDiv = document.createElement("div");
+			frameDiv.className = "nineBallFrame";
+
+			for (var b = 0; b < 9; b++) {
+				ballDiv = document.createElement("div");
+				ballDiv.className = "nineBall obj"+b;
+				ballDiv.id = moduleObj.id+"nbO"+b;
+				ballDiv.onclick = function() {pot9Ball(moduleObj, this);}
+				
+				labelDiv = document.createElement("div");
+				labelDiv.className = "nbLabel"
+				labelDiv.id = moduleObj.id+"nbL"+b;
+				ballDiv.appendChild(labelDiv);
+				frameDiv.appendChild(ballDiv);
+			}
+
+			breakDiv = document.createElement("div");
+			breakDiv.className = "nbBreak";
+			breakDiv.id = moduleObj.id+"nbK";
+			frameDiv.appendChild(breakDiv);
+
+			moduleObj.appendChild(frameDiv);
+			break;
+			
+		case "adjLetters":
+			var letterBank = [];
+			var rollLetter;
+			
+			frameDiv = document.createElement("div");
+			frameDiv.className = "adjLetFrame";
+
+			buttonDiv = document.createElement("div");
+			buttonDiv.className = "adjLetSubmit";
+			createButton = document.createElement("button");
+			createButton.innerHTML = "Submit";
+			createButton.onclick = function() {submitAdjLetters(moduleObj);}
+			buttonDiv.appendChild(createButton);
+			frameDiv.appendChild(buttonDiv);
+			
+			for (var l = 0; l < 12; l++) {
+				do
+					rollLetter = irandom(0,25);
+				while (letterBank[rollLetter]);
+				letterBank[rollLetter] = true;
+				
+				letterDiv = document.createElement("div");
+				letterDiv.className = "adjacentLetter";
+				letterDiv.id = moduleObj.id+"adjLet"+l;
+				letterDiv.innerHTML = String.fromCharCode(rollLetter + 65);
+				letterDiv.onclick = function() {toggleAdjLetter(moduleObj, this);}
+				frameDiv.appendChild(letterDiv);
+			}
+
+			moduleObj.appendChild(frameDiv);
+			break;
+		
+		case "cruelModulo":
+			// Fall thru
+		
+		case "modulo":
+			visorDiv = document.createElement("div");
+			visorDiv.className = "moduloDivisor";
+			visorDiv.id = moduleObj.id+"xmV";
+			moduleObj.appendChild(visorDiv);
+			
+			videnDiv = document.createElement("div");
+			videnDiv.className = "moduloDividend";
+			videnDiv.id = moduleObj.id+"xmD";
+			moduleObj.appendChild(videnDiv);
+			
+			expoDiv = document.createElement("div");
+			expoDiv.className = "moduloExponent";
+			expoDiv.id = moduleObj.id+"xmE";
+			moduleObj.appendChild(expoDiv);
+			
+			for (var d = 1; d <= 10; d++) {
+				buttonDiv = document.createElement("div");
+				buttonDiv.className = "moduloButton";
+				createButton = document.createElement("button");
+				createButton.innerHTML = (d % 10);
+				createButton.onclick = function() {inputModDigit(moduleObj, this);}
+				buttonDiv.appendChild(createButton);
+				moduleObj.appendChild(buttonDiv);
+			}
+				
+			buttonDiv = document.createElement("div");
+			buttonDiv.className = "moduloSubmit";
+			createButton = document.createElement("button");
+			createButton.innerHTML = "S";
+			createButton.onclick = function() {submitModulo(moduleObj);}
+			buttonDiv.appendChild(createButton);
+			moduleObj.appendChild(buttonDiv);
+			
+			inputDiv = document.createElement("div");
+			inputDiv.className = "moduloInput";
+			inputDiv.id = moduleObj.id+"xmI";
+			moduleObj.appendChild(inputDiv);
+				
+			buttonDiv = document.createElement("div");
+			buttonDiv.className = "moduloClear";
+			createButton = document.createElement("button");
+			createButton.innerHTML = "C";
+			createButton.onclick = function() {clearModulo(moduleObj, true);}
+			buttonDiv.appendChild(createButton);
+			moduleObj.appendChild(buttonDiv);
+
+			moduleObj.className = "moduloFrame";
+			break;
+			
+		case "switches":
+			var problem, solution;
+			do {
+				problem = irandom(0,31);
+				solution = irandom(0,31);
+			} while (problem == solution || countBitDiff(problem, solution) <= 1 || !switchesValid(problem) || !switchesValid(solution));
+			
+			masterDiv = document.createElement("div");
+			masterDiv.className = "switchesFrame";
+
+			for (var t = 0; t < 5; t++) {
+				if (checkBit(solution, 4-t)) {
+					switchLight = 9898;
+					switchClass = "vennSlot led";
+				} else {
+					switchLight = 9899;
+					switchClass = "vennSlot";
+				}
+
+				lightDiv = document.createElement("div");
+				lightDiv.id = moduleObj.id+"swT"+t;
+				lightDiv.className = switchClass;
+				lightDiv.innerHTML = "&#"+switchLight+";";
+				masterDiv.appendChild(lightDiv);
+			}
+			
+			for (var f = 0; f < 5; f++) {
+				frameDiv = document.createElement("div");
+				frameDiv.className = "flipSwitch";
+				switchLabel = document.createElement("label");
+				hiddenBox = document.createElement("input");
+				hiddenBox.type = "checkbox";
+				hiddenBox.id = moduleObj.id+"swF"+f;
+				hiddenBox.checked = (checkBit(problem, 4-f));
+				hiddenBox.oninput = function() {validateSwitches(moduleObj, this)};
+				slider = document.createElement("span");
+				slider.className = "slideSwitch";
+				switchLabel.appendChild(hiddenBox);
+				switchLabel.appendChild(slider);
+				frameDiv.appendChild(switchLabel);
+				masterDiv.appendChild(frameDiv);
+			}
+			
+			for (var b = 0; b < 5; b++) {
+				if (checkBit(solution, 4-b)) {
+					switchLight = 9899;
+					switchClass = "vennSlot";
+				} else {
+					switchLight = 9898;
+					switchClass = "vennSlot led";
+				}
+
+				lightDiv = document.createElement("div");
+				lightDiv.id = moduleObj.id+"swB"+b;
+				lightDiv.className = switchClass;
+				lightDiv.innerHTML = "&#"+switchLight+";";
+				masterDiv.appendChild(lightDiv);
+			}
+			
+			moduleObj.appendChild(masterDiv);
+			break;
+		
+		// Pack 2
+		case "alphabet":
+			var targWord = alphaTable[irandom(0,alphaTable.length-1)];
+			var auxLetters = [-1, -1];
+			if (targWord.length < 4) {
+				for (var l = 0; l < 4-targWord.length; l++) {
+					do {
+						auxLetters[l] = irandom(0,25);
+					} while (targWord.search(masterLetterBank.charAt(auxLetters[l])) >= 0 || auxLetters[0] == auxLetters[1]);
+				}
+				
+				for (var m = 0; m < 2; m++) {
+					if (auxLetters[m] >= 0) {
+						targWord = targWord + masterLetterBank.charAt(auxLetters[m]);
+					}
+				}
+				
+				targWord = checkABCsolution(targWord);
+			}
+						
+			var rollsTaken = [false, false, false, false];
+			var dieRoll;
+			
+			for (var k = 0; k < 4; k++) {
+				newABCbutton = document.createElement("button");
+				newABCbutton.className = "keypad";
+				if (k < 2) {
+					newABCbutton.style.marginTop = "auto";
+				}
+				if (k % 2 == 0) {
+					newABCbutton.style.marginLeft = "auto";
+				}
+				
+				do {
+					dieRoll = irandom(0,3);
+				} while (rollsTaken[dieRoll]);
+				rollsTaken[dieRoll] = true;
+				
+				newABCbutton.id = moduleObj.id+"aB"+dieRoll;
+				newABCbutton.innerHTML = targWord.charAt(dieRoll).toUpperCase();
+				
+				newABCbutton.onclick = function() { pressABCbutton(moduleObj, this); }
+				moduleObj.appendChild(newABCbutton);
+			}
+			
+			moduleObj.className = "keypadFrame";
+			break;
+		
+		case "coloKeys":
+			colDisp = document.createElement("div");
+			colDisp.className = "colKeyDisp";
+			colDisp.id = moduleObj.id+"cD";
+			moduleObj.appendChild(colDisp);
+			
+			for (var k = 0; k < 4; k++) {
+				colKey = document.createElement("button");
+				colKey.className = "colKeyButton";
+				if (k < 2) {
+					colKey.style.marginTop = "auto";
+				}
+				if (k % 2 == 0) {
+					colKey.style.marginLeft = "auto";
+				}
+				
+				colKey.id = moduleObj.id+"cK"+k;
+				colKey.onclick = function() { pressColKey(moduleObj, this); }
+				moduleObj.appendChild(colKey);
+			}
+			
+			moduleObj.className = "colKeyFrame";
+			break;
+			
+		case "coprime":
+			copDisp = document.createElement("div");
+			copDisp.className = "coprimeDisp";
+			copDisp.id = moduleObj.id+"cD";
+			copDisp.innerHTML = "<span id=\""+moduleObj.id+"cT\"></span><br /><span id=\""+moduleObj.id+"cB\"></span>"
+			moduleObj.appendChild(copDisp);
+			
+			for (var s = 3; s >= 1; s--) {
+				copStage = document.createElement("div");
+				copStage.className = "coprimeStage";
+				copStage.id = moduleObj.id+"cS"+s;
+				moduleObj.appendChild(copStage);
+				
+				if (s == 1) {
+					var buttonLabel = "Coprime";
+					
+					for (var b = 1; b <= 2; b++) {
+						copButtonWrap = document.createElement("div");
+						copButtonWrap.className = "coprimeButton";
+						copButton = document.createElement("button");
+						copButton.id = moduleObj.id+"cB"+b;
+						if (b > 1) {
+							buttonLabel = "Not " + buttonLabel;
+						}
+						copButton.innerHTML = buttonLabel;
+						copButton.onclick = function() {pressCoprimeButton(moduleObj, this);}
+						copButtonWrap.appendChild(copButton);
+						moduleObj.appendChild(copButtonWrap);
+					}
+				}
+			}
+			
+			moduleObj.className = "coprimeFrame";
+			break;
+		
+		case "numButtons":
+			frameDiv = document.createElement("div");
+			frameDiv.className = "numButFrame";
+		
+			for (var n = 0; n < 16; n++) {
+				newButton = document.createElement("button");
+				newButton.className = "numButton";
+				if (n < 4) {
+					newButton.style.marginTop = "auto";
+				}
+				if (n % 4 == 0) {
+					newButton.style.marginLeft = "auto";
+				}
+				
+				newButton.id = moduleObj.id+"nb"+n;
+				
+				newButton.onclick = function() { pressNumberedButton(moduleObj, this); }
+				frameDiv.appendChild(newButton);
+			}
+			
+			frameDiv.id = moduleObj.id+"nbF";
+			moduleObj.appendChild(frameDiv);
+			break;
+		
 		
 		default: 
 			newButton = document.createElement("button");
 			newButton.className = "interact";
-			newButton.onclick = function() {solveModule(moduleObj, true, true)};
+			newButton.onclick = function() {solveModule(moduleObj, true, false, 0)};
 			newButton.innerHTML = "Solve me!";
 			moduleObj.appendChild(newButton);
 			
 			newButton = document.createElement("button");
 			newButton.className = "interact";
-			newButton.onclick = function() {solveModule(moduleObj, false, true)};;
+			newButton.onclick = function() {solveModule(moduleObj, false, true, 0)};;
 			newButton.innerHTML = "Strike me!";
 			moduleObj.appendChild(newButton);
 			break;

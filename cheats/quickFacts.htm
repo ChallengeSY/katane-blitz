@@ -7,12 +7,30 @@
 	
 	<title>Cheat Sheets - Katane Blitz</title>
 	<link type="text/css" href="../scripts/katane.css" rel="stylesheet" />
+	<style type="text/css">
+		@media (max-width: 1440px), (max-height: 720px) {
+			#chapters {display: none;}
+		}
+
+		@media (min-width: 1441px) and (min-height: 721px) {
+			#bodyTxt {margin-right: 230px;}
+		}
+	</style>
 </head>
 <body>
+<div id="chapters" style="position: fixed; width: 170px; top: 10px; right: 10px; border: 1px dashed rgb(255,255,255);">
+<h4>Available packs</h4>
+<ul>
+<li><a href="#pack0">Vanilla</a></li>
+<li><a href="#pack1">Adjacent</a></li>
+<li><a href="#pack2">Coprime</a></li>
+</div>
 
+<div id="bodyTxt">
 <p id="banner"><a href="../index.htm"><img src="../banner.png" alt="Katane Blitz" /></a></p>
 
-<h2>The Button</h2>
+<h2 id="pack0">Vanilla Pack</h2>
+<h3>The Button</h3>
 <p><a href="https://ktane.timwi.de/HTML/The Button.html">The Button</a> is probably the simplest solvable vanilla module. Yet, we still found a few quick facts.</p>
 <ul>
 <li>The Yellow button clause is <i>completely</i> redundant. It does not add any new rules that other clauses do <i>not</i> cover.</li>
@@ -21,17 +39,17 @@
 <li>The Button is the only vanilla module that makes use of indicators. It is also the only time-sensitive solvable module.</li>
 </ul>
 
-<h2>Complicated Wires</h2>
+<h3>Complicated Wires</h3>
 <p><a href="https://ktane.timwi.de/HTML/Complicated Wires.html">Complicated Wires</a> may seem intimating, but it loses part of its complications (pardon the pun) once these bullets are noted.</p>
 <ul>
-<li>Complicated Wires uses a single ruleset throughout the bomb. Once what can (and can't be cut) are known on one module, subsequent instances on the same bomb become easier.</li>
+<li>Complicated Wires uses a single ruleset throughout the bomb. Once what can (and can not) be cut are known on one module, subsequent instances on the same bomb become easier.</li>
 <li>Complicated Wires is the only vanilla module that is dependent on the ports present on a bomb.</li>
 <li>White means nothing on a complicated wire that is also blue or red. It is useful only when a wire is neither blue nor red.</li>
 <li>White featureless wires, White star wires, and Red star wires can <i>always</i> be safely cut, no matter what edgework is on the bomb.</li>
 <li>Inversely, White LED wires, Blue star wires, and RedBlue star LED wires can <i>never</i> be cut.</li>
 </ul>
 
-<h2>Keypad</h2>
+<h3>Keypad</h3>
 <p>We have found a few quickies for <a href="https://ktane.timwi.de/HTML/Keypad.html">Keypad</a>.</p>
 <ul>
 <li>The &copy; and &#1004; symbols are <i>always</i> safely tappable first, because they are consistently the highest priority symbols throughout the module.</li>
@@ -39,23 +57,51 @@
 <li>Likewise, &starf; and &Omega; symbols should <i>always</i> be tapped last, because they are consistently the lowest priority symbols throughout the module.</li>
 </ul>
 
-<h2>Memory</h2>
+<h3>Maze</h3>
+<p>None of the 9 possible <a href="https://ktane.timwi.de/HTML/Maze.html">Maze</a> layouts has a circle share positions with another.</p>
+
+<h3>Memory</h3>
 <p><a href="https://ktane.timwi.de/HTML/Memory.html">Memory</a> is well up there in complexity. Yet, we have found a few shortcuts.</p>
 <ul>
-<li>While all 4 stage's labels do need to be remembered, <i>only</i> the first 2 stage's positions need to be remembered.</li>
+<li>While all 4 stages' labels do need to be remembered, <i>only</i> the first 2 stages' positions need to be remembered.</li>
 <li>Positions are important for stages 2 and 4. Labels are important for stages 3 and 5.</li>
 </ul>
 
-<h2>Needy Modules</h2>
+<h3>Morse Code</h3>
+<p><a href="https://ktane.timwi.de/HTML/Morse Code.html">Morse Code</a> itself is fairly simple... in its original package.</p>
+<ul>
+<li>Usually the first three characters is all it takes to find the correct frequency. Sometimes a solution can be found before then.</li>
+<li>Katane Blitz normally dedicates all modules to 20 sec loops, no matter the complexity of the code. However, each 25 modules solved in an Arcade mission causes the loop to shorten 1 sec (causing the flashes to be faster), to a minimum of 16 sec.</li>
+</ul>
+
+<h3>Needy Modules</h3>
 <p>The available three needy modules have a few fun facts. Some are shared, some are unique.</p>
 <ul>
+<li>Needy modules can initially activate when 90 seconds have passed, a module has been solved, or a life has been lost; whichever comes first. In Arcade mode, needies that show up after the first bomb activate immediately.</li>
 <li>If a <a href="https://ktane.timwi.de/HTML/Capacitor Discharge.html">capacitor</a> overloads, the module will <b>permanently</b> deactivate. Consequently, Katane Blitz intentionally omits blown capacitors when scoring in Endless games.</li>
-<li>Other needy modules can reactivate anywhere between 10 and 40 seconds from the last deactivation.</li>
+<li>Other needy modules can reactivate anywhere between 10 and 40 sec from the last deactivation.</li>
 <li><a href="https://ktane.timwi.de/HTML/Knob.html">Knobs</a> are unique among the <q>vanilla</q> needy modules in that it will always run its timer down to zero. When it does, if the arrow is in the correct orientation, the module quietly deactivates. Otherwise, it strikes.</li>
 <li><a href="https://ktane.timwi.de/HTML/Venting Gas.html">Venting Gas</a> has a nasty habit of tripping defusers with its questions.</li>
 </ul>
 
-<h2>Who's On First</h2>
+<h3>Password</h3>
+<p><a href="https://ktane.timwi.de/HTML/Password.html">Password</a> is exceptionally simple... in its original package.</p>
+<ul>
+<li>Normally, there can be six characters per column.</li>
+<li>Katane Blitz takes advantage of its simplicity and increases column sizes, based on how many modules have already been disarmed in an Arcade mission. Each 25 modules increases the column size by one.</li>
+<li>To counter-balance the increased difficulty, Katane Blitz grants time extensions on 8/9 column Passwords as if 25 fewer modules were solved; and 10-column Passwords as if 50 fewer modules were solved.</li>
+</ul>
+
+<h3>Simon Says</h3>
+<p><a href="https://ktane.timwi.de/HTML/Simon Says.html">Simon Says</a> is also exceptionally simple... again, in its original package.</p>
+<ul>
+<li>It is the only vanilla module that cares about vowels and strikes. Since Katane Blitz uses lives in place of strikes, it instead treats lives lost as if they were strikes.</li>
+<li>Katane Blitz takes advantage of its simplicity and dynamically increases its difficulty based on score.</li>
+<li>Normally, there can be 3-5 stages. Katane Blitz adds one stage to the maximum for each 25 modules. The stage range caps at 3-9.</li>
+<li>In addition to the stage limit, Katane Blitz starts the flash cycle at 667 ms, but accelerates this process similarly to increasing the maximum stages, to a minimum of 462 ms.</li>
+</ul>
+
+<h3>Who's On First</h3>
 <p><a href="https://ktane.timwi.de/HTML/Who's on First.html">Who's on First</a> has a decent amount of complexity. Nonetheless, these facts can be used to optimize this module.</p>
 <ul>
 <li>Clickable buttons can use phrases from 1 of 2 distinct answer pools.</li>
@@ -65,30 +111,91 @@
 <li>Because the 6 buttons all have to tap into the very same 1 of 2 different answer pools, this means the last 5 answers in a given list will <i>never</i> be used. Even if the original phrase is in the final five.</li>
 </ul>
 
-<h2>Wires</h2>
-<p><a href="https://ktane.timwi.de/HTML/Wires.html">Wires</a> isn't exactly a complex module, but it still exposes a few fun facts.</p>
+<h3>Wires</h3>
+<p><a href="https://ktane.timwi.de/HTML/Wires.html">Wires</a> is not exactly a complex module, but it still exposes a few fun facts.</p>
 <ul>
 <li>When cutting 3 wires; the Last Wire White clause is redundant. <b>If</b> there is a red wire, the last wire will always be the correct wire; <b>except</b> if there are also exactly 2 blue wires. The last blue is the correct wire instead.</li>
 <li>When cutting 5 wires; the third and last wires are <i>never</i> the correct wire to cut. The fourth wire can be the correct wire <b>only</b> if the last digit is odd.</li>
 <li>Likewise, when cutting 6 wires; the first, second, and fifth wires are <i>never</i> the correct wire to cut. The third wire can be the correct wire <b>only</b> if the last digit is odd.</li>
 </ul>
 
-<h2>Wire Sequence</h2>
+<h3>Wire Sequence</h3>
 <p><a href="https://ktane.timwi.de/HTML/Wire Sequence.html">Wire Sequence</a> is well up there in complexity, since it requires keeping counts of each of three colors. We found a few quickies nonetheless.</p>
 <ul>
 <li>The first Black and seventh Red wires are <i>always</i> cuttable.</li>
-<li>It's technically possible, though very unlikely, to run into a Wire Sequence with no valid wires.</li>
+<li>It is technically possible, though very unlikely, to run into a Wire Sequence with no valid wires. This requires that there be no black wires, and at most 6 red wires.</li>
 <li>Contrary to what the manual may suggest, there could be 9 or 10 wires on a single Wire Sequence.</li>
 </ul>
 
-<h2>Other solvable modules</h2>
-<p>None of the remaining modules bring much to the table. They instead belong in this section.</p>
+<hr />
+
+<h2 id="pack1">Adjacent Pack modules</h2>
+<h3>9-Ball</h3>
+<p><a href="https://ktane.timwi.de/HTML/9-Ball.html">9-Ball</a> (by GhostSalt) is a fairly simple module.</p>
 <ul>
-<li>None of the 9 possible <a href="https://ktane.timwi.de/HTML/Maze.html">Maze</a> layouts has a circle share positions with another.</li>
-<li>Usually the first three characters in a <a href="https://ktane.timwi.de/HTML/Morse Code.html">Morse Code</a> is all it takes to find the correct frequency. Sometimes a solution can be found before then.</li>
-<li>In <a href="https://ktane.timwi.de/HTML/Password.html">Password</a>, there can be six characters per column.</li>
-<li><a href="https://ktane.timwi.de/HTML/Simon Says.html">Simon Says</a> is the only vanilla module that cares about vowels and strikes. Since Katane Blitz uses lives in place of strikes, it instead treats lives lost as if they were strikes.</li>
+<li>Each of the nine object ball slots has a unique potting condition during the <q>break phase</q>, some of which are related to their neighbors.</li>
+<li>During the break phase, the order in which compatible balls are potted does not matter.</li>
 </ul>
+
+<h3>Adjacent Letters</h3>
+<p><a href="https://ktane.timwi.de/HTML/Adjacent Letters.html">Adjacent Letters</a> (by Timwi and Lumbud84) is a difficult module.</p>
+<ul>
+<li>Each of the twelve letters has a unique set of neighbors that, when present on the appropriate side, necessitate that the key be pressed.</li>
+<li>A letter can <q>resonate</q> with one, but not both, requirements of another letter.</li>
+<li>Because of its increased difficulty, this module will not appear in Arcade games until 25 modules have already been disarmed. It will also grant time extensions as if 25 fewer modules were disarmed.</li>
+</ul>
+
+<h3>Modulo</h3>
+<p><a href="https://ktane.timwi.de/HTML/Modulo.html">Modulo</a> (by Royal_Flu$h) itself is extremely simple. Katane Blitz takes advantage of this and upgrades this module as more modules are disarmed in Arcade games.</p>
+<ul>
+<li>Normally, the dividend can range anywhere between 50 and 999, and that the divisor can range from 3 to 15. The respective maximums <i>increase</i> whenever an extra life threshold (each 25 disarms) is reached in an Arcade game.</li>
+<li>If at least 50 modules have already been disarmed, there is a small chance this module will upgrade to a <a href="https://ktane.timwi.de/HTML/Cruel Modulo.html">Cruel Modulo</a> (by VFlyer and ktane1). It is also available as a <a href="../play.htm?module=cruelModulo">unique mission</a>.</li>
+</ul>
+
+<h3>Switches</h3>
+<p><a href="https://ktane.timwi.de/HTML/Switches.html">Switches</a> (by Brian Fetter) is deceptively simple.</p>
+<ul>
+<li>Yet, 10 of the possible 32 switch combinations are <i>illegal</i>. This is just over a quarter of the possibilities</li>
+<li>The <q>problem</q> and solution are guaranteed to be different by 2 switches <i>minimum</i>.</li>
+</ul>
+
+<hr />
+
+<h2 id="pack2">Coprime Pack modules</h2>
+<h3>Alphabet</h3>
+<p><a href="https://ktane.timwi.de/HTML/Alphabet.html">Alphabet</a> (by mitterdoo) is a fairly simple module.</p>
+<ul>
+<li>Each of the four letters is unique.</li>
+<li>None of the 3-letter words share more than one letter in common, nor are they able to build a 4-letter word.</li>
+<li>The same does not hold true for 2-letter words. Several ways exist to form 3-letter words, slightly reducing the appearance rate of these solutions.</li>
+<li>On the other hand, each 2-letter word is already in alphabet order. The <q>spell the second word</q> clause is redundant, as no differences are made if it is ignored.</li>
+</ul>
+
+<h3>Colored Keys</h3>
+<p><a href="https://ktane.timwi.de/HTML/Colored Keys.html">Colored Keys</a> (by LeGeND) is a difficult module.</p>
+<ul>
+<li>Each of the three primary colors of light (Red + Green + Blue) are legal colors, along with all the combinations resulting from these colors, <i>except</i> cyan (Green + Blue).</li>
+<li>Each of the four buttons has a total of nine possible conditions.</li>
+<li>Some of the conditions are shared across each button. Others are bound to the bomb edgework. A few conditions match neither of the previous two statements.</li>
+<li>While slightly less difficult than Adjacent Letters, it is more punishing of mistakes. As a consequence, this module has been given similar treatment in Arcade games.</li>
+</ul>
+
+<h3>Coprime Checker</h3>
+<p><a href="https://ktane.timwi.de/HTML/Coprime Checker.html">Coprime Checker</a> (by VFlyer) is exceptionally simple. It is also upgradable in Katane Blitz.</p>
+<ul>
+<li>One way to think of each of the two integers is arrange them into a [improper] fraction. If the fraction can be simplified, the numbers are <i>not</i> co-prime; and vise versa.</li>
+<li>Normally, each integer caps at 999.</li>
+<li>The capacity increases with each 25 modules solved.</li>
+</ul>
+
+<h3>Numbered Buttons</h3>
+<p><a href="https://ktane.timwi.de/HTML/Numbered Buttons.html">Numbered Buttons</a> (by VFlyer and Kusane Hexaku) is a moderate module.</p>
+<ul>
+<li>Between 16 cells and 12 accepted integers in each cell, it is a fair amount to go through.</li>
+<li>Some integers are never accepted, while others are not unique in terms of accepted positions.</li>
+<li>Speaking of, integers may show up in a grid more than once.</li>
+</ul>
+</div>
 
 </body>
 </html>

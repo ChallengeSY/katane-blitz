@@ -4,13 +4,15 @@ var previousButtonClick = null;
 const buttonLabels = ["Abort", "Detonate", "Hold", "Press"];
 const defaultColors = ["rgb(0, 0, 0)", "rgb(0, 0, 255)", "rgb(255, 0, 0)",
 	"rgb(255, 255, 255)", "rgb(255, 255, 0)"];
-	
+
 const keypadTable = [["&#984;", "Ѧ", "&lambda;", "&#990;", "Ѭ", "&#983;", "&#1023;"],
 	["Ӭ", "&#984;", "&#1023;", "Ҩ", "&star;", "&#983;", "¿"],
 	["&copy;", "Ѽ", "Ҩ", "&#1046;", "Ԇ", "&lambda;", "&star;"],
 	["&#1004;", "&para;", "Ҍ", "Ѭ", "&#1046;", "¿", "ټ"],
 	["&psi;", "ټ", "Ҍ", "&#1022;", "&para;", "Ѯ", "&starf;"],
 	["&#1004;", "Ӭ", "҂", "&aelig;", "&psi;", "Ҋ", "&Omega;"]];
+	
+const masterLetterBank = 'abcdefghijklmnopqrstuvwxyz';
 	
 const validMorseFreqs = [505, 515, 522, 532, 535, 542, 545,
 	552, 555, 565, 572, 575, 582, 592, 595, 600];
@@ -71,25 +73,38 @@ function validateButtonPress(event, readObj) {
 	lightObj.style.backgroundColor = defaultColors[0];
 		
 	if (previousButtonClick == null || event.type == previousButtonClick || isFinite(reqTime)) {
-		console.log("Big Button was released at "+timeLeft+" remaining. Light indicator required a "+reqTime);
-		
+		var success = false;
+		var holdReq = true;
 		if (buttonObj.innerHTML == buttonLabels[0] && buttonObj.style.backgroundColor == defaultColors[1]) {
 			// Blue Abort button
-			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+			success = (timeLeft.search(reqTime.toString()) >= 0);
 		} else if (buttonObj.innerHTML == buttonLabels[1] && getBatteries() > 1) {
 			// Detonate button with 2 or more batteries
-			solveModule(readObj, isNaN(reqTime), false);
+			success = (isNaN(reqTime));
+			holdReq = false;
 		} else if (buttonObj.style.backgroundColor == defaultColors[3] && hasLitIndicator("CAR",true)) {
 			// White button and lit CAR indicator
-			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+			success = (timeLeft.search(reqTime.toString()) >= 0);
 		} else if ((getBatteries() > 2 && hasLitIndicator("FRK",true)) ||
 			(buttonObj.innerHTML == buttonLabels[2] && buttonObj.style.backgroundColor == defaultColors[2])) {
 			// lit FRK indicator and 3+ batteries; OR Red Hold button
-			solveModule(readObj, isNaN(reqTime), false);
+			success = (isNaN(reqTime));
+			holdReq = false;
 		} else {
 			// All conditions exhausted
-			solveModule(readObj, timeLeft.search(reqTime.toString()) >= 0, false);
+			success = (timeLeft.search(reqTime.toString()) >= 0);
 		}
+
+		if (success) {
+			console.log("Big Button was released correctly.");
+		} else if (!holdReq) {
+			console.warn("Big Button was released incorrectly! It needed to be released immediately.");
+		} else if (isNaN(reqTime)) {
+			console.warn("Big Button was released incorrectly! A hold was required.");
+		} else {
+			console.warn("Big Button was released incorrectly! A "+reqTime+" was required somewhere in the timer. Your time remaining was "+timeLeft+".");
+		}
+		solveModule(readObj, success, false, 0);
 		
 		playSound(buttonSnds[1]);
 		previousButtonClick = event.type;
@@ -98,7 +113,7 @@ function validateButtonPress(event, readObj) {
 
 // Keypad functions
 
-function validateKeypad(readObj, keyObj) {
+function pressKeypad(readObj, keyObj) {
 	if (gameActive && keyObj.style.backgroundColor != solveColor) {
 		keyPress = parseInt(keyObj.id.slice(-1));
 		
@@ -114,10 +129,10 @@ function validateKeypad(readObj, keyObj) {
 		}
 		
 		if (correctPress) {
-			console.log(keyObj.innerHTML + " was pressed correctly.")
+			console.log("Keypad " + keyObj.innerHTML + " was pressed correctly.")
 			keyObj.style.backgroundColor = solveColor;
 		} else {
-			console.warn(keyObj.innerHTML + " was pressed incorrectly!")
+			console.warn("Keypad " + keyObj.innerHTML + " was pressed incorrectly!")
 			keyObj.style.backgroundColor = strikeColor;
 			solveModule(readObj, false, false);
 		}
@@ -135,7 +150,7 @@ function validateKeypad(readObj, keyObj) {
 	}
 	
 	if (allSolved) {
-		solveModule(readObj, true, false);
+		solveModule(readObj, true, false, 0);
 	}
 	
 	playSound(buttonSnds[0]);
@@ -605,7 +620,7 @@ function mazeMove(readObj, xDelta, yDelta) {
 			posCur = testCur;
 			if (posCur.toString() == goalCur.toString()) {
 				console.log("Maze goal reached. Module solved.")
-				solveModule(readObj, true, false);
+				solveModule(readObj, true, false, 0);
 			} else {
 				readMazeSlot(baseId, posCur).innerHTML = "&#9632;";
 			}
@@ -639,7 +654,7 @@ function prepMemoryStage(readObj) {
 	}
 
 	if (stagesFinished >= 5) {
-		solveModule(readObj, true, false);
+		solveModule(readObj, true, false, 0);
 	} else if (gameActive) {
 		setTimeout(function() { clearMemoryStage(readObj) }, 1200);
 	}
@@ -752,9 +767,9 @@ function pressMemoryButton(readObj, pressObj) {
 			
 			if (pressedCorrect) {
 				if (reqDigit != null) {
-					console.log("Stage "+stageNum+" correct. The required digit "+reqDigit+" was hit.")
+					console.log("Memory stage "+stageNum+" correct. The required digit "+reqDigit+" was hit.")
 				} else if (reqPosit != null) {
-					console.log("Stage "+stageNum+" correct. The required position "+reqPosit+" was hit.")
+					console.log("Memory stage "+stageNum+" correct. The required position "+reqPosit+" was hit.")
 				}
 				
 				pressObj.style.backgroundColor = solveColor;
@@ -762,9 +777,9 @@ function pressMemoryButton(readObj, pressObj) {
 				memPositObj.innerHTML += tappedPosit;
 			} else {
 				if (reqDigit != null) {
-					console.warn("Stage "+stageNum+" striked! You hit digit "+tappedDigit+". The required digit was "+reqDigit+".")
+					console.warn("Memory stage "+stageNum+" striked! You hit digit "+tappedDigit+". The required digit was "+reqDigit+".")
 				} else if (reqPosit != null) {
-					console.warn("Stage "+stageNum+" striked! You hit position "+tappedPosit+". The required position was "+reqPosit+".")
+					console.warn("Memory stage "+stageNum+" striked! You hit position "+tappedPosit+". The required position was "+reqPosit+".")
 				}
 				solveModule(readObj, false, false);
 				
@@ -785,37 +800,35 @@ function pressMemoryButton(readObj, pressObj) {
 // Morse Code functions
 
 function changeMorseFreq(readObj, forward) {
-	if (readObj.style.borderColor != solveColor) {
-		newFreq = document.getElementById(readObj.id+"f").value;
-		if (forward) {
-			for (var f = 0; f < validMorseFreqs.length; f++) {
-				if (newFreq < 3000 + validMorseFreqs[f]) {
-					newFreq = 3000 + validMorseFreqs[f];
-					break;
-				}
-			}
-		} else {
-			for (var r = validMorseFreqs.length-1; r >=0; r--) {
-				if (newFreq > 3000 + validMorseFreqs[r]) {
-					newFreq = 3000 + validMorseFreqs[r];
-					break;
-				}
+	newFreq = document.getElementById(readObj.id+"f").value;
+	if (forward) {
+		for (var f = 0; f < validMorseFreqs.length; f++) {
+			if (newFreq < 3000 + validMorseFreqs[f]) {
+				newFreq = 3000 + validMorseFreqs[f];
+				break;
 			}
 		}
-
-		document.getElementById(readObj.id+"f").value = newFreq;
+	} else {
+		for (var r = validMorseFreqs.length-1; r >=0; r--) {
+			if (newFreq > 3000 + validMorseFreqs[r]) {
+				newFreq = 3000 + validMorseFreqs[r];
+				break;
+			}
+		}
 	}
+
+	document.getElementById(readObj.id+"f").value = newFreq;
 	playSound(buttonSnds[0]);
 }
 
 function validateMorseCode(readObj, targetFreq) {
 	freqObj = document.getElementById(readObj.id+"f");
 	readFreq = freqObj.value;
-	solveModule(readObj, readFreq == targetFreq, false);
+	var success = (readFreq == targetFreq);
+	solveModule(readObj, success, !success, 0);
 
-	if (readObj.style.borderColor == solveColor) {
+	if (success) {
 		console.log(readFreq + " KHz was transmitted correctly.");
-		freqObj.readOnly = true;
 	} else {
 		console.warn(readFreq + " KHz was transmitted incorrectly!");
 		if (life <= 0) {
@@ -831,21 +844,20 @@ function createRandomPassChars(targWord) {
 	letterBanks = new Array(5);
 	var columnBanks = new Array(5);
 	var dupeWords = false;
-	
-	const masterLetterBank = 'abcdefghijklmnopqrstuvwxyz';
+	var lettersPerCol = Math.min(6 + Math.floor(score/25),10);
 	
 	do {
 		dupeWords = 0;
 		// Build the columns
 		for (var a = 0; a < 5; a++) {
 			columnBanks[a] = masterLetterBank;
-			letterBanks[a] = new Array(6);
-			letterBanks[a][irandom(0,5)] = targWord.charAt(a).toUpperCase();
+			letterBanks[a] = new Array(lettersPerCol);
+			letterBanks[a][irandom(0,lettersPerCol-1)] = targWord.charAt(a).toUpperCase();
 			var refChar = columnBanks[a].search(targWord.charAt(a));
 			columnBanks[a] = masterLetterBank.split("");
 			columnBanks[a].splice(refChar, 1);
 
-			for (var b = 0; b < 6; b++) {
+			for (var b = 0; b < lettersPerCol; b++) {
 				if (!letterBanks[a][b]) {
 					refChar = irandom(0,columnBanks[a].length-1);
 					letterBanks[a][b] = columnBanks[a].splice(refChar, 1)[0].toUpperCase();
@@ -857,11 +869,11 @@ function createRandomPassChars(targWord) {
 		
 		// Validate the columns
 		validate: {
-			for (var v = 0; v < 6; v++) {
-				for (var w = 0; w < 6; w++) {
-					for (var x = 0; x < 6; x++) {
-						for (var y = 0; y < 6; y++) {
-							for (var z = 0; z < 6; z++) {
+			for (var v = 0; v < lettersPerCol; v++) {
+				for (var w = 0; w < lettersPerCol; w++) {
+					for (var x = 0; x < lettersPerCol; x++) {
+						for (var y = 0; y < lettersPerCol; y++) {
+							for (var z = 0; z < lettersPerCol; z++) {
 								tempWord = (letterBanks[0][v]+letterBanks[1][w]+letterBanks[2][x]+letterBanks[3][y]+letterBanks[4][z]).toLowerCase();
 								
 								for (var c = 0; c < validPasswords.length; c++) {
@@ -882,19 +894,17 @@ function createRandomPassChars(targWord) {
 function shiftPassColumn(readObj, columnObj, shiftDown) {
 	var column = columnObj.id.slice(-1);
 	
-	if (readObj.style.borderColor != solveColor) {
-		var activeObj = document.getElementById(readObj.id+"p"+column);
-		var bankObj = document.getElementById(readObj.id+"b"+column);
-		
-		if (shiftDown) {
-			bankObj.innerHTML += activeObj.innerHTML;
-			activeObj.innerHTML = bankObj.innerHTML.charAt(0);
-			bankObj.innerHTML = bankObj.innerHTML.substr(1);
-		} else {
-			bankObj.innerHTML = activeObj.innerHTML + bankObj.innerHTML;
-			activeObj.innerHTML = bankObj.innerHTML.charAt(bankObj.innerHTML.length-1);
-			bankObj.innerHTML = bankObj.innerHTML.substr(0,bankObj.innerHTML.length-1);
-		}
+	var activeObj = document.getElementById(readObj.id+"p"+column);
+	var bankObj = document.getElementById(readObj.id+"b"+column);
+	
+	if (shiftDown) {
+		bankObj.innerHTML += activeObj.innerHTML;
+		activeObj.innerHTML = bankObj.innerHTML.charAt(0);
+		bankObj.innerHTML = bankObj.innerHTML.substr(1);
+	} else {
+		bankObj.innerHTML = activeObj.innerHTML + bankObj.innerHTML;
+		activeObj.innerHTML = bankObj.innerHTML.charAt(bankObj.innerHTML.length-1);
+		bankObj.innerHTML = bankObj.innerHTML.substr(0,bankObj.innerHTML.length-1);
 	}
 
 	playSound(buttonSnds[0]);
@@ -902,13 +912,18 @@ function shiftPassColumn(readObj, columnObj, shiftDown) {
 
 function validatePassword(readObj, expectedPass) {
 	readPass = "";
+	var bankLen = document.getElementById(readObj.id+"b0").innerHTML.length;
 	for (var r = 0; r < 5; r++) {
 		readPass += document.getElementById(readObj.id+"p"+r).innerHTML;
 	}
 	readPass = readPass.toLowerCase();
-	solveModule(readObj, readPass == expectedPass, false);
 	
-	if (readObj.style.borderColor == solveColor) {
+	var handicap = Math.floor((bankLen-5)/2)*25;
+	
+	var success = (readPass == expectedPass);
+	solveModule(readObj, success, !success, handicap);
+	
+	if (success) {
 		console.log(readPass+" was transmitted correctly.");
 	} else {
 		console.warn(readPass+" was transmitted incorrectly!");
@@ -1078,15 +1093,17 @@ function cycleSimons() {
 	}
 }
 
-function makeSimonSolutions() {
+function makeAllSimons() {
 	spanCollection = document.getElementsByTagName("span");
 	clearInterval(simonFlasher);
+	
+	var simonTimings = Math.max(Math.ceil(6/(9+Math.floor(score/25))*1000), 462);
 	
 	for (var r in spanCollection) {
 		if (spanCollection[r].id !== undefined) {
 			if (spanCollection[r].id.endsWith("sX")) {
 				// Generate fresh flashes
-				var numStages = irandom(3,5);
+				var numStages = irandom(3, Math.min(5+Math.floor(score/25),9));
 				spanCollection[r].innerHTML = "";
 				
 				for (var t = 0; t < numStages; t++) {
@@ -1108,7 +1125,7 @@ function makeSimonSolutions() {
 	}
 	
 	simonCycle = 0;
-	simonFlasher = setInterval(cycleSimons, 667);
+	simonFlasher = setInterval(cycleSimons, simonTimings);
 }
 
 function pressSimonButton(readObj, buttonObj) {
@@ -1161,9 +1178,9 @@ function pressSimonButton(readObj, buttonObj) {
 					
 					if (nextStage > reqColors.length) {
 						console.log("Simon Says solved.");
-						solveModule(readObj, true, false);
+						solveModule(readObj, true, false, 0);
 						simonCycle = 4;
-						makeSimonSolutions();
+						makeAllSimons();
 					}
 				}
 			} else {
@@ -1199,7 +1216,7 @@ function prepWhoseStage(readObj) {
 	}
 
 	if (stagesFinished >= 3) {
-		solveModule(readObj, true, false);
+		solveModule(readObj, true, false, 0);
 	} else if (gameActive) {
 		setTimeout(function(){ clearWhoseStage(readObj) }, 1700);
 	}
@@ -1236,7 +1253,7 @@ function makeWhoseStage(readObj) {
 }
 
 function pressWhoseButton(readObj, pressObj) {
-	if (gameActive && readObj.style.borderColor != solveColor) {
+	if (life > 0 && timeLimit > 0) {
 		var dispPhrase = document.getElementById(readObj.id+"wD").innerHTML;
 		var stageNum = 1;
 		for (var s = 1; s <= 3; s++) {
@@ -1246,7 +1263,7 @@ function pressWhoseButton(readObj, pressObj) {
 			}
 		}
 		var auxButton = -1;
-		var debounceClick = false;
+		var foulClick = false;
 		
 		switch (dispPhrase) {
 			case whoseLabels[0]:
@@ -1386,7 +1403,7 @@ function pressWhoseButton(readObj, pressObj) {
 			for (var b = 1; b <= 6; b++) {
 				buttonObj[b-1] = document.getElementById(readObj.id+"wB"+b);
 				if (buttonObj[b-1].style.backgroundColor != "") {
-					debounceClick = true;
+					foulClick = true;
 					break whosBankLoop;
 				}
 			}
@@ -1401,20 +1418,26 @@ function pressWhoseButton(readObj, pressObj) {
 			}
 		}
 
-		if (!debounceClick) {
+		if (pressObj.style.backgroundColor != solveColor) {
 			var pressedCorrect = (pressWord == reqWord);
 		
-			if (pressedCorrect) {
-				console.log("Stage "+stageNum+" correct. "+pressWord+" was pressed.");
+			if (foulClick) {
+				console.warn("Who's on First stage "+stageNum+" striked! Multiple buttons were tapped!")
+				solveModule(readObj, false, true);
+				pressObj.style.backgroundColor = strikeColor;
+			} else if (pressedCorrect) {
+				console.log("Who's on First stage "+stageNum+" correct. "+pressWord+" was pressed.");
 				document.getElementById(readObj.id+"wS"+stageNum).style.backgroundColor = stageColor;
 				pressObj.style.backgroundColor = solveColor;
 			} else {
-				console.warn("Stage "+stageNum+" striked! Tapped button was "+pressWord+". Correct button was "+reqWord+".")
+				console.warn("Who's on First stage "+stageNum+" striked! Tapped button was "+pressWord+". Correct button was "+reqWord+".")
 				solveModule(readObj, false, false);
 				pressObj.style.backgroundColor = strikeColor;
 			}
 			
-			prepWhoseStage(readObj);
+			if (!foulClick) {
+				prepWhoseStage(readObj);
+			}
 		}
 	}
 
@@ -1525,7 +1548,7 @@ function cutVennWire(readObj, wireObj) {
 			
 			if (allWiresCut) {
 				console.log("All correct Venn wires cut.");
-				solveModule(readObj, true, false);
+				solveModule(readObj, true, false, 0);
 			}
 		} else {
 			console.warn("Venn wire "+wireCut+" was cut incorrectly!");
@@ -1562,13 +1585,17 @@ function cutWire(readObj, wireObj) {
 			}
 		}
 		
+		var hintMsg = "Conditions exhausted";
+
 		switch (wireCount) {
 			case 3:
 				if (colorCounts[2] == 0) {
 					// No red wires
+					hintMsg = "No red wires detected";
 					correctWire = 2;
 				} else if (colorCounts[1] >= 2) {
 					// 2 or more blue wires (only effective if 2B 1R)
+					hintMsg = "2 blue wires and 1 red wire detected";
 					for (var b = 3; b >= 1; b--) {
 						compareObj = document.getElementById(readObj.id+"w"+b);
 						
@@ -1586,6 +1613,7 @@ function cutWire(readObj, wireObj) {
 			case 4:
 				if (colorCounts[2] >= 2 && !lastDigitEven()) {
 					// 2 or more reds and odd serial
+					hintMsg = "2+ red wires detected";
 					for (var r = 4; r >= 1; r--) {
 						compareObj = document.getElementById(readObj.id+"w"+r);
 						
@@ -1597,9 +1625,15 @@ function cutWire(readObj, wireObj) {
 				} else if (colorCounts[1] == 1 || (colorCounts[2] == 0 && 
 					document.getElementById(readObj.id+"w4").style.backgroundColor == defaultColors[4])) {
 					// Last wire is yellow, and no red wires; or exactly 1 blue wire
+					if (colorCounts[1] == 1) {
+						hintMsg = "1 blue wire detected";
+					} else {
+						hintMsg = "1+ yellow and 0 red wires detected";
+					}
 					correctWire = 1;
 				} else if (colorCounts[4] > 1) {
 					// 2 or more yellow wires
+					hintMsg = "2+ yellow wires detected";
 					correctWire = 4;
 				} else {
 					// All conditions exhausted
@@ -1611,12 +1645,15 @@ function cutWire(readObj, wireObj) {
 				if (!lastDigitEven() &&
 					document.getElementById(readObj.id+"w5").style.backgroundColor == defaultColors[0]) {
 					// Last wire is black, and odd serial
+					hintMsg = "1+ black wires detected";
 					correctWire = 4;
 				} else if (colorCounts[2] == 1 && colorCounts[4] > 1) {
 					// Exactly 1 red wire and 2+ yellow wires
+					hintMsg = "1 red and 2+ yellow wires detected";
 					correctWire = 1;
 				} else if (colorCounts[0] == 0) {
 					// No black wires
+					hintMsg = "No black wires detected";
 					correctWire = 2;
 				} else {
 					// All conditions exhausted
@@ -1627,12 +1664,15 @@ function cutWire(readObj, wireObj) {
 			case 6:
 				if (colorCounts[4] == 0 && !lastDigitEven()) {
 					// No yellow wires and odd serial
+					hintMsg = "No yellow wires detected";
 					correctWire = 3;
 				} else if (colorCounts[4] == 1 && colorCounts[3] > 1) {
 					// Exactly 1 yellow wire and 2+ white wires
+					hintMsg = "1 yellow and 2+ white wires detected";
 					correctWire = 4;
 				} else if (colorCounts[2] == 0) {
 					// No red wires
+					hintMsg = "No red wires detected";
 					correctWire = 6;
 				} else {
 					// All conditions exhausted
@@ -1641,11 +1681,11 @@ function cutWire(readObj, wireObj) {
 				break;
 		}
 		
-		solveModule(readObj, (wireCut == correctWire), true);
+		solveModule(readObj, (wireCut == correctWire), true, 0);
 		if (readObj.style.borderColor == solveColor) {
 			console.log("Wire "+wireCut+" was cut correctly.");
 		} else {
-			console.warn("Wire "+wireCut+" was cut incorrectly!");
+			console.warn("Wire "+wireCut+" was cut incorrectly! ("+hintMsg+")");
 		}
 		if (life <= 0) {
 			console.warn("Wire "+correctWire+" was the correct wire.");
@@ -1704,7 +1744,7 @@ function queueWireSeqStage(readObj, forward) {
 				setTimeout(function() {openWireSeqStage(readObj, newStage)}, 750);
 			} else {
 				console.log("Wire Sequence solved.");
-				solveModule(readObj, true, false);
+				solveModule(readObj, true, false, 0);
 			}
 		} else {
 			console.warn("Wire Sequence striked! One or more required wires in stage "+curStage+" were missed!");
