@@ -1,5 +1,7 @@
+// This function determines how to build the elements for a given module. One case per module
 function createBombModule(moduleObj, moduleClass) {
 	switch (moduleClass) {
+		// Vanilla modules
 		case "bigButton":
 			newButton = document.createElement("button");
 			newButton.className = "bigButton";
@@ -614,7 +616,6 @@ function createBombModule(moduleObj, moduleClass) {
 			break;
 		
 		// Needy modules
-		
 		case "capacitor":
 			dispDiv = document.createElement("div");
 			dispDiv.className = "ventGasDisp";
@@ -930,7 +931,7 @@ function createBombModule(moduleObj, moduleClass) {
 			moduleObj.appendChild(masterDiv);
 			break;
 		
-		// Pack 2
+		// Pack 2 modules
 		case "alphabet":
 			var targWord = alphaTable[irandom(0,alphaTable.length-1)];
 			var auxLetters = [-1, -1];

@@ -23,7 +23,7 @@
 		function updateShortTimer() {
 			var misnLen = document.getElementById("shortLen").value;
 			
-			document.getElementById("playShort").href = "play.htm?module=short" + misnLen + "m";
+			document.getElementById("playShort").href = "play.htm?misn=short" + misnLen + "m";
 		}
 	</script>
 </head>
@@ -41,66 +41,66 @@
 <div class="center" style="display: none;" id="arcade">
 <h3>Endless Chapter</h3>
 The main experience of Katane Blitz. Randomly generated modules! Time extensions are granted with each module, but become less effective as modules are solved.<br />
-<a class="interact" href="play.htm?module=endless">Play Endless Challenge!</a><br /><br />
+<a class="interact" href="play.htm?misn=endless">Play Endless Challenge!</a><br /><br />
 Needy or Expansion modules too stressful? Endless Stable has got your back... at the expense of starting with reduced time.<br />
-<a class="interact" href="play.htm?module=endlessStable">Play Endless Stable!</a><br /><br />
+<a class="interact" href="play.htm?misn=endlessStable">Play Endless Stable!</a><br /><br />
 Endless Hardcore is for players/teams who think they have mastered the art of defusing. One misstep will end these games!<br />
-<a class="interact" href="play.htm?module=endlessHardcore">Play Endless Hardcore!!!</a>
+<a class="interact" href="play.htm?misn=endlessHardcore">Play Endless Hardcore!!!</a>
 
 <h3>Short Chapter</h3>
 This chapter allows playing games of a relatively fixed length. Fair warning; the timer will still count down faster if you incur a strike.<br />
 <input id="shortLen" type="number" class="text numeric" min="1" value="15" size="6" onchange="updateShortTimer()" onblur="updateShortTimer()" /> minutes
-<a id="playShort" class="interact" href="play.htm?module=short5m">Play game!</a>
+<a id="playShort" class="interact" href="play.htm?misn=short5m">Play game!</a>
 </div>
 
 <!-- Mission Mode menu -->
 <div class="center" style="display: none;" id="mission">
 <h3>Practice Chapter</h3>
 Practice 1 or more modules until the required disarms are scored, or a bomb explodes.<br />
-<a class="interact" title="Goal: 20" href="play.htm?module=bigButton">Big Button</a>
-<a class="interact" title="Goal: 16" href="play.htm?module=venn">Complicated Wires</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=keypad">Keypad</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=maze">Maze</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=memory">Memory</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=morse">Morse Code</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=password">Password</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=simon">Simon Says</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=whosOnFirst">Who's on First</a>
-<a class="interact" title="Goal: 16" href="play.htm?module=wires">Wires</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=wireSequence">Wire Sequence</a>
-<a class="interact" title="Goal: 37" href="play.htm?module=mixedPractice">Mixed Practice</a>
+<a class="interact" title="Goal: 20" href="play.htm?misn=bigButton">Big Button</a>
+<a class="interact" title="Goal: 16" href="play.htm?misn=venn">Complicated Wires</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=keypad">Keypad</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=maze">Maze</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=memory">Memory</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=morse">Morse Code</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=password">Password</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=simon">Simon Says</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=whosOnFirst">Who's on First</a>
+<a class="interact" title="Goal: 16" href="play.htm?misn=wires">Wires</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=wireSequence">Wire Sequence</a>
+<a class="interact" title="Goal: 37" href="play.htm?misn=mixedPractice">Mixed Practice</a>
 
 <h3>Needy Chapter</h3>
 Needy modules pose a constant threat, but will auto-disarm once all other modules are solved. These games have goals of 15 solvable + 6 needy modules.<br />
-<a class="interact" href="play.htm?module=ventGas">Venting Gas</a>
-<a class="interact" href="play.htm?module=capacitor">Threatening Capacitor</a>
-<a class="interact" href="play.htm?module=knob">Knobbing Away</a>
-<a class="interact" href="play.htm?module=mixedNeedy">Mixed Needies</a>
+<a class="interact" href="play.htm?misn=ventGas">Venting Gas</a>
+<a class="interact" href="play.htm?misn=capacitor">Threatening Capacitor</a>
+<a class="interact" href="play.htm?misn=knob">Knobbing Away</a>
+<a class="interact" href="play.htm?misn=mixedNeedy">Mixed Needies</a>
 
 <h3>Expansion Chapter</h3>
 This chapter imports add-on modules from the community, with goals similar to the Practice Chapter.<br />
-<a class="interact" title="Goal: 9" href="play.htm?module=9ball">9-Ball</a>
-<a class="interact" title="Goal: 4" href="play.htm?module=adjLetters">Adjacent Letters</a>
-<a class="interact" title="Goal: 16" href="play.htm?module=modulo">Modulo</a>
-<a class="interact" title="Goal: 16" href="play.htm?module=switches">Switches</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=9ball">9-Ball</a>
+<a class="interact" title="Goal: 4" href="play.htm?misn=adjLetters">Adjacent Letters</a>
+<a class="interact" title="Goal: 16" href="play.htm?misn=modulo">Modulo</a>
+<a class="interact" title="Goal: 16" href="play.htm?misn=switches">Switches</a>
 &mdash;
-<a class="interact" title="Goal: 16" href="play.htm?module=alphabet">Alphabet</a>
-<a class="interact" title="Goal: 7" href="play.htm?module=coloKeys">Colored Keys</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=coprime">Coprime Checker</a>
-<a class="interact" title="Goal: 9" href="play.htm?module=numButtons">Numbered Buttons</a>
+<a class="interact" title="Goal: 16" href="play.htm?misn=alphabet">Alphabet</a>
+<a class="interact" title="Goal: 7" href="play.htm?misn=coloKeys">Colored Keys</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=coprime">Coprime Checker</a>
+<a class="interact" title="Goal: 9" href="play.htm?misn=numButtons">Numbered Buttons</a>
 <br /><br />
 These mixed reviews are organized by pack.<br />
-<a class="interact" title="Goal: 21" href="play.htm?module=mixedPack1">Mixed Adjacent Pack</a>
-<a class="interact" title="Goal: 21" href="play.htm?module=mixedPack2">Mixed Coprime Pack</a>
+<a class="interact" title="Goal: 21" href="play.htm?misn=mixedPack1">Mixed Adjacent Pack</a>
+<a class="interact" title="Goal: 21" href="play.htm?misn=mixedPack2">Mixed Coprime Pack</a>
 
 <h3>Large Chapter</h3>
 Think you got all the expansion modules mastered? This exam deals 3 bombs back-to-back, with the complexity increasing with each subsequent bomb. <i>All</i> modules are fair game!<br />
-<a class="interact" title="Goal: 40" href="play.htm?module=masteryExam">Blitz Mastery Exam</a>
+<a class="interact" title="Goal: 40" href="play.htm?misn=masteryExam">Blitz Mastery Exam</a>
 <br /><br />
 These single bombs are huge. In return, solved modules are also hidden.<br />
-<a class="interact" title="Goal: 19" href="play.htm?module=kiloBomb">Kilo-Bomb</a>
-<a class="interact" title="Goal: 47" href="play.htm?module=megaBomb">Mega-Bomb</a>
-<a class="interact" title="Goal: 91" href="play.htm?module=gigaBomb">Giga-Bomb</a>
+<a class="interact" title="Goal: 19" href="play.htm?misn=kiloBomb">Kilo-Bomb</a>
+<a class="interact" title="Goal: 47" href="play.htm?misn=megaBomb">Mega-Bomb</a>
+<a class="interact" title="Goal: 91" href="play.htm?misn=gigaBomb">Giga-Bomb</a>
 </div>
 
 <!-- Cheat Sheets menu -->
@@ -115,6 +115,7 @@ We have found a few resources that can be used to improve the effiency of solvin
 
 <p class="footer">
 Katane Blitz &copy; 2023-2025 Paul Ruediger<br />
+<a class="interact" href="../spaceYard.php">Return to Space Yard</a>
 </p>
 </div>
 

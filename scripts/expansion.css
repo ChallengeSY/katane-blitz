@@ -1,14 +1,4 @@
-/* Pack 1 styles */
-.nineBallFrame {display: grid; grid-template-columns: auto auto auto auto auto auto; width: 180px; margin-left: auto; margin-right: auto;}
-.nineBall {position: relative; width: 0px; height: 0px; border: 30px solid #122; border-radius: 45px; margin-top: -4px; margin-bottom: -4px; cursor: pointer;}
-.nbLabel {position: absolute; width: 12px; height: 12px; padding: 0px; background: white; color: black; border: 5px solid white; border-radius: 10px; text-align: center; left: 50%; top: 50%; transform: translate(-50%, -50%);}
-.nbBreak {display: none;}
-
-.obj0, .obj4, .obj8 {grid-column: 3 / span 2;}
-.obj1, .obj6 {grid-column: 2 / span 2;}
-.obj2, .obj7 {grid-column: 4 / span 2;}
-.obj3 {grid-column: 1 / span 2;}
-.obj5 {grid-column: 5 / span 2;}
+/* Size specific styles */
 
 @media (max-width: 1280px), (max-height: 800px) {
 	.adjLetFrame {font-size: 150%; width: 200px;}
@@ -19,7 +9,8 @@
 	.flipSwitch label {width: 30px; height: 50px;}
 	.flipSwitch .slideSwitch {width: 20px; height: 20px;}
 	input:checked + .slideSwitch {transform: translateY(-20px);}
-
+	
+	/* From Pack 2 */
 	.coprimeButton button {width: 100%; height: 40px; font-size: 75%; cursor: pointer;}
 }
 
@@ -33,8 +24,21 @@
 	.flipSwitch .slideSwitch {width: 40px; height: 40px;}
 	input:checked + .slideSwitch {transform: translateY(-40px);}
 
+	/* From Pack 2 */
 	.coprimeButton button {width: 100%; height: 55px; font-size: 150%; cursor: pointer;}
 }
+
+/* Pack 1 styles */
+.nineBallFrame {display: grid; grid-template-columns: auto auto auto auto auto auto; width: 180px; margin-left: auto; margin-right: auto;}
+.nineBall {position: relative; width: 0px; height: 0px; border: 30px solid #122; border-radius: 45px; margin-top: -4px; margin-bottom: -4px; cursor: pointer;}
+.nbLabel {position: absolute; width: 12px; height: 12px; padding: 0px; background: white; color: black; border: 5px solid white; border-radius: 10px; text-align: center; left: 50%; top: 50%; transform: translate(-50%, -50%);}
+.nbBreak {display: none;}
+
+.obj0, .obj4, .obj8 {grid-column: 3 / span 2;}
+.obj1, .obj6 {grid-column: 2 / span 2;}
+.obj2, .obj7 {grid-column: 4 / span 2;}
+.obj3 {grid-column: 1 / span 2;}
+.obj5 {grid-column: 5 / span 2;}
 
 .adjLetFrame {text-align: center; display: grid; grid-template-columns: auto auto auto auto; margin-left: auto; margin-right: auto;}
 .adjLetSubmit {grid-column: 1 / span 4; padding-bottom: 10px;}

@@ -1,3 +1,4 @@
+// Engine-wide constants
 var life = 0;
 var lifeMax = 5;
 var score = 0;
@@ -9,7 +10,7 @@ var timeLimit = 180;
 var timeMax = 180;
 var handicap = 0;
 var maxPerBomb = 11;
-var moduleFile = null;
+var missionFile = null;
 var firstLoad = false;
 var gameActive = false;
 var hideSolves = false;
@@ -35,7 +36,7 @@ var grandModules = cloneArray(defaultModules).concat(addonModules);
 const needyCycleDur = 0.2;
 
 function startGame() {
-	var moduleValid = false;
+	var missionValid = false;
 	var initialModules = 1, initialNeedy = 0;
 
 	if (score > 0) {
@@ -47,16 +48,22 @@ function startGame() {
 	timeMax = 180;
 	eggCooldown = 7;
 
-	if (moduleFile.startsWith("endless")) {
+	// This section contains ALL missions
+	if (missionFile.startsWith("endless")) {
+		/*
+		 * Endless-style missions, well, have no finite goal to reach.
+		 *
+		 * These missions are doomed to fail, as the time extensions granted DECREASE as more modules are disarmed.
+		 */
 		goal = Infinity;
 		timeMax = 180;
 		handicap = 0;
 		initialModules = irandom(3,5);
-		if (moduleFile == "endlessHardcore") {
+		if (missionFile == "endlessHardcore") {
 			initialNeedy = 0;
 			timeMax = 300;
 			lifeMax = 1;
-		} else if (moduleFile == "endless") {
+		} else if (missionFile == "endless") {
 			initialNeedy = Math.max(irandom(-2,1),0);
 			timeMax = 300;
 			lifeMax = 3;
@@ -65,108 +72,116 @@ function startGame() {
 			lifeMax = 3;
 		}
 		
-		if (moduleFile == "endlessVenn") {
+		/*
+		 * These hidden single-module missions tend to be much simpler,
+		 * but have a handicap that causes time extensions to be granted as if X modules were already solved.
+		 */
+		if (missionFile == "endlessVenn") {
 			handicap = 75;
 			initialModules = irandom(5,7);
-		} else if (moduleFile == "endlessButtons") {
+		} else if (missionFile == "endlessButtons") {
 			handicap = 50;
 			initialModules = irandom(5,7);
-		} else if (moduleFile == "endlessSimon") {
+		} else if (missionFile == "endlessSimon") {
 			timeMax = 120;
 		}
-		moduleValid = (moduleFile == "endless" || moduleFile == "endlessStable" || moduleFile == "endlessHardcore" ||
-			moduleFile == "endlessButtons" || moduleFile == "endlessPassword" || moduleFile == "endlessSimon" || moduleFile == "endlessVenn");
-	} else if (moduleFile.startsWith("short")) {
+		missionValid = (missionFile == "endless" || missionFile == "endlessStable" || missionFile == "endlessHardcore" ||
+			missionFile == "endlessButtons" || missionFile == "endlessPassword" || missionFile == "endlessSimon" || missionFile == "endlessVenn");
+	} else if (missionFile.startsWith("short")) {
+		/*
+		 * These Short missions have a fixed max time. Effectively, they serve as a "how far can one go before time runs out".
+		 */
 		goal = Infinity;
 		handicap = Infinity;
 		initialModules = irandom(3,5);
 		lifeMax = 3;
-		if (moduleFile.search("Inf") >= 0) {
+		if (missionFile.search("Inf") >= 0) {
 			timeMax = Infinity;
 		} else {
-			timeMax = parseInt(moduleFile.substring(5));
+			timeMax = parseInt(missionFile.substring(5));
 		}
-		moduleValid = (!isNaN(timeMax) && timeMax > 0);
+		missionValid = (!isNaN(timeMax) && timeMax > 0);
 		timeMax *= 60;
-	} else if (moduleFile == "mixedPractice") {
-		moduleValid = true;
+		
+	} else if (missionFile == "mixedPractice") {
+		missionValid = true;
 		timeMax = 300;
 		initialModules = 3;
 		goal = 37;
-	} else if (moduleFile == "mixedPack1" || moduleFile == "mixedPack2") {
-		moduleValid = true;
+	} else if (missionFile == "mixedPack1" || missionFile == "mixedPack2") {
+		missionValid = true;
 		timeMax = 300;
 		initialModules = 3;
 		goal = 21;
-	} else if (moduleFile == "masteryExam") {
-		moduleValid = true;
+	} else if (missionFile == "masteryExam") {
+		missionValid = true;
 		initialModules = 7;
 		goal = 40;
-	} else if (moduleFile == "kiloBomb") {
-		moduleValid = true;
+	} else if (missionFile == "kiloBomb") {
+		missionValid = true;
 		timeMax = 1500;
 		lifeMax = 5;
 		goal = 19;
 		hideSolves = true;
 		initialModules = goal;
-	} else if (moduleFile == "megaBomb") {
-		moduleValid = true;
+	} else if (missionFile == "megaBomb") {
+		missionValid = true;
 		timeMax = 2700;
 		lifeMax = 8;
 		goal = 47;
 		hideSolves = true;
 		initialModules = goal;
-	} else if (moduleFile == "gigaBomb") {
-		moduleValid = true;
+	} else if (missionFile == "gigaBomb") {
+		missionValid = true;
 		timeMax = 4260;
 		lifeMax = 11;
 		goal = 91;
 		hideSolves = true;
 		initialModules = goal;
-	} else if (moduleFile == "teraBomb") {
-		moduleValid = true;
+	} else if (missionFile == "teraBomb") {
+		missionValid = true;
 		timeMax = 5940;
 		lifeMax = 15;
 		goal = 187;
 		hideSolves = true;
 		initialModules = goal;
-	} else if (moduleFile == "adjLetters") {
-		moduleValid = true;
+	} else if (missionFile == "adjLetters") {
+		missionValid = true;
 		singleSolvableFile = true;
 		goal = 4;
-	} else if (moduleFile == "coloKeys") {
-		moduleValid = true;
+	} else if (missionFile == "coloKeys") {
+		missionValid = true;
 		singleSolvableFile = true;
 		goal = 7;
-	} else if (moduleFile == "venn" || moduleFile == "wires" || moduleFile == "modulo" || moduleFile == "switches"|| moduleFile == "alphabet") {
-		moduleValid = true;
+	} else if (missionFile == "venn" || missionFile == "wires" || missionFile == "modulo" || missionFile == "switches"|| missionFile == "alphabet") {
+		missionValid = true;
 		singleSolvableFile = true;
 		goal = 16;
-	} else if (moduleFile == "bigButton" || moduleFile == "debug") {
-		moduleValid = true;
+	} else if (missionFile == "bigButton" || missionFile == "debug") {
+		missionValid = true;
 		singleSolvableFile = true;
 		goal = 20;
-	} else if (moduleFile == "capacitor" || moduleFile == "knob" || moduleFile == "ventGas" || moduleFile == "mixedNeedy") {
-		moduleValid = true;
-		singleNeedyFile = (moduleFile != "mixedNeedy");
+	} else if (missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas" || missionFile == "mixedNeedy") {
+		missionValid = true;
+		singleNeedyFile = (missionFile != "mixedNeedy");
 		goal = 15;
 		initialModules = 3;
 		initialNeedy = 1;
 		lifeMax = 3;
 	} else {
 		singleSolvableFile = true;
-		moduleValid = (moduleFile == "keypad" || moduleFile == "password" || moduleFile == "maze" || moduleFile == "memory" ||
-			moduleFile == "morse" || moduleFile == "password" || moduleFile == "simon" || moduleFile == "whosOnFirst" || moduleFile == "wireSequence" ||
-			moduleFile == "9ball" || moduleFile == "cruelModulo" ||
-			moduleFile == "coprime" || moduleFile == "numButtons");
+		missionValid = (missionFile == "keypad" || missionFile == "password" || missionFile == "maze" || missionFile == "memory" ||
+			missionFile == "morse" || missionFile == "password" || missionFile == "simon" || missionFile == "whosOnFirst" || missionFile == "wireSequence" ||
+			missionFile == "9ball" || missionFile == "cruelModulo" ||
+			missionFile == "coprime" || missionFile == "numButtons");
 	}
 	
-	if (moduleValid) {
+	if (missionValid) {
 		life = lifeMax;
 		timeLimit = timeMax;
 		makeBomb(initialModules, initialNeedy);
 	} else {
-		applyFeedback(false, "To play this game, a valid module must be loaded.");
+		applyFeedback(false, "To play this game, a valid mission must be loaded.");
 	}
 }
 
@@ -174,6 +189,7 @@ function solveModule(obj, cond, postSolve, weight) {
 	// Solve the module
 	if ((postSolve && life > 0) || (gameActive && obj.style.borderColor != solveColor)) {
 		if (cond) {
+			// Success! We gain a point, and the module is disarmed!
 			obj.style.borderColor = solveColor;
 			if (hideSolves) {
 				obj.style.display = "none";
@@ -204,12 +220,13 @@ function solveModule(obj, cond, postSolve, weight) {
 			if (score >= goal) {
 				gameWon();
 			} else if (!bombQueued) {
+				// Current bomb exhausted. Next bomb specifications vary wildly from mission to mission
 				if (score >= nextBomb) {
 					if (isFinite(goal)) {
 						var nextSize;
 						var nextNeedy = 0;
 						
-						if (moduleFile == "mixedPractice") {
+						if (missionFile == "mixedPractice") {
 							switch (score) {
 								case 3:
 									nextSize = 5;
@@ -221,9 +238,9 @@ function solveModule(obj, cond, postSolve, weight) {
 									nextSize = 11;
 									break;
 							}
-							
 							disarmBomb(nextSize,0);
-						} else if (moduleFile == "mixedPack1" || moduleFile == "mixedPack2") {
+							
+						} else if (missionFile == "mixedPack1" || missionFile == "mixedPack2") {
 							switch (score) {
 								case 3:
 									nextSize = 7;
@@ -232,9 +249,9 @@ function solveModule(obj, cond, postSolve, weight) {
 									nextSize = 11;
 									break;
 							}
-							
 							disarmBomb(nextSize,0);
-						} else if (moduleFile == "masteryExam") {
+							
+						} else if (missionFile == "masteryExam") {
 							switch (score) {
 								case 7:
 									nextSize = 15;
@@ -244,9 +261,9 @@ function solveModule(obj, cond, postSolve, weight) {
 									nextSize = 19;
 									break;
 							}
-							
 							disarmBomb(nextSize,0);
-						} else if (moduleFile == "capacitor" || moduleFile == "knob" || moduleFile == "ventGas" || moduleFile == "mixedNeedy") {
+							
+						} else if (missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas" || missionFile == "mixedNeedy") {
 							var nextNeedy;
 							switch (score) {
 								case 2:
@@ -258,8 +275,8 @@ function solveModule(obj, cond, postSolve, weight) {
 									nextNeedy = 3;
 									break;
 							}
-							
 							disarmBomb(nextSize,nextNeedy);
+							
 						} else if (score >= 9) {
 							disarmBomb(Math.min(goal - score,maxPerBomb),0);
 						} else {
@@ -314,6 +331,7 @@ function strikeBomb() {
 function startBombCountdown(auxAlso) {
 	clearInterval(bombCountdown);
 	
+	// The countdown frequency varies on how many lives are missing
 	var adjustedMax = Math.max(lifeMax-1,4);
 	var adjustedLife;
 	if (lifeMax < 5) {
@@ -325,6 +343,10 @@ function startBombCountdown(auxAlso) {
 	bombCountdown = setInterval(timeDecay, 500+(adjustedLife/adjustedMax*500));
 	
 	if (auxAlso) {
+		/*
+		 * Not all modules are pre-made, some are generated after the bomb started,
+		 * usually those that have a reset condition.
+		 */
 		makeAllMazes();
 		makeAllMemories();
 		makeAllSimons();
@@ -352,7 +374,7 @@ function disarmBomb(nextTarget, nextNeedys) {
 	clearInterval(bombCountdown);
 	activateAllNeedys(false);
 	if (score % 25 == 0 || (score - needyScore) % 25 == 0 && !isFinite(goal)) {
-		if (moduleFile == "endlessHardcore") {
+		if (missionFile == "endlessHardcore") {
 			applyFeedback(true, score+" modules disarmed.&emsp;"+continueButton(nextTarget,nextNeedys));
 		} else {
 			applyFeedback(true, score+" modules disarmed! Extra life acquired.&emsp;"+continueButton(nextTarget,nextNeedys));
@@ -459,6 +481,13 @@ function activateNeedyModule(timerObj, newState) {
 }
 
 function cycleNeedyHeats() {
+	/*
+	 * Needy modules have an internal "heat" system that builds as a bomb progresses.
+	 * If the "temperature" maxes out, then the module overloads, causing a strike.
+	 *
+	 * Negative heat is used to denote a needy that is not currently ready for interaction.
+	 * Permanently deactivated modules are set to -999, a frozen value.
+	 */
 	for (var n in needyCollection) {
 		var needyHeat = parseFloat(needyCollection[n].value);
 		var maxHeat = parseFloat(needyCollection[n].max);
@@ -513,6 +542,7 @@ function continueButton(canStillPlay, needyCount) {
 }
 
 function cloneArray(orgArray) {
+	// Duplicates the array, because merely setting it equal simply creates another reference to the very same array.
 	newArray = new Array();
 	
 	for (var c = 0; c < orgArray.length; c++) {
@@ -525,7 +555,7 @@ function cloneArray(orgArray) {
 /* ----------------------------------------------------------- */
 
 function makeBomb(totCount, needyCount) {
-	var useModuleRules = moduleFile;
+	var useModuleRules = missionFile;
 	var randomAdd = irandom(0,defaultModules.length-1);
 	graceTime = 3;
 	if (score > 0) {
@@ -572,7 +602,7 @@ function makeBomb(totCount, needyCount) {
 				break;
 		}
 		
-		if (moduleFile == "adjLetters") {
+		if (missionFile == "adjLetters") {
 			timeMax = timeMax * 2 - 60;
 		}
 		timeLimit = timeMax;
@@ -582,6 +612,7 @@ function makeBomb(totCount, needyCount) {
 	nextBomb = score + totCount - needyCount;
 	needyScore = needyCount;
 
+	// Reset the bomb (by deleting obsoleted modules)
 	bombNode = document.getElementById("bomb");
 	moduleCollection = document.getElementsByTagName("fieldset");
 	for (j = 0; j < moduleCollection.length; j++) {
@@ -593,18 +624,19 @@ function makeBomb(totCount, needyCount) {
 	createEdgework();
 	var hardModules = [0, 0, 0];
 
-	if (moduleFile == "mixedPack2") {
+	if (missionFile == "mixedPack2") {
 		randomAdd = irandom(0,3);
-	} else if (moduleFile == "masteryExam") {
+	} else if (missionFile == "masteryExam") {
 		if (score == 0) {
 			hardModules[1] = -1;
 		}
 	}
 
 	for (k = 0; k < totCount; k++) {
-		if (moduleFile == "mixedPractice" && totCount == 11) {
+		// Modules fetched vary wildly from mission to mission
+		if (missionFile == "mixedPractice" && totCount == 11) {
 			useModuleRules = defaultModules[(k + randomAdd) % defaultModules.length];
-		} else if (moduleFile == "mixedPack1") {
+		} else if (missionFile == "mixedPack1") {
 			hardModules[1] = Math.floor(totCount/4);
 			
 			do
@@ -616,7 +648,7 @@ function makeBomb(totCount, needyCount) {
 				timeMax += 60;
 				timeLimit += 60;
 			}
-		} else if (moduleFile == "mixedPack2") {
+		} else if (missionFile == "mixedPack2") {
 			hardModules[1] = Math.floor(totCount/4);
 			
 			do
@@ -626,7 +658,7 @@ function makeBomb(totCount, needyCount) {
 			if (useModuleRules == "coloKeys") {
 				hardModules[0]++;
 			}
-		} else if (moduleFile == "masteryExam") {
+		} else if (missionFile == "masteryExam") {
 			hardModules[2] = Math.floor(totCount/8);
 			if (score < 22) {
 				do
@@ -655,30 +687,30 @@ function makeBomb(totCount, needyCount) {
 					}
 				}
 			}
-		} else if (moduleFile == "endlessButtons") {
+		} else if (missionFile == "endlessButtons") {
 			useModuleRules = "bigButton";
-		} else if (moduleFile == "endlessPassword") {
+		} else if (missionFile == "endlessPassword") {
 			useModuleRules = "password";
-		} else if (moduleFile == "endlessSimon") {
+		} else if (missionFile == "endlessSimon") {
 			useModuleRules = "simon";
-		} else if (moduleFile == "endlessVenn") {
+		} else if (missionFile == "endlessVenn") {
 			useModuleRules = "venn";
 		} else {
 			if (k < needyCount) {
 				if (singleNeedyFile) {
-					useModuleRules = moduleFile;
+					useModuleRules = missionFile;
 				} else {
 					useModuleRules = defaultNeedys[irandom(0,defaultNeedys.length-1)];
 				}
-			} else if (moduleFile == "endlessStable" || moduleFile == "mixedPractice" || moduleFile == "mixedNeedy" ||
-				moduleFile == "capacitor" || moduleFile == "knob" || moduleFile == "ventGas") {
+			} else if (missionFile == "endlessStable" || missionFile == "mixedPractice" || missionFile == "mixedNeedy" ||
+				missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas") {
 				useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
 			} else if (!singleSolvableFile) {
 				do {
 					var difficulty = 0;
 					useModuleRules = grandModules[irandom(0,grandModules.length-1)];
 					
-					if (moduleFile.startsWith("endless") || moduleFile.startsWith("short")) {
+					if (missionFile.startsWith("endless") || missionFile.startsWith("short")) {
 						if (useModuleRules == "coloKeys") {
 							difficulty = 0.87;
 						} else if (useModuleRules == "adjLetters") {
@@ -698,6 +730,7 @@ function makeBomb(totCount, needyCount) {
 		newModuleLabel.innerHTML = "Module "+newId;
 		newModule.appendChild(newModuleLabel);
 		
+		// This is where library.js comes into play.
 		createBombModule(newModule,useModuleRules);
 		
 		bombNode.appendChild(newModule);
@@ -718,6 +751,7 @@ function makeBomb(totCount, needyCount) {
 }
 
 function createEdgework() {
+	// Edgework effectively serves as random factor
 	const serialChars = 'ABCDEFGHIJKLMNPQRSTUVWXZ0123456789';
 	var numBatt = [irandom(0,2), irandom(0,2)];
 	var numIndicators = irandom(0,3);
@@ -925,6 +959,7 @@ function renderTime(amt, dispFrac) {
 }
 
 function updateUI() {
+	// The UI showcases how the meters and figures are rendered
 	if (isFinite(goal)) {
 		document.getElementById("score").innerHTML = score + " / " + goal;
 	} else {
@@ -934,7 +969,7 @@ function updateUI() {
 	document.getElementById("bombTime").innerHTML = renderTime(timeLimit, false);
 	
 	var meterSize = score/goal*300;
-	if (!isFinite(goal) && moduleFile != "endlessHardcore") {
+	if (!isFinite(goal) && missionFile != "endlessHardcore") {
 		var meterSize = (score%25)/25*300;
 	}
 	var curveLeft = Math.min(meterSize,3);
