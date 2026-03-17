@@ -307,7 +307,7 @@ function makeAllCoprimes() {
 function makeCoprimeStage(readObj) {
 	var stagesFinished = 0;
 	for (var s = 1; s <= 3; s++) {
-		stageObj = document.getElementById(readObj.id+"cS"+s);
+		stageObj = document.getElementById(readObj.id+"ccS"+s);
 		if (stageObj.style.backgroundColor == stageColor) {
 			stagesFinished++;
 		}
@@ -341,14 +341,14 @@ function makeCoprimeStage(readObj) {
 			}
 		}
 		
-		document.getElementById(readObj.id+"cT").innerHTML = newInts[0];
-		document.getElementById(readObj.id+"cB").innerHTML = newInts[1];
+		document.getElementById(readObj.id+"ccT").innerHTML = newInts[0];
+		document.getElementById(readObj.id+"ccB").innerHTML = newInts[1];
 	}
 }
 
 function pressCoprimeButton(readObj, flagId) {
 	if (gameActive && readObj.style.borderColor != solveColor) {
-		var readNums = [parseInt(document.getElementById(readObj.id+"cT").innerHTML), parseInt(document.getElementById(readObj.id+"cB").innerHTML)];
+		var readNums = [parseInt(document.getElementById(readObj.id+"ccT").innerHTML), parseInt(document.getElementById(readObj.id+"ccB").innerHTML)];
 		var numsCoprime = true;
 		var getFlag = (flagId.id.slice(-1) == 1);
 		
@@ -361,7 +361,7 @@ function pressCoprimeButton(readObj, flagId) {
 		
 		var stageNum = 1;
 		for (var s = 1; s <= 3; s++) {
-			stageObj = document.getElementById(readObj.id+"cS"+s);
+			stageObj = document.getElementById(readObj.id+"ccS"+s);
 			if (stageObj.style.backgroundColor == stageColor) {
 				stageNum++;
 			}
@@ -372,7 +372,7 @@ function pressCoprimeButton(readObj, flagId) {
 		if (pressedCorrect) {
 			console.log("Coprime stage "+stageNum+" correct. The correct flag is "+numsCoprime+".")
 			
-			document.getElementById(readObj.id+"cS"+stageNum).style.backgroundColor = stageColor;
+			document.getElementById(readObj.id+"ccS"+stageNum).style.backgroundColor = stageColor;
 		} else {
 			console.warn("Coprime stage "+stageNum+" striked! The correct flag is "+numsCoprime+".")
 			solveModule(readObj, false, false);

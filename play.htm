@@ -46,15 +46,22 @@ Welcome to Katane Blitz! Best of luck completing your objective!
 </tr>
 </table>
 
+<div id="timeAux"></div>
+
 <div id="bomb">
 <!-- Automatically creates/destroys modules as a game progresses -->
 </div>
 
 <div id="help"> 
 <h2>Instructions</h2>
-<p>The rules of Katane Blitz are somewhat simple. The player is dealt a series of randomly generated modules, and the objective is to solve each one, without incurring strikes (causing a life reduction). A game ends when the life or timer pools empty out. A game is won if the required score goal (if specified) can be reached.</p>
+<p>The rules of Katane Blitz are somewhat simple. The player is dealt a series of randomly generated modules, and the objective is to solve each one, without incurring strikes (causing a life reduction). A game ends when the life or timer pools empty out.</p>
 
-<p>Arcade games will generate an unlimited number of modules. Endless games grant time extensions with each module solved, <i>but</i> the amount of time granted with each solve decreases as more  modules are scored. Short games have a <i>fixed</i> initial length.</p>
+<p id="arcade">Arcade games will generate an unlimited number of modules.
+	<span id="endless">Endless games grant time extensions with each module solved, <i>but</i> the amount of time granted with each solve decreases as more modules are scored.</span>
+	<span id="short">Short games have a <i>fixed</i> initial length, making it the objective to simply be solve as many modules as possible.</span>
+</p>
+
+<p id="mission">Mission games are won if the required score goal can be reached.</p>
 </div>
 
 </body>

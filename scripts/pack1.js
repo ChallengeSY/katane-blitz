@@ -229,7 +229,7 @@ function submitAdjLetters(readObj) {
 			allCorrect = (checkAdjLetters(baseId,l,false) && allCorrect);
 		}
 		
-		solveModule(readObj, allCorrect, false, 25);
+		solveModule(readObj, allCorrect, false, 50);
 		if (allCorrect) {
 			console.log("Adjacent Letters was submitted correctly.");
 		} else {

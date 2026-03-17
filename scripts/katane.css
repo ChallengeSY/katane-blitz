@@ -59,8 +59,31 @@ div.warning {background: rgb(255,0,0);}
 div.danger {background: rgb(255,0,0); animation: flashDiv 1000ms infinite;}
 div.nightmare {background: rgb(255,0,0); animation: flashDiv 500ms infinite;}
 
-#bomb {display: grid; grid-template-columns: 25% 25% 25% 25%;}
+/*
+ * Dynamic styling based on screen width. The wider the screen, the more modules per row.
+ */
+@media (min-width: 3600px) {
+	#bomb {display: grid; grid-template-columns: 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333% 8.333%;}
+}
+
+@media (min-width: 3200px) and (max-width: 3599px) {
+	#bomb {display: grid; grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;}
+}
+
+@media (min-width: 2800px) and (max-width: 3199px) {
+	#bomb {display: grid; grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;}
+}
+
+@media (min-width: 2400px) and (max-width: 2799px) {
+	#bomb {display: grid; grid-template-columns: 16.666% 16.666% 16.666% 16.666% 16.666% 16.666%;}
+}
+
+@media (max-width: 2399px) {
+	#bomb {display: grid; grid-template-columns: 25% 25% 25% 25%;}
+}
+
 #numBattAA, #numBattD {color: yellow; font-weight: bold;}
+#timeAux {position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 0%); background: rgb(48,48,96); z-index: 2; font-size: 150%; padding: 5px; border: 1px solid rgb(96,96,192);}
 
 #banner img {padding: 5px; background: black;}
 #serialNum {font-family: monospace; font-size: 165%;}
@@ -183,7 +206,7 @@ div.whoButton {text-align: center;}
 .knobAnswer {visibility: hidden;}
 .knobTimer {grid-column: 4 / span 1; grid-row: 2 / span 2;}
 
-.ventGasFrame {display: grid; grid-template-columns: auto auto auto;}
+.ventGasFrame, .lightsOutFrame {display: grid; grid-template-columns: auto auto auto;}
 .ventGasDisp {padding: 5%;}
 .needyTimer {font-family: monospace; color: #F00; text-align: center;}
 .needyTimer meter {visibility: hidden;}

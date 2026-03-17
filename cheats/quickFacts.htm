@@ -24,6 +24,7 @@
 <li><a href="#pack0">Vanilla</a></li>
 <li><a href="#pack1">Adjacent</a></li>
 <li><a href="#pack2">Coprime</a></li>
+<li><a href="#pack3">Lights</a></li>
 </div>
 
 <div id="bodyTxt">
@@ -77,7 +78,7 @@
 <h3>Needy Modules</h3>
 <p>The available three needy modules have a few fun facts. Some are shared, some are unique.</p>
 <ul>
-<li>Needy modules can initially activate when 90 seconds have passed, a module has been solved, or a life has been lost; whichever comes first. In Arcade mode, needies that show up after the first bomb activate immediately.</li>
+<li>Needy modules can initially activate when 90 seconds have passed, a module has been solved, or a life has been lost; whichever comes first. Needies that show up after the first bomb activate immediately.</li>
 <li>If a <a href="https://ktane.timwi.de/HTML/Capacitor Discharge.html">capacitor</a> overloads, the module will <b>permanently</b> deactivate. Consequently, Katane Blitz intentionally omits blown capacitors when scoring in Endless games.</li>
 <li>Other needy modules can reactivate anywhere between 10 and 40 sec from the last deactivation.</li>
 <li><a href="https://ktane.timwi.de/HTML/Knob.html">Knobs</a> are unique among the <q>vanilla</q> needy modules in that it will always run its timer down to zero. When it does, if the arrow is in the correct orientation, the module quietly deactivates. Otherwise, it strikes.</li>
@@ -129,7 +130,14 @@
 
 <hr />
 
-<h2 id="pack1">Adjacent Pack modules</h2>
+<h2 id="pack1">Adjacent Pack</h2>
+<h3>Expansion Module Notes</h3>
+<p>Since not all expansion (modded) modules are created equal, Arcade mode has additional mechanics that influence when these modules can appear.</p>
+<ul>
+<li>Unless specified otherwise, these modules do not appear outside of Endless Hardcore until 13 modules have already been solved</li>
+<li>If a module is specifically restricted, it will never show up until that many modules are already solved. Restricted modules also add time as if the nearest multiple of 25 fewer modules were solved</li>
+</ul>
+
 <h3>9-Ball</h3>
 <p><a href="https://ktane.timwi.de/HTML/9-Ball.html">9-Ball</a> (by GhostSalt) is a fairly simple module.</p>
 <ul>
@@ -142,7 +150,7 @@
 <ul>
 <li>Each of the twelve letters has a unique set of neighbors that, when present on the appropriate side, necessitate that the key be pressed.</li>
 <li>A letter can <q>resonate</q> with one, but not both, requirements of another letter.</li>
-<li>Because of its increased difficulty, this module will not appear in Arcade games until 25 modules have already been disarmed. It will also grant time extensions as if 25 fewer modules were disarmed.</li>
+<li>Because of a combination of increased difficulty and time consumption, this module will not appear in Arcade games until 53 modules have already been solved.</li>
 </ul>
 
 <h3>Modulo</h3>
@@ -161,7 +169,7 @@
 
 <hr />
 
-<h2 id="pack2">Coprime Pack modules</h2>
+<h2 id="pack2">Coprime Pack</h2>
 <h3>Alphabet</h3>
 <p><a href="https://ktane.timwi.de/HTML/Alphabet.html">Alphabet</a> (by mitterdoo) is a fairly simple module.</p>
 <ul>
@@ -177,7 +185,7 @@
 <li>Each of the three primary colors of light (Red + Green + Blue) are legal colors, along with all the combinations resulting from these colors, <i>except</i> cyan (Green + Blue).</li>
 <li>Each of the four buttons has a total of nine possible conditions.</li>
 <li>Some of the conditions are shared across each button. Others are bound to the bomb edgework. A few conditions match neither of the previous two statements.</li>
-<li>While slightly less difficult than Adjacent Letters, it is more punishing of mistakes. As a consequence, this module does not appear in Arcade mode until 22 modules have already been solved. It still awards time as if 25 fewer modules were solved.</li>
+<li>While less difficult than Adjacent Letters, it is still fairly punishing of mistakes. As a consequence, this module does not appear in Arcade mode until 22 modules have already been solved.</li>
 </ul>
 
 <h3>Coprime Checker</h3>
@@ -194,6 +202,37 @@
 <li>Between 16 cells and 12 accepted integers in each cell, it is a fair amount to go through.</li>
 <li>Some integers are never accepted, while others are not unique in terms of accepted positions.</li>
 <li>Speaking of, integers may show up in a grid more than once.</li>
+</ul>
+
+<hr />
+
+<h2 id="pack3">Lights Pack</h2>
+<h3>Colour Flash</h3>
+<p><a href="https://ktane.timwi.de/HTML/Colour Flash.html">Colour Flash</a> (by Bashly) is a difficult module.</p>
+<ul>
+<li>Uses an identical color system to Colored Keys, only that Purple is called Magenta.</li>
+<li>Three (3) conditions at a time are active, depending on the color of the last entry of the sequence.</li>
+<li>Some of the possible conditions can count both a word and a color matching the word.</li>
+<li>It is because of its above average difficulty, that it does not appear in Arcade games until 28 modules have already been solved.</li>
+</ul>
+
+<h3>Colored Squares</h3>
+<p><a href="https://ktane.timwi.de/HTML/Colored Squares.html">Colored Squares</a> (by Timwi and TheAuthorOfOz) is a moderate module.</p>
+<ul>
+<li>Mileage may vary wildly, as there is always the possibility of there being a surge of valid inputs in a single stage.</li>
+</ul>
+
+<h3>Lights Out</h3>
+<p><a href="https://ktane.timwi.de/HTML/Lights Out.html">Lights Out</a> (by Bashly) is the first expansion needy module, and it is a difficult one at that.</p>
+
+<p>Because of how difficult it can be to shut off all the lights, especially to less experienced defusers, this module does not show up in Arcade until 28 modules have already been solved.</p>
+
+<h3>Two Bits</h3>
+<p><a href="https://ktane.timwi.de/HTML/Two Bits.html">Two Bits</a> (by Kaneb) is a time consuming module.</p>
+<ul>
+<li>While not as difficult as some of the other restricted modules, it still will not appear in Arcade until 28 modules have already been solved.</li>
+<li>The 100 different pairs are shuffled on a per module basis.</li>
+<li>It is possible for the initial value to generate a query identical to itself. If that happens, then the solution has already been found.</li>
 </ul>
 </div>
 

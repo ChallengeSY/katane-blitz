@@ -95,16 +95,20 @@ function validateButtonPress(event, readObj) {
 			success = (timeLeft.search(reqTime.toString()) >= 0);
 		}
 
-		if (success) {
-			console.log("Big Button was released correctly.");
-		} else if (!holdReq) {
-			console.warn("Big Button was released incorrectly! It needed to be released immediately.");
-		} else if (isNaN(reqTime)) {
-			console.warn("Big Button was released incorrectly! A hold was required.");
-		} else {
-			console.warn("Big Button was released incorrectly! A "+reqTime+" was required somewhere in the timer. Your time remaining was "+timeLeft+".");
+		if (life > 0) {
+			if (success) {
+				console.log("Big Button was released correctly.");
+			} else if (!holdReq) {
+				console.warn("Big Button was released incorrectly! It needed to be released immediately.");
+			} else if (isNaN(reqTime)) {
+				console.warn("Big Button was released incorrectly! A hold was required.");
+			} else {
+				console.warn("Big Button was released incorrectly! A "+reqTime+" was required somewhere in the timer. Your time remaining was "+timeLeft+".");
+			}
+			if (readObj.style.borderColor != solveColor || !success) {
+				solveModule(readObj, success, true, 0);
+			}
 		}
-		solveModule(readObj, success, false, 0);
 		
 		playSound(buttonSnds[1]);
 		previousButtonClick = event.type;
@@ -865,7 +869,7 @@ function createRandomPassChars(targWord) {
 			}
 		}
 		
-		var tempWord
+		var tempWord;
 		
 		// Validate the columns
 		validate: {
@@ -1718,7 +1722,7 @@ function queueWireSeqStage(readObj, forward) {
 		setWireSeqButtons(readObj, false);
 		var newStage = curStage - 1;
 
-		console.log("Backtracking to stage "+newStage+".");
+		console.log("Wire Sequence stage "+newStage+" retraced.");
 		setTimeout(function() {openWireSeqStage(readObj, newStage)}, 750);
 	} else if (forward) {
 		var answerKey = document.getElementById(baseId+"A").innerHTML;
@@ -1740,18 +1744,18 @@ function queueWireSeqStage(readObj, forward) {
 			document.getElementById(baseId+"S"+curStage).style.backgroundColor = stageColor;
 
 			if (newStage <= 4) {
-				console.log("Advancing correctly to stage "+newStage+".");
+				console.log("Wire Sequence stage "+curStage+" correct.");
 				setTimeout(function() {openWireSeqStage(readObj, newStage)}, 750);
 			} else {
 				console.log("Wire Sequence solved.");
 				solveModule(readObj, true, false, 0);
 			}
-		} else {
+		} else if (gameActive) {
 			console.warn("Wire Sequence striked! One or more required wires in stage "+curStage+" were missed!");
 			solveModule(readObj, false, false);
 			
 			if (!gameActive) {
-				console.warn("Seq Wire(s) "+needCut.toString()+" need to be cut!");
+				console.warn("Seq wire(s) "+needCut.toString()+" need to be cut!");
 			}
 		}
 	}
@@ -1789,9 +1793,9 @@ function cutSeqWire(readObj, wireObj) {
 		var answerKey = document.getElementById(readObj.id+"qA").innerHTML;
 		
 		if (answerKey.charAt(wireCut-1) == "C") {
-			console.log("Seq Wire "+wireCut+" was cut correctly.");
+			console.log("Seq wire "+wireCut+" was cut correctly.");
 		} else {
-			console.warn("Seq Wire "+wireCut+" was cut incorrectly!");
+			console.warn("Seq wire "+wireCut+" was cut incorrectly!");
 			solveModule(readObj, false, false);
 		}
 	}		

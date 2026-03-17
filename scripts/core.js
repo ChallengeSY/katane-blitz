@@ -29,11 +29,22 @@ const defaultIndicators = ["SND", "CLR", "CAR", "IND", "FRQ", "SIG", "NSA", "MSA
 const defaultPorts = ["DVI-D", "Parallel", "PS/2", "RJ-45", "Serial", "Stereo"];
 const defaultModules = ["bigButton", "keypad", "maze", "memory", "morse", "password", "simon", "venn", "whosOnFirst", "wires", "wireSequence"];
 const defaultNeedys = ["ventGas", "capacitor", "knob"];
-const addonModules = ["9ball", "adjLetters", "modulo", "switches", "alphabet", "coloKeys", "coprime", "numButtons"];
+const addonModules = ["9ball", "adjLetters", "modulo", "switches", "alphabet", "coloKeys", "coprime", "numButtons", "coloFlash", "coloSquares", "twoBits"];
+const addonNeedys = ["lightsOut"];
 
 var grandModules = cloneArray(defaultModules).concat(addonModules);
+var grandNeedys = cloneArray(defaultNeedys).concat(addonNeedys);
 
 const needyCycleDur = 0.2;
+
+window.onscroll = function() {checkView()};
+
+function hideRules(misnType) {
+	document.getElementById("arcade").style.display = (misnType == "mission" ? "none" : "");
+	document.getElementById("endless").style.display = (misnType == "endless" ? "" : "none");
+	document.getElementById("short").style.display = (misnType == "short" ? "" : "none");
+	document.getElementById("mission").style.display = (misnType == "mission" ? "" : "none");
+}
 
 function startGame() {
 	var missionValid = false;
@@ -47,6 +58,8 @@ function startGame() {
 	handicap = 0;
 	timeMax = 180;
 	eggCooldown = 7;
+	hideRules("mission");
+	checkView();
 
 	// This section contains ALL missions
 	if (missionFile.startsWith("endless")) {
@@ -55,16 +68,16 @@ function startGame() {
 		 *
 		 * These missions are doomed to fail, as the time extensions granted DECREASE as more modules are disarmed.
 		 */
+		hideRules("endless");
 		goal = Infinity;
 		timeMax = 180;
 		handicap = 0;
 		initialModules = irandom(3,5);
+		initialNeedy = 0;
 		if (missionFile == "endlessHardcore") {
-			initialNeedy = 0;
 			timeMax = 300;
 			lifeMax = 1;
 		} else if (missionFile == "endless") {
-			initialNeedy = Math.max(irandom(-2,1),0);
 			timeMax = 300;
 			lifeMax = 3;
 		} else {
@@ -91,6 +104,7 @@ function startGame() {
 		/*
 		 * These Short missions have a fixed max time. Effectively, they serve as a "how far can one go before time runs out".
 		 */
+		hideRules("short");
 		goal = Infinity;
 		handicap = Infinity;
 		initialModules = irandom(3,5);
@@ -113,10 +127,15 @@ function startGame() {
 		timeMax = 300;
 		initialModules = 3;
 		goal = 21;
+	} else if (missionFile == "mixedPack3") {
+		missionValid = true;
+		timeMax = 300;
+		initialModules = 3;
+		goal = 19;
 	} else if (missionFile == "masteryExam") {
 		missionValid = true;
-		initialModules = 7;
-		goal = 40;
+		initialModules = 11;
+		goal = 43;
 	} else if (missionFile == "kiloBomb") {
 		missionValid = true;
 		timeMax = 1500;
@@ -148,7 +167,7 @@ function startGame() {
 	} else if (missionFile == "adjLetters") {
 		missionValid = true;
 		singleSolvableFile = true;
-		goal = 4;
+		goal = 7;
 	} else if (missionFile == "coloKeys") {
 		missionValid = true;
 		singleSolvableFile = true;
@@ -165,15 +184,23 @@ function startGame() {
 		missionValid = true;
 		singleNeedyFile = (missionFile != "mixedNeedy");
 		goal = 15;
+		lifeMax = 3;
 		initialModules = 3;
 		initialNeedy = 1;
+	} else if (missionFile == "lightsOut") {
+		missionValid = true;
+		singleNeedyFile = (missionFile != "mixedNeedy");
+		goal = 18;
 		lifeMax = 3;
+		initialModules = 3;
+		initialNeedy = 1;
 	} else {
 		singleSolvableFile = true;
 		missionValid = (missionFile == "keypad" || missionFile == "password" || missionFile == "maze" || missionFile == "memory" ||
 			missionFile == "morse" || missionFile == "password" || missionFile == "simon" || missionFile == "whosOnFirst" || missionFile == "wireSequence" ||
 			missionFile == "9ball" || missionFile == "cruelModulo" ||
-			missionFile == "coprime" || missionFile == "numButtons");
+			missionFile == "coprime" || missionFile == "numButtons" ||
+			missionFile == "coloFlash" || missionFile == "coloSquares" || missionFile == "twoBits");
 	}
 	
 	if (missionValid) {
@@ -199,7 +226,9 @@ function solveModule(obj, cond, postSolve, weight) {
 			if (!isFinite(goal) && isFinite(handicap)) {
 				var finalScore = score + handicap - weight;
 				
-				if (finalScore <= 0) {
+				if (finalScore <= -25) {
+					timeLimit += 50;
+				} else if (finalScore <= 0) {
 					timeLimit += 40;
 				} else if (finalScore <= 25) {
 					timeLimit += 30;
@@ -240,7 +269,7 @@ function solveModule(obj, cond, postSolve, weight) {
 							}
 							disarmBomb(nextSize,0);
 							
-						} else if (missionFile == "mixedPack1" || missionFile == "mixedPack2") {
+						} else if (missionFile == "mixedPack1" || missionFile == "mixedPack2" || missionFile == "mixedPack3") {
 							switch (score) {
 								case 3:
 									nextSize = 7;
@@ -253,11 +282,10 @@ function solveModule(obj, cond, postSolve, weight) {
 							
 						} else if (missionFile == "masteryExam") {
 							switch (score) {
-								case 7:
+								case 11:
 									nextSize = 15;
 									break;
 								default:
-									lifeMax = 3;
 									nextSize = 19;
 									break;
 							}
@@ -273,6 +301,20 @@ function solveModule(obj, cond, postSolve, weight) {
 								default:
 									nextSize = 11;
 									nextNeedy = 3;
+									break;
+							}
+							disarmBomb(nextSize,nextNeedy);
+							
+						} else if (missionFile == "lightsOut") {
+							var nextNeedy;
+							switch (score) {
+								case 2:
+									nextSize = 7;
+									nextNeedy = 1;
+									break;
+								default:
+									nextSize = 11;
+									nextNeedy = 1;
 									break;
 							}
 							disarmBomb(nextSize,nextNeedy);
@@ -344,7 +386,7 @@ function startBombCountdown(auxAlso) {
 	
 	if (auxAlso) {
 		/*
-		 * Not all modules are pre-made, some are generated after the bomb started,
+		 * Not all modules are pre-made. Some are generated after the bomb started,
 		 * usually those that have a reset condition.
 		 */
 		makeAllMazes();
@@ -358,6 +400,9 @@ function startBombCountdown(auxAlso) {
 		makeAllColKeys();
 		makeAllCoprimes();
 		makeAllNumButtons();
+		
+		fixAllColFlashes();
+		makeAllColSquares();
 	}
 }
 
@@ -373,7 +418,7 @@ function gameWon() {
 function disarmBomb(nextTarget, nextNeedys) {
 	clearInterval(bombCountdown);
 	activateAllNeedys(false);
-	if (score % 25 == 0 || (score - needyScore) % 25 == 0 && !isFinite(goal)) {
+	if ((score % 25 == 0 || (score - needyScore) % 25 == 0) && !isFinite(goal)) {
 		if (missionFile == "endlessHardcore") {
 			applyFeedback(true, score+" modules disarmed.&emsp;"+continueButton(nextTarget,nextNeedys));
 		} else {
@@ -459,6 +504,8 @@ function activateNeedyModule(timerObj, newState) {
 		activateKnob(baseObj, newState);
 	} else if (baseObj.className.search("ventGasFrame") >= 0) {
 		activateVentGas(baseObj, newState, false);
+	} else if (baseObj.className.search("lightsOutFrame") >= 0) {
+		activateLightsOut(baseObj, newState);
 	}
 	
 	if (newState) {
@@ -552,6 +599,19 @@ function cloneArray(orgArray) {
 	return newArray;
 }
 
+function shuffleArray(orgArray) {
+	// Duplicates the array first
+	newArray = cloneArray(orgArray);
+	
+	// ... so that its contents can be shuffled.
+	for (var a = newArray.length - 1; a > 0; a--) {
+		let b = irandom(0, a);
+		[newArray[a], newArray[b]] = [newArray[b], newArray[a]];
+	}
+	
+	return newArray;
+}
+
 /* ----------------------------------------------------------- */
 
 function makeBomb(totCount, needyCount) {
@@ -586,23 +646,25 @@ function makeBomb(totCount, needyCount) {
 			case 7:
 				// Fall thru
 			case 11:
-				if (score < 26) {
-					timeMax = 420;
+				if (score < 25) {
+					timeMax = 480;
 				} else {
 					timeMax = 300;
 				}
 				break;
 			case 15:
-				timeMax = 750;
+				timeMax = 780;
 				break;
 			case 19:
 				if (score > 0) {
-					timeMax = 900;
+					timeMax = 960;
 				}
 				break;
 		}
 		
 		if (missionFile == "adjLetters") {
+			timeMax = timeMax * 2 + 60 * (1 - Math.floor(score / 4));
+		} else if (missionFile == "coloFlash" || missionFile == "twoBits") {
 			timeMax = timeMax * 2 - 60;
 		}
 		timeLimit = timeMax;
@@ -622,67 +684,112 @@ function makeBomb(totCount, needyCount) {
 	}
 	
 	createEdgework();
-	var hardModules = [0, 0, 0];
-
-	if (missionFile == "mixedPack2") {
-		randomAdd = irandom(0,3);
-	} else if (missionFile == "masteryExam") {
-		if (score == 0) {
-			hardModules[1] = -1;
-		}
-	}
+	var hardModules = [0, 0, 0, 0];
+	var maxHards = 0;
 
 	for (k = 0; k < totCount; k++) {
 		// Modules fetched vary wildly from mission to mission
 		if (missionFile == "mixedPractice" && totCount == 11) {
 			useModuleRules = defaultModules[(k + randomAdd) % defaultModules.length];
 		} else if (missionFile == "mixedPack1") {
-			hardModules[1] = Math.floor(totCount/4);
-			
-			do
-				useModuleRules = addonModules[irandom(0,3)];
-			while (useModuleRules == "adjLetters" && hardModules[0] >= hardModules[1]);
-			
-			if (useModuleRules == "adjLetters") {
-				hardModules[0]++;
-				timeMax += 60;
-				timeLimit += 60;
-			}
-		} else if (missionFile == "mixedPack2") {
-			hardModules[1] = Math.floor(totCount/4);
-			
-			do
-				useModuleRules = addonModules[irandom(4,7)];
-			while (useModuleRules == "coloKeys" && hardModules[0] >= hardModules[1]);
-			
-			if (useModuleRules == "coloKeys") {
-				hardModules[0]++;
-			}
-		} else if (missionFile == "masteryExam") {
-			hardModules[2] = Math.floor(totCount/8);
-			if (score < 22) {
+			if (score <= 0) {
+				useModuleRules = addonModules[k];
+				if (useModuleRules == "adjLetters") {
+					useModuleRules = addonModules[3];
+				}
+			} else {
+				maxHards = Math.floor(totCount/4);
+				
 				do
-					useModuleRules = addonModules[irandom(0,7)];
-				while ((useModuleRules == "adjLetters" && hardModules[0] >= hardModules[2]) || (useModuleRules == "coloKeys" && hardModules[1] >= hardModules[2]));
+					useModuleRules = addonModules[irandom(0,3)];
+				while (useModuleRules == "adjLetters" && hardModules[0] >= maxHards);
 				
 				if (useModuleRules == "adjLetters") {
 					hardModules[0]++;
 					timeMax += 60;
 					timeLimit += 60;
-				} else if (useModuleRules == "coloKeys") {
-					hardModules[1]++;
+				}
+			}
+		} else if (missionFile == "mixedPack2") {
+			if (score <= 0) {
+				useModuleRules = addonModules[k+4];
+				if (useModuleRules == "coloKeys") {
+					useModuleRules = addonModules[7];
 				}
 			} else {
-				hardModules[2] = Math.floor(totCount/4);
+				maxHards = Math.floor(totCount/4);
+				
+				do
+					useModuleRules = addonModules[irandom(4,7)];
+				while (useModuleRules == "coloKeys" && hardModules[0] >= maxHards);
+				
+				if (useModuleRules == "coloKeys") {
+					hardModules[0]++;
+				}
+			}
+		} else if (missionFile == "mixedPack3") {
+			if (score <= 0) {
+				useModuleRules = addonModules[k+8];
+			} else {
+				if (k == 0) {
+					useModuleRules = "lightsOut";
+					timeMax += 60;
+					timeLimit += 60;
+					nextBomb--;
+				} else {
+					maxHards = Math.floor(totCount/3);
+					
+					do
+						useModuleRules = addonModules[irandom(8,10)];
+					while ((useModuleRules == "coloFlash" && hardModules[0] >= maxHards) || (useModuleRules == "twoBits" && hardModules[1] >= maxHards));
+					
+					if (useModuleRules == "coloFlash") {
+						hardModules[0]++;
+					} else if (useModuleRules == "twoBits") {
+						hardModules[1]++;
+					}
+				}
+			}
+		} else if (missionFile == "masteryExam") {
+			if (score == 0) {
+				useModuleRules = addonModules[(k + randomAdd) % 11];
+			} else if (score < 25) {
+				maxHards = 1;
 				
 				if (k == 0) {
 					useModuleRules = defaultNeedys[irandom(0,defaultNeedys.length-1)];
+					nextBomb--;
 				} else {
 					do
 						useModuleRules = grandModules[irandom(0,grandModules.length-1)];
-					while (useModuleRules == "adjLetters" && hardModules[0] >= hardModules[2]);
+					while ((useModuleRules == "adjLetters" && hardModules[0] >= maxHards) ||
+						(useModuleRules == "coloKeys" && hardModules[1] >= maxHards) ||
+						(useModuleRules == "coloFlash" && hardModules[2] >= maxHards) ||
+						(useModuleRules == "twoBits" && hardModules[3] >= maxHards));
 					
-					if (useModuleRules == "adjLetters" || useModuleRules == "coloKeys") {
+					if (useModuleRules == "adjLetters") {
+						hardModules[0]++;
+						timeMax += 60;
+						timeLimit += 60;
+					} else if (useModuleRules == "coloKeys") {
+						hardModules[1]++;
+					} else if (useModuleRules == "coloFlash") {
+						hardModules[2]++;
+					} else if (useModuleRules == "twoBits") {
+						hardModules[3]++;
+					}
+				}
+			} else {
+				maxHards = 2;
+				
+				if (k == 0) {
+					useModuleRules = addonNeedys[irandom(0,addonNeedys.length-1)];
+				} else {
+					do
+						useModuleRules = grandModules[irandom(0,grandModules.length-1)];
+					while ((useModuleRules == "adjLetters" || useModuleRules == "coloKeys" || useModuleRules == "coloFlash" || useModuleRules == "twoBits") && hardModules[0] >= maxHards);
+					
+					if (useModuleRules == "adjLetters" || useModuleRules == "coloKeys" || useModuleRules == "coloFlash" || useModuleRules == "twoBits") {
 						hardModules[0]++;
 					}
 				}
@@ -699,11 +806,22 @@ function makeBomb(totCount, needyCount) {
 			if (k < needyCount) {
 				if (singleNeedyFile) {
 					useModuleRules = missionFile;
-				} else {
+				} else if (missionFile == "mixedNeedy") {
 					useModuleRules = defaultNeedys[irandom(0,defaultNeedys.length-1)];
+				} else {
+					do {
+						var difficulty = 0;
+						useModuleRules = grandNeedys[irandom(0,grandNeedys.length-1)];
+					
+						if (missionFile.startsWith("endless") || missionFile.startsWith("short")) {
+							if (useModuleRules == "lightsOut") {
+								difficulty = 1;
+							}
+						}
+					} while (score < difficulty * 25)
 				}
 			} else if (missionFile == "endlessStable" || missionFile == "mixedPractice" || missionFile == "mixedNeedy" ||
-				missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas") {
+				missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas" || missionFile == "lightsOut") {
 				useModuleRules = defaultModules[irandom(0,defaultModules.length-1)];
 			} else if (!singleSolvableFile) {
 				do {
@@ -711,10 +829,26 @@ function makeBomb(totCount, needyCount) {
 					useModuleRules = grandModules[irandom(0,grandModules.length-1)];
 					
 					if (missionFile.startsWith("endless") || missionFile.startsWith("short")) {
-						if (useModuleRules == "coloKeys") {
+						/*
+						 * Harder modules are intentionally restricted, preventing them from appearing
+						 * until later in an Arcade journey when the team is more comfortable with their appearance.
+						 *
+						 * Doing it this way also allows the team an opportunity to have more lives by the time these modules show up.
+						 */
+						if (useModuleRules == "adjLetters") {
+							difficulty = 2.1;
+						} else if (useModuleRules == "coloFlash" || missionFile == "twoBits") {
+							difficulty = 1.1;
+						} else if (useModuleRules == "coloKeys") {
 							difficulty = 0.87;
-						} else if (useModuleRules == "adjLetters") {
-							difficulty = 1;
+						} else if (!defaultModules.includes(useModuleRules) && missionFile != "endlessHardcore") {
+							/* 
+							 * Non-restricted expansion modules that are not specifically restricted
+							 * still do not show up until 13 modules have already been solved.
+							 *
+							 *  This restriction does not apply when playing Endless Hardcore.
+							 */
+							difficulty = 0.5;
 						}
 					}
 				} while (score < difficulty * 25 || (useModuleRules == "bigButton" && !isFinite(timeMax)))
@@ -797,11 +931,10 @@ function createEdgework() {
 
 	edgework.innerHTML += " AA batt";
 	
-	var indicatorPool = cloneArray(defaultIndicators);
+	var indicatorPool = shuffleArray(defaultIndicators);
 	
 	for (var d = 0; d < numIndicators; d++) {
-		rolledId = irandom(0,indicatorPool.length-1);
-		rolledInd = indicatorPool[rolledId];
+		rolledInd = indicatorPool.shift();
 		rolledLight = irandom(9898,9899);
 		
 		if (d == 0) {
@@ -816,7 +949,6 @@ function createEdgework() {
 		if (rolledLight == 9898) {
 			edgeworkFrag.id = "l"+rolledInd; 
 		}
-		indicatorPool.splice(rolledId, 1);
 		edgework.appendChild(edgeworkFrag);
 	}
 	
@@ -883,6 +1015,18 @@ function hasLitIndicator(label, flag) {
 	} else {
 		return document.getElementById("u"+label);
 	}
+}
+
+function getFirstLetter() {
+	var localSerial = getSerial();
+	
+	for (var l = 0; l < localSerial.length; l++) {
+		if (!isFinite(localSerial.charAt(l))) {
+			return localSerial.charAt(l);
+		}
+	}
+	
+	return null;
 }
 
 function getLastDigit() {
@@ -958,6 +1102,10 @@ function renderTime(amt, dispFrac) {
 	return buildStr;
 }
 
+function buildMeter(amt, target) {
+	return Math.min(Math.max(amt/target*300,0),300);
+}
+
 function updateUI() {
 	// The UI showcases how the meters and figures are rendered
 	if (isFinite(goal)) {
@@ -967,10 +1115,11 @@ function updateUI() {
 	}
 	document.getElementById("life").innerHTML = life + " / " + lifeMax;
 	document.getElementById("bombTime").innerHTML = renderTime(timeLimit, false);
+	document.getElementById("timeAux").innerHTML = renderTime(timeLimit, false);
 	
-	var meterSize = score/goal*300;
+	var meterSize = buildMeter(score,goal);
 	if (!isFinite(goal) && missionFile != "endlessHardcore") {
-		var meterSize = (score%25)/25*300;
+		var meterSize = buildMeter(score%25,25);
 	}
 	var curveLeft = Math.min(meterSize,3);
 	var curveRight = Math.min(Math.max(meterSize-297,0),3);
@@ -985,7 +1134,7 @@ function updateUI() {
 	document.getElementById("scoreMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
 		curveLeft + "px " + curveRight + "px " + curveRight + "px " + curveLeft + "px;\"></div>";
 	
-	meterSize = Math.max(life/lifeMax*300,0);
+	meterSize = buildMeter(life,lifeMax);
 	curveLeft = Math.min(meterSize,3);
 	curveRight = Math.min(Math.max(meterSize-297,0),3);
 	meterClass = "okay";
@@ -1002,7 +1151,7 @@ function updateUI() {
 	document.getElementById("lifeMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
 		curveLeft + "px " + curveRight + "px " + curveRight + "px " + curveLeft + "px;\"></div>";
 	
-	meterSize = Math.max(timeLimit/timeMax*300,0);
+	meterSize = buildMeter(timeLimit,timeMax);
 	curveLeft = Math.min(meterSize,3);
 	curveRight = Math.min(Math.max(meterSize-297,0),3);
 	meterClass = "okay";
@@ -1032,6 +1181,10 @@ function updateUI() {
 	if (score >= 25 || score*10 > goal) {
 		document.getElementById("help").style.display = "none";
 	}
+}
+
+function checkView() {
+	document.getElementById("timeAux").style.display = (document.body.scrollTop > 225 || document.documentElement.scrollTop > 225 ? "" : "none");
 }
 
 function irandom(mini, maxi) {
