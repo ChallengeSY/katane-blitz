@@ -164,11 +164,7 @@ function startGame() {
 		goal = 187;
 		hideSolves = true;
 		initialModules = goal;
-	} else if (missionFile == "adjLetters") {
-		missionValid = true;
-		singleSolvableFile = true;
-		goal = 7;
-	} else if (missionFile == "coloKeys") {
+	} else if (missionFile == "adjLetters" || missionFile == "coloKeys") {
 		missionValid = true;
 		singleSolvableFile = true;
 		goal = 7;
@@ -189,7 +185,7 @@ function startGame() {
 		initialNeedy = 1;
 	} else if (missionFile == "lightsOut") {
 		missionValid = true;
-		singleNeedyFile = (missionFile != "mixedNeedy");
+		singleNeedyFile = true;
 		goal = 18;
 		lifeMax = 3;
 		initialModules = 3;
