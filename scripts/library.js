@@ -155,7 +155,7 @@ function createBombModule(moduleObj, moduleClass) {
 		
 		case "morse":
 			var targFreq = validMorseFreqs[irandom(0,validMorseFreqs.length-1)];
-			var animationTotal = Math.max((20000 - Math.floor(score/25)*1000),16000);
+			var animationTotal = Math.max((20000 - Math.floor(score[0]/25)*1000),16000);
 		
 			newLight = document.createElement("div");
 			newLight.className = "morseLight";

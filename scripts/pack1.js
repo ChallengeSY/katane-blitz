@@ -424,14 +424,14 @@ function makeAllModulos() {
 }
 
 function buildModulo(readId) {
-	var newDivisor = irandom(3,Math.min(15+Math.floor(score/25),29));
-	var newDividend = irandom(50,Math.min(999+Math.floor(score/50)*1000,9999));
+	var newDivisor = irandom(3,Math.min(15+Math.floor(score[0]/25),29));
+	var newDividend = irandom(50,Math.min(999+Math.floor(score[0]/50)*1000,9999));
 	var newExponent = 1;
-	if (missionFile == "cruelModulo" || (score >= 50 && irandom(1,10) <= 1)) {
+	if (missionFile == "cruelModulo" || (score[0] >= 50 && irandom(1,10) <= 1)) {
 		// Upgrade to Cruel Modulo, if certain conditions are met
-		newDivisor = irandom(10,Math.min(19+Math.floor(score/25),49));
+		newDivisor = irandom(10,Math.min(19+Math.floor(score[0]/25),49));
 		newDividend = irandom(50,999);
-		newExponent = irandom(10,15+Math.floor(score/25));
+		newExponent = irandom(10,15+Math.floor(score[0]/25));
 	} else {
 		document.getElementById(readId+"xmE").style.visibility = "hidden";
 	}

@@ -317,7 +317,7 @@ function makeCoprimeStage(readObj) {
 		solveModule(readObj, true, false, 0);
 	} else if (gameActive) {
 		var newInts = [0, 0];
-		var copCap = 999 + Math.floor(score / 25) * 200;
+		var copCap = 999 + Math.floor(score[0] / 25) * 200;
 		
 		var genSol = (irandom(0,1) < 1);
 		

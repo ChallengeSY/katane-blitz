@@ -848,7 +848,7 @@ function createRandomPassChars(targWord) {
 	letterBanks = new Array(5);
 	var columnBanks = new Array(5);
 	var dupeWords = false;
-	var lettersPerCol = Math.min(6 + Math.floor(score/25),10);
+	var lettersPerCol = Math.min(6 + Math.floor(score[0]/25),10);
 	
 	do {
 		dupeWords = 0;
@@ -1101,13 +1101,13 @@ function makeAllSimons() {
 	spanCollection = document.getElementsByTagName("span");
 	clearInterval(simonFlasher);
 	
-	var simonTimings = Math.max(Math.ceil(6/(9+Math.floor(score/25))*1000), 462);
+	var simonTimings = Math.max(Math.ceil(6/(9+Math.floor(score[0]/25))*1000), 462);
 	
 	for (var r in spanCollection) {
 		if (spanCollection[r].id !== undefined) {
 			if (spanCollection[r].id.endsWith("sX")) {
 				// Generate fresh flashes
-				var numStages = irandom(3, Math.min(5+Math.floor(score/25),9));
+				var numStages = irandom(3, Math.min(5+Math.floor(score[0]/25),9));
 				spanCollection[r].innerHTML = "";
 				
 				for (var t = 0; t < numStages; t++) {

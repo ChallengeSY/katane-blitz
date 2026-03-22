@@ -1,7 +1,7 @@
 // Engine-wide constants
 var life = 0;
 var lifeMax = 5;
-var score = 0;
+var score = [0, 0];
 var nextBomb = 0;
 var bombCountdown = -1;
 var needyCountdown = -Infinity;
@@ -50,10 +50,10 @@ function startGame() {
 	var missionValid = false;
 	var initialModules = 1, initialNeedy = 0;
 
-	if (score > 0) {
+	if (score[0] > 0) {
 		console.clear();
 	}
-	score = 0;
+	score = [0, 0];
 	goal = 9;
 	handicap = 0;
 	timeMax = 180;
@@ -218,9 +218,10 @@ function solveModule(obj, cond, postSolve, weight) {
 				obj.style.display = "none";
 			}
 			
-			score++;
+			score[0]++;
+			score[1]++;
 			if (!isFinite(goal) && isFinite(handicap)) {
-				var finalScore = score + handicap - weight;
+				var finalScore = score[0] + handicap - weight;
 				
 				if (finalScore <= -25) {
 					timeLimit += 50;
@@ -242,17 +243,17 @@ function solveModule(obj, cond, postSolve, weight) {
 				timeMax = Math.max(timeMax,timeLimit);
 			}
 			
-			if (score >= goal) {
+			if (score[0] >= goal) {
 				gameWon();
 			} else if (!bombQueued) {
 				// Current bomb exhausted. Next bomb specifications vary wildly from mission to mission
-				if (score >= nextBomb) {
+				if (score[0] >= nextBomb) {
 					if (isFinite(goal)) {
 						var nextSize;
 						var nextNeedy = 0;
 						
 						if (missionFile == "mixedPractice") {
-							switch (score) {
+							switch (score[0]) {
 								case 3:
 									nextSize = 5;
 									break;
@@ -266,7 +267,7 @@ function solveModule(obj, cond, postSolve, weight) {
 							disarmBomb(nextSize,0);
 							
 						} else if (missionFile == "mixedPack1" || missionFile == "mixedPack2" || missionFile == "mixedPack3") {
-							switch (score) {
+							switch (score[0]) {
 								case 3:
 									nextSize = 7;
 									break;
@@ -277,7 +278,7 @@ function solveModule(obj, cond, postSolve, weight) {
 							disarmBomb(nextSize,0);
 							
 						} else if (missionFile == "masteryExam") {
-							switch (score) {
+							switch (score[0]) {
 								case 11:
 									nextSize = 15;
 									break;
@@ -289,7 +290,7 @@ function solveModule(obj, cond, postSolve, weight) {
 							
 						} else if (missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas" || missionFile == "mixedNeedy") {
 							var nextNeedy;
-							switch (score) {
+							switch (score[0]) {
 								case 2:
 									nextSize = 7;
 									nextNeedy = 2;
@@ -303,7 +304,7 @@ function solveModule(obj, cond, postSolve, weight) {
 							
 						} else if (missionFile == "lightsOut") {
 							var nextNeedy;
-							switch (score) {
+							switch (score[0]) {
 								case 2:
 									nextSize = 7;
 									nextNeedy = 1;
@@ -315,19 +316,19 @@ function solveModule(obj, cond, postSolve, weight) {
 							}
 							disarmBomb(nextSize,nextNeedy);
 							
-						} else if (score >= 9) {
-							disarmBomb(Math.min(goal - score,maxPerBomb),0);
+						} else if (score[0] >= 9) {
+							disarmBomb(Math.min(goal - score[0],maxPerBomb),0);
 						} else {
-							disarmBomb(Math.min((Math.sqrt(score)+1) ** 2 - score,goal - score),0);
+							disarmBomb(Math.min((Math.sqrt(score[0])+1) ** 2 - score[0],goal - score[0]),0);
 						}
-					} else if (score % 25 <= 22) {
+					} else if (score[0] % 25 <= 22) {
 						if (endlessNeedys) {
-							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),Math.max(irandom(-7,2),0));
+							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score[0] % 25),Math.max(irandom(-7,2),0));
 						} else {
-							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score % 25),0);
+							disarmBomb(Math.min(irandom(3,maxPerBomb),25 - score[0] % 25),0);
 						}
 					} else {
-						var genModules = 25 - score % 25;
+						var genModules = 25 - score[0] % 25;
 						
 						if (endlessNeedys) {
 							disarmBomb(3,3-genModules);
@@ -358,7 +359,7 @@ function strikeBomb() {
 	updateUI();
 	if (life > 0) {
 		playSound(strikeSnd);
-		if (score < nextBomb) {
+		if (score[0] < nextBomb) {
 			startBombCountdown(false);
 		}
 	} else {
@@ -414,11 +415,11 @@ function gameWon() {
 function disarmBomb(nextTarget, nextNeedys) {
 	clearInterval(bombCountdown);
 	activateAllNeedys(false);
-	if ((score % 25 == 0 || (score - needyScore) % 25 == 0) && !isFinite(goal)) {
+	if ((score[0] % 25 == 0 || (score[0] - needyScore) % 25 == 0) && !isFinite(goal)) {
 		if (missionFile == "endlessHardcore") {
-			applyFeedback(true, score+" modules disarmed.&emsp;"+continueButton(nextTarget,nextNeedys));
+			applyFeedback(true, score[0]+" modules disarmed.&emsp;"+continueButton(nextTarget,nextNeedys));
 		} else {
-			applyFeedback(true, score+" modules disarmed! Extra life acquired.&emsp;"+continueButton(nextTarget,nextNeedys));
+			applyFeedback(true, score[0]+" modules disarmed! Extra life acquired.&emsp;"+continueButton(nextTarget,nextNeedys));
 			life++;
 			lifeMax = Math.max(lifeMax,life);
 		}
@@ -445,7 +446,7 @@ function timeDecay() {
 		timeLimit--;
 		updateUI();
 	
-		if (!isFinite(needyCountdown) && (timeLimit + 90 <= timeMax || score > 0 || life < lifeMax)) {
+		if (!isFinite(needyCountdown) && (timeLimit + 90 <= timeMax || score[0] > 0 || life < lifeMax)) {
 			activateAllNeedys(true);
 		}
 	}
@@ -514,11 +515,11 @@ function activateNeedyModule(timerObj, newState) {
 		 * permanently deactivates. It can no longer award a point.
 		 */
 		meterObj.value = meterObj.max;
-		if (score >= nextBomb) {
+		if (score[0] >= nextBomb) {
 			needyScore--;
 		}
-	} else if (score >= nextBomb && !isFinite(goal)) {
-		// Score this module in Endless games
+	} else if (score[0] >= nextBomb && !isFinite(goal)) {
+		// score[0] this module in Endless games
 		solveModule(baseObj, true, true, 0);
 	}
 }
@@ -614,9 +615,10 @@ function makeBomb(totCount, needyCount) {
 	var useModuleRules = missionFile;
 	var randomAdd = irandom(0,defaultModules.length-1);
 	graceTime = 3;
-	if (score > 0) {
+	if (score[0] > 0) {
 		console.clear();
 	}
+	score[1] = 0;
 	bombQueued = false;
 	
 	// Generate a collection of modules for the next bomb
@@ -628,7 +630,7 @@ function makeBomb(totCount, needyCount) {
 			case 3:
 				// Fall thru
 			case 4:
-				if (score < 3) {
+				if (score[0] < 3) {
 					timeMax = 300;
 				} else {
 					timeMax = 240;
@@ -642,7 +644,7 @@ function makeBomb(totCount, needyCount) {
 			case 7:
 				// Fall thru
 			case 11:
-				if (score < 25) {
+				if (score[0] < 25) {
 					timeMax = 480;
 				} else {
 					timeMax = 300;
@@ -652,14 +654,14 @@ function makeBomb(totCount, needyCount) {
 				timeMax = 780;
 				break;
 			case 19:
-				if (score > 0) {
+				if (score[0] > 0) {
 					timeMax = 960;
 				}
 				break;
 		}
 		
 		if (missionFile == "adjLetters") {
-			timeMax = timeMax * 2 + 60 * (1 - Math.floor(score / 4));
+			timeMax = timeMax * 2 + 60 * (1 - Math.floor(score[0] / 4));
 		} else if (missionFile == "coloFlash" || missionFile == "twoBits") {
 			timeMax = timeMax * 2 - 60;
 		}
@@ -667,7 +669,7 @@ function makeBomb(totCount, needyCount) {
 		life = lifeMax;
 	}
 	
-	nextBomb = score + totCount - needyCount;
+	nextBomb = score[0] + totCount - needyCount;
 	needyScore = needyCount;
 
 	// Reset the bomb (by deleting obsoleted modules)
@@ -688,7 +690,7 @@ function makeBomb(totCount, needyCount) {
 		if (missionFile == "mixedPractice" && totCount == 11) {
 			useModuleRules = defaultModules[(k + randomAdd) % defaultModules.length];
 		} else if (missionFile == "mixedPack1") {
-			if (score <= 0) {
+			if (score[0] <= 0) {
 				useModuleRules = addonModules[k];
 				if (useModuleRules == "adjLetters") {
 					useModuleRules = addonModules[3];
@@ -707,7 +709,7 @@ function makeBomb(totCount, needyCount) {
 				}
 			}
 		} else if (missionFile == "mixedPack2") {
-			if (score <= 0) {
+			if (score[0] <= 0) {
 				useModuleRules = addonModules[k+4];
 				if (useModuleRules == "coloKeys") {
 					useModuleRules = addonModules[7];
@@ -724,7 +726,7 @@ function makeBomb(totCount, needyCount) {
 				}
 			}
 		} else if (missionFile == "mixedPack3") {
-			if (score <= 0) {
+			if (score[0] <= 0) {
 				useModuleRules = addonModules[k+8];
 			} else {
 				if (k == 0) {
@@ -747,9 +749,9 @@ function makeBomb(totCount, needyCount) {
 				}
 			}
 		} else if (missionFile == "masteryExam") {
-			if (score == 0) {
+			if (score[0] == 0) {
 				useModuleRules = addonModules[(k + randomAdd) % 11];
-			} else if (score < 25) {
+			} else if (score[0] < 25) {
 				maxHards = 1;
 				
 				if (k == 0) {
@@ -814,7 +816,7 @@ function makeBomb(totCount, needyCount) {
 								difficulty = 1;
 							}
 						}
-					} while (score < difficulty * 25)
+					} while (score[0] < difficulty * 25)
 				}
 			} else if (missionFile == "endlessStable" || missionFile == "mixedPractice" || missionFile == "mixedNeedy" ||
 				missionFile == "capacitor" || missionFile == "knob" || missionFile == "ventGas" || missionFile == "lightsOut") {
@@ -847,11 +849,11 @@ function makeBomb(totCount, needyCount) {
 							difficulty = 0.5;
 						}
 					}
-				} while (score < difficulty * 25 || (useModuleRules == "bigButton" && !isFinite(timeMax)))
+				} while (score[0] < difficulty * 25 || (useModuleRules == "bigButton" && !isFinite(timeMax)))
 			}
 		}
 		
-		newId = score + k + 1;
+		newId = score[0] + k + 1;
 		
 		newModule = document.createElement("fieldset");
 		newModule.id = "module"+newId;
@@ -1105,29 +1107,29 @@ function buildMeter(amt, target) {
 function updateUI() {
 	// The UI showcases how the meters and figures are rendered
 	if (isFinite(goal)) {
-		document.getElementById("score").innerHTML = score + " / " + goal;
+		document.getElementById("score[0]").innerHTML = score[0] + " / " + goal;
 	} else {
-		document.getElementById("score").innerHTML = score + " / &infin;";
+		document.getElementById("score[0]").innerHTML = score[0] + " / &infin;";
 	}
 	document.getElementById("life").innerHTML = life + " / " + lifeMax;
 	document.getElementById("bombTime").innerHTML = renderTime(timeLimit, false);
 	document.getElementById("timeAux").innerHTML = renderTime(timeLimit, false);
 	
-	var meterSize = buildMeter(score,goal);
+	var meterSize = buildMeter(score[0],goal);
 	if (!isFinite(goal) && missionFile != "endlessHardcore") {
-		var meterSize = buildMeter(score%25,25);
+		var meterSize = buildMeter(score[0]%25,25);
 	}
 	var curveLeft = Math.min(meterSize,3);
 	var curveRight = Math.min(Math.max(meterSize-297,0),3);
 	var meterClass = "okay";
 	if (!isFinite(goal)) {
 		meterClass = "endless";
-	} else if (score*3 < goal) {
+	} else if (score[0]*3 < goal) {
 		meterClass = "warning";
-	} else if (score*3 < goal*2) {
+	} else if (score[0]*3 < goal*2) {
 		meterClass = "caution";
 	}
-	document.getElementById("scoreMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
+	document.getElementById("score[0]Mtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
 		curveLeft + "px " + curveRight + "px " + curveRight + "px " + curveLeft + "px;\"></div>";
 	
 	meterSize = buildMeter(life,lifeMax);
@@ -1136,7 +1138,7 @@ function updateUI() {
 	meterClass = "okay";
 	if (lifeMax == 1) {
 		meterClass = "warning";
-	} else if (life <= 1 && score < goal) {
+	} else if (life <= 1 && score[0] < goal) {
 		meterClass = "danger";
 	} else if (life*3 <= lifeMax) {
 		meterClass = "warning";
@@ -1153,9 +1155,9 @@ function updateUI() {
 	meterClass = "okay";
 	if (!isFinite(timeLimit)) {
 		meterSize = 0;
-	} else if (timeLimit <= 10 && score < goal) {
+	} else if (timeLimit <= 10 && score[0] < goal) {
 		meterClass = "nightmare";
-	} else if (timeLimit <= 60 && score < goal) {
+	} else if (timeLimit <= 60 && score[0] < goal) {
 		meterClass = "danger";
 	} else if (timeLimit <= 120 || timeLimit*4 < timeMax) {
 		meterClass = "warning";
@@ -1174,7 +1176,7 @@ function updateUI() {
 	document.getElementById("timerMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
 		curveLeft + "px " + curveRight + "px " + curveRight + "px " + curveLeft + "px;\"></div>";
 	
-	if (score >= 25 || score*10 > goal) {
+	if (score[0] >= 25 || score[0]*10 > goal) {
 		document.getElementById("help").style.display = "none";
 	}
 }
