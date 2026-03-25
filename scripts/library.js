@@ -200,7 +200,7 @@ function createBombModule(moduleObj, moduleClass) {
 		case "password":
 			var targWord = validPasswords[irandom(0,validPasswords.length-1)];
 
-			for (let u = 0; u < 5; u++) {
+			for (var u = 0; u < 5; u++) {
 				const col = u;
 				
 				newCell = document.createElement("div");
