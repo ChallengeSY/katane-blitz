@@ -200,12 +200,13 @@ function createBombModule(moduleObj, moduleClass) {
 		case "password":
 			var targWord = validPasswords[irandom(0,validPasswords.length-1)];
 
-			for (var u = 0; u < 5; u++) {
+			for (let u = 0; u < 5; u++) {
+				const col = u;
+				
 				newCell = document.createElement("div");
 				newButton = document.createElement("button");
 				newButton.className = "passDelta";
-				newButton.id = moduleObj.id+"u"+u;
-				newButton.onclick = function() {shiftPassColumn(moduleObj, this, false)};
+				newButton.onclick = function() {shiftPassColumn(moduleObj, col, false)};
 				newButton.innerHTML = "&#9650;";
 				newCell.style.textAlign = "center";
 				newCell.appendChild(newButton);
@@ -222,12 +223,13 @@ function createBombModule(moduleObj, moduleClass) {
 				moduleObj.appendChild(newCell);
 			}
 
-			for (var d = 0; d < 5; d++) {
+			for (let d = 0; d < 5; d++) {
+				const col = d;
+				
 				newCell = document.createElement("div");
 				newButton = document.createElement("button");
 				newButton.className = "passDelta";
-				newButton.id = moduleObj.id+"d"+d;
-				newButton.onclick = function() {shiftPassColumn(moduleObj, this, true)};
+				newButton.onclick = function() {shiftPassColumn(moduleObj, col, true)};
 				newButton.innerHTML = "&#9660;";
 				newCell.style.textAlign = "center";
 				newCell.appendChild(newButton);
