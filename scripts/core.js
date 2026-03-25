@@ -1107,9 +1107,9 @@ function buildMeter(amt, target) {
 function updateUI() {
 	// The UI showcases how the meters and figures are rendered
 	if (isFinite(goal)) {
-		document.getElementById("score[0]").innerHTML = score[0] + " / " + goal;
+		document.getElementById("score").innerHTML = score[0] + " / " + goal;
 	} else {
-		document.getElementById("score[0]").innerHTML = score[0] + " / &infin;";
+		document.getElementById("score").innerHTML = score[0] + " / &infin;";
 	}
 	document.getElementById("life").innerHTML = life + " / " + lifeMax;
 	document.getElementById("bombTime").innerHTML = renderTime(timeLimit, false);
@@ -1129,7 +1129,7 @@ function updateUI() {
 	} else if (score[0]*3 < goal*2) {
 		meterClass = "caution";
 	}
-	document.getElementById("score[0]Mtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
+	document.getElementById("scoreMtr").innerHTML = "<div class=\"" + meterClass + "\" style=\"width: " + meterSize + "px; border-radius: " +
 		curveLeft + "px " + curveRight + "px " + curveRight + "px " + curveLeft + "px;\"></div>";
 	
 	meterSize = buildMeter(life,lifeMax);

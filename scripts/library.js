@@ -30,12 +30,10 @@ function createBombModule(moduleObj, moduleClass) {
 		case "keypad":
 			var randColumn = irandom(0,5);
 			var drawChar = new Array(4);
-			var charPool = cloneArray(keypadTable[randColumn]);
+			var charPool = shuffleArray(keypadTable[randColumn]);
 			
 			for (var k = 0; k < 4; k++) {
-				rollChar = irandom(0,charPool.length-1);
-				drawChar[k] = charPool[rollChar];
-				charPool.splice(rollChar, 1);
+				drawChar[k] = charPool[k];
 				
 				newKeypad = document.createElement("button");
 				newKeypad.className = "keypad";
