@@ -1015,6 +1015,22 @@ function hasLitIndicator(label, flag) {
 	}
 }
 
+function countIndicators(flag) {
+	var count = 0;
+	var goalLetter = "u";
+	if (flag) {
+		goalLetter = "l";
+	}
+	
+	for (var i = 0; i < defaultIndicators.length; i++) {
+		if (document.getElementById(goalLetter+defaultIndicators[i])) {
+			count++;
+		}
+	}
+	
+	return count;
+}
+
 function getFirstLetter() {
 	var localSerial = getSerial();
 	
