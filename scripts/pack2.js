@@ -391,7 +391,7 @@ function makeAllNumButtons() {
 	for (var c in copCollection) {
 		if (copCollection[c].className == "numButFrame") {
 			var workId = copCollection[c].id;
-			var baseObj = document.getElementById(workId.substring(0,workId.length-3));
+			var baseObj = document.getElementById(getModuleFrame(workId));
 			
 			makeNumButton(baseObj);
 		}

@@ -6,7 +6,7 @@ function makeAll9Balls() {
 	
 	for (var n in nineBcollection) {
 		if (nineBcollection[n].className == "nbBreak" && nineBcollection[n].id.endsWith("nbK")) {
-			var baseId = nineBcollection[n].id.substr(0,nineBcollection[n].id.length-3);
+			var baseId = getModuleFrame(nineBcollection[n].id);
 			
 			build9Ball(baseId);
 		}
@@ -416,7 +416,7 @@ function makeAllModulos() {
 	
 	for (var m in moduloCollection) {
 		if (moduloCollection[m].className == "moduloDivisor" && moduloCollection[m].id.endsWith("xmV")) {
-			var baseId = moduloCollection[m].id.substr(0,moduloCollection[m].id.length-3);
+			var baseId = getModuleFrame(moduloCollection[m].id);
 			
 			buildModulo(baseId);
 		}

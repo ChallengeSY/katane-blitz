@@ -51,7 +51,7 @@ function fixAllColFlashes() {
 	for (var c in coloCollection) {
 		if (coloCollection[c].className == "colFlashFrame") {
 			var workId = coloCollection[c].id;
-			var baseId = workId.substring(0,workId.length-3);
+			var baseId = getModuleFrame(workId);
 			
 			lastCol = document.getElementById(baseId+"cfW8").style.color;
 			switch (lastCol) {
@@ -487,7 +487,7 @@ function makeAllColSquares() {
 	for (var c in coloCollection) {
 		if (coloCollection[c].className == "colSquareFrame") {
 			var baseId = coloCollection[c].id;
-			var workId = baseId.substring(0,baseId.length-3);
+			var workId = getModuleFrame(baseId);
 			var workObj = document.getElementById(workId);
 			
 			resetColSquares(workObj, true);

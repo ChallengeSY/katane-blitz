@@ -1048,6 +1048,10 @@ function getBombPorts(part) {
 	return 0;
 }
 
+function getModuleFrame(readId) {
+	return "module"+parseInt(readId.substring(6));
+}
+
 /* ----------------------------------------------------------- */
 
 function checkBit(inVal, bitId) {
