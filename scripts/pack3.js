@@ -915,11 +915,11 @@ function gradeTwoBit(readObj, readInput) {
 	} else {
 		workObj[0].innerHTML = "Incorrect!";
 		
-		console.log("Two Bit striked!");
+		console.warn("Two Bit striked!");
 		solveModule(readObj, false, false);
 		
 		if (!gameActive) {
-			console.log("The correct answer was '" + correctAns + "'.");
+			console.warn("The correct answer was '" + correctAns + "'.");
 		}
 		
 		twoBitHandle[workNum] = setTimeout(function() {workObj[0].innerHTML = "_ _"}, 3500);

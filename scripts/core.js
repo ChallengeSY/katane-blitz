@@ -835,7 +835,7 @@ function makeBomb(totCount, needyCount) {
 						 */
 						if (useModuleRules == "adjLetters") {
 							difficulty = 2.1;
-						} else if (useModuleRules == "coloFlash" || missionFile == "twoBits") {
+						} else if (useModuleRules == "coloFlash" || useModuleRules == "twoBits") {
 							difficulty = 1.1;
 						} else if (useModuleRules == "coloKeys") {
 							difficulty = 0.87;
@@ -844,7 +844,7 @@ function makeBomb(totCount, needyCount) {
 							 * Non-restricted expansion modules that are not specifically restricted
 							 * still do not show up until 13 modules have already been solved.
 							 *
-							 *  This restriction does not apply when playing Endless Hardcore.
+							 * This restriction does not apply when playing Endless Hardcore.
 							 */
 							difficulty = 0.5;
 						}
